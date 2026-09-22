@@ -499,3 +499,10 @@ document.getElementById('btnGerarPdf').addEventListener('click', async () => {
 inicializarExemplosHistorico();
 renderizarComplexidades();
 calcularOrcamento();
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then(() => console.log('Service Worker registado com sucesso!'))
+      .catch(err => console.log('Erro ao registar Service Worker:', err));
+  });
+}
