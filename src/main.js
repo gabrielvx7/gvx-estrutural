@@ -1,4 +1,4 @@
-import './style.css';
+
 document.getElementById('dataOrcamento').valueAsDate = new Date();
 
 const itensComplexidades = [
