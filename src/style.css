@@ -124,12 +124,15 @@ body {
 }
 
 .app-header {
-  background-color: #0b192c;
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: white;
+    background-color: #0b192c;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 
 .brand-box {
