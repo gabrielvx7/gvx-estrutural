@@ -1,6 +1,4 @@
 import './style.css';
-import html2canvas from 'html2canvas';
-
 document.getElementById('dataOrcamento').valueAsDate = new Date();
 
 const itensComplexidades = [
