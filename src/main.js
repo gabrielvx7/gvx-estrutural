@@ -222,7 +222,7 @@ function abrirMenuOpcoes(item) {
             <p style="font-size: 12px; color: #64748b; margin-bottom: 12px;">Escolha a ação desejada para este orçamento:</p>
             
             <button id="btnAtualizar" style="background: #0b192c; color: white; border: none; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;">Atualizar Orçamento</button>
-            <button id="btnGerarImg" style="background: #d4af37; color: #0f172a; border: none; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;">Gerar Imagem A4</button>
+            <button id="btnGerarImg" style="background: #d4af37; color: #0f172a; border: none; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold;">Baixar Orçamento</button>
             <button id="btnCancelar" style="background: #f1f5f9; color: #334155; border: none; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; margin-top: 4px;">Cancelar</button>
         </div>
     `;
