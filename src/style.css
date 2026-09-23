@@ -1,10 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 
-/* =========================================================
-   RESET
-========================================================= */
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -13,19 +9,13 @@
 }
 
 
-/* =========================================================
-   BODY
-========================================================= */
-
 body {
   background-color: #f1f5f9;
   color: #1e293b;
   min-height: 100vh;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   padding: 16px;
 }
 
@@ -35,114 +25,63 @@ body {
 }
 
 
-/* =========================================================
+/* =====================================================
    TELA INICIAL
-========================================================= */
+   ===================================================== */
 
 .home-screen {
   display: flex;
   flex-direction: column;
-
   align-items: center;
   justify-content: center;
-
-  gap: 38px;
-
+  gap: 40px;
   width: 100%;
-  max-width: 520px;
-
+  max-width: 450px;
   padding: 20px;
-
   text-align: center;
 }
 
 
-/* =========================================================
-   IDENTIDADE DA MARCA
-========================================================= */
-
 .home-brand {
   display: flex;
   flex-direction: column;
-
   align-items: center;
-
-  gap: 10px;
-
+  justify-content: center;
   width: 100%;
 }
 
 
-/* =========================================================
-   LOGO OFICIAL
-========================================================= */
-
 .home-logo {
   width: 260px;
-  max-width: 70vw;
+  max-width: 72vw;
   height: auto;
   display: block;
   object-fit: contain;
-  margin-bottom: 2px;
 }
 
-
-/* =========================================================
-   NOME
-========================================================= */
-
-.home-brand h1 {
-  font-size: 22px;
-
-  font-weight: 900;
-
-  color: #0b192c;
-
-  letter-spacing: 1px;
-
-  line-height: 1.15;
-}
-
-
-/* =========================================================
-   BOTÕES DA TELA INICIAL
-========================================================= */
 
 .home-buttons {
   display: flex;
-
   flex-direction: column;
-
   gap: 16px;
-
   width: 100%;
 }
 
 
 .home-card-btn {
   background: #0b192c;
-
   color: white;
-
   border: none;
-
   padding: 20px;
-
   border-radius: 16px;
-
   display: flex;
-
   flex-direction: column;
-
   align-items: center;
-
   gap: 10px;
-
   cursor: pointer;
-
   box-shadow:
-    0 10px 20px rgba(11, 25, 44, 0.15);
-
+    0 10px 20px
+    rgba(11, 25, 44, 0.15);
   transition:
     transform 0.2s,
     background 0.2s;
@@ -151,23 +90,18 @@ body {
 
 .home-card-btn:hover {
   background: #152945;
-
   transform: translateY(-2px);
 }
 
 
 .card-icon {
   font-size: 28px;
-
-  background: rgba(255, 255, 255, 0.1);
-
+  background:
+    rgba(255, 255, 255, 0.1);
   width: 55px;
   height: 55px;
-
   border-radius: 12px;
-
   display: flex;
-
   align-items: center;
   justify-content: center;
 }
@@ -175,325 +109,230 @@ body {
 
 .home-card-btn span {
   font-size: 14px;
-
   font-weight: 800;
-
   letter-spacing: 1px;
 }
 
 
-/* =========================================================
+/* =====================================================
    APLICATIVO PRINCIPAL
-========================================================= */
+   ===================================================== */
 
 .app-container {
   width: 100%;
-
   max-width: 600px;
-
   background: #ffffff;
-
   box-shadow:
-    0 20px 25px -5px rgb(0 0 0 / 0.1);
-
+    0 20px 25px -5px
+    rgb(0 0 0 / 0.1);
   border-radius: 16px;
-
   overflow: hidden;
-
   border: 1px solid #e2e8f0;
-
   display: flex;
-
   flex-direction: column;
 }
 
 
-/* =========================================================
-   CABEÇALHO
-========================================================= */
-
 .app-header {
   background-color: #0b192c;
-
   padding: 20px;
-
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
-
   color: white;
 }
 
 
 .brand-box {
   display: flex;
-
   align-items: center;
-
   gap: 12px;
 }
 
 
 .btn-back {
-  background: rgba(255, 255, 255, 0.15);
-
+  background:
+    rgba(255, 255, 255, 0.15);
   border: none;
-
   color: white;
-
   width: 32px;
   height: 32px;
-
   border-radius: 8px;
-
   cursor: pointer;
-
   display: flex;
-
   align-items: center;
   justify-content: center;
-
   font-weight: bold;
 }
 
 
 .btn-back:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background:
+    rgba(255, 255, 255, 0.25);
 }
 
 
 .brand-logo {
   background-color: #d4af37;
-
   color: #0f172a;
-
   font-weight: 900;
-
   padding: 6px 10px;
-
   border-radius: 6px;
-
   font-size: 12px;
-
   letter-spacing: 1px;
 }
 
 
 .brand-title {
   font-size: 14px;
-
   font-weight: bold;
-
   letter-spacing: 0.5px;
 }
 
 
 .brand-sub {
   font-size: 10px;
-
   color: #cbd5e1;
 }
 
 
-/* =========================================================
-   ABAS
-========================================================= */
-
 .tabs {
   display: flex;
-
   gap: 4px;
-
   background: #1e3e62;
-
   padding: 4px;
-
   border-radius: 8px;
 }
 
 
 .tab-btn {
   background: transparent;
-
   border: none;
-
   color: #cbd5e1;
-
   padding: 6px 12px;
-
   font-size: 12px;
-
   font-weight: 600;
-
   border-radius: 6px;
-
   cursor: pointer;
-
   transition: all 0.2s;
 }
 
 
 .tab-btn.active {
   background: white;
-
   color: #0b192c;
-
   box-shadow:
-    0 1px 2px rgb(0 0 0 / 0.1);
+    0 1px 2px
+    rgb(0 0 0 / 0.1);
 }
 
 
-/* =========================================================
-   CONTEÚDO
-========================================================= */
+/* =====================================================
+   FORMULÁRIO
+   ===================================================== */
 
 .section-content {
   padding: 20px;
-
   display: flex;
-
   flex-direction: column;
-
   gap: 16px;
 }
 
 
-/* =========================================================
-   FORMULÁRIO
-========================================================= */
-
 .form-row {
   display: grid;
-
-  grid-template-columns: 1fr 1fr;
-
+  grid-template-columns:
+    1fr 1fr;
   gap: 12px;
 }
 
 
 .form-group {
   display: flex;
-
   flex-direction: column;
-
   gap: 6px;
 }
 
 
 .form-group label {
   font-size: 12px;
-
   font-weight: bold;
-
   color: #334155;
 }
 
 
 .form-input {
   width: 100%;
-
   font-size: 12px;
-
   padding: 10px;
-
   border: 1px solid #cbd5e1;
-
   border-radius: 8px;
-
   outline: none;
-
   transition: border-color 0.2s;
 }
 
 
 .form-input:focus {
   border-color: #0b192c;
-
   box-shadow:
-    0 0 0 2px rgba(11, 25, 44, 0.1);
+    0 0 0 2px
+    rgba(11, 25, 44, 0.1);
 }
 
 
-/* =========================================================
-   PARÂMETROS
-========================================================= */
-
 .params-box {
   display: grid;
-
-  grid-template-columns: repeat(3, 1fr);
-
+  grid-template-columns:
+    repeat(3, 1fr);
   gap: 8px;
-
   background: #f8fafc;
-
   padding: 12px;
-
   border-radius: 10px;
-
   border: 1px solid #e2e8f0;
 }
 
 
-/* =========================================================
+/* =====================================================
    COMPLEXIDADES
-========================================================= */
+   ===================================================== */
 
 .complex-list {
   display: flex;
-
   flex-direction: column;
-
   gap: 8px;
-
   max-height: 200px;
-
   overflow-y: auto;
-
   padding-right: 4px;
 }
 
 
 .complex-item {
   background: white;
-
   padding: 10px 12px;
-
   border-radius: 10px;
-
   border: 1px solid #e2e8f0;
-
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
 }
 
 
 .complex-item p:first-child {
   font-size: 11px;
-
   font-weight: bold;
-
   color: #1e293b;
 }
 
 
 .complex-item p:last-child {
   font-size: 10px;
-
   color: #64748b;
 }
 
 
 .counter-box {
   display: flex;
-
   align-items: center;
-
   gap: 8px;
 }
 
@@ -501,21 +340,13 @@ body {
 .btn-cnt {
   width: 28px;
   height: 28px;
-
   background: #f1f5f9;
-
   border: none;
-
   font-weight: bold;
-
   border-radius: 6px;
-
   cursor: pointer;
-
   color: #334155;
-
   display: flex;
-
   align-items: center;
   justify-content: center;
 }
@@ -526,74 +357,48 @@ body {
 }
 
 
-/* =========================================================
+/* =====================================================
    TOTAL
-========================================================= */
+   ===================================================== */
 
 .total-box {
   background: #0f172a;
-
   color: white;
-
   padding: 16px;
-
   border-radius: 12px;
-
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
 }
 
 
 .total-box span {
   font-size: 10px;
-
   text-transform: uppercase;
-
   letter-spacing: 1px;
-
   color: #94a3b8;
-
   font-weight: bold;
 }
 
 
 .total-box h2 {
   font-size: 20px;
-
   font-weight: 900;
 }
 
 
-/* =========================================================
-   BOTÃO SALVAR
-========================================================= */
-
 .btn-action {
   background: #d4af37;
-
   color: #0f172a;
-
   font-weight: bold;
-
   border: none;
-
   padding: 10px 16px;
-
   border-radius: 10px;
-
   font-size: 12px;
-
   cursor: pointer;
-
   display: flex;
-
   align-items: center;
-
   gap: 8px;
-
   transition: background 0.2s;
 }
 
@@ -603,45 +408,33 @@ body {
 }
 
 
-/* =========================================================
+/* =====================================================
    HISTÓRICO
-========================================================= */
+   ===================================================== */
 
 .history-list {
   display: flex;
-
   flex-direction: column;
-
   gap: 8px;
-
   max-height: 350px;
-
   overflow-y: auto;
 }
 
 
 .history-card {
   background: #f8fafc;
-
   border: 1px solid #e2e8f0;
-
   padding: 12px;
-
   border-radius: 10px;
-
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
-
   font-size: 12px;
 }
 
 
 .history-card p {
   color: #64748b;
-
   font-size: 11px;
 }
 
@@ -653,103 +446,15 @@ body {
 
 .btn-load {
   background: #eff6ff;
-
   color: #0b192c;
-
   border: none;
-
   font-weight: bold;
-
   padding: 6px 12px;
-
   border-radius: 6px;
-
   cursor: pointer;
 }
 
 
 .btn-load:hover {
   background: #dbeafe;
-}
-
-
-/* =========================================================
-   RESPONSIVIDADE
-========================================================= */
-
-@media (max-width: 500px) {
-
-  body {
-    padding: 10px;
-  }
-
-
-  .home-screen {
-    max-width: 100%;
-
-    gap: 30px;
-
-    padding: 12px;
-  }
-
-
-  .home-logo {
-    width: 260px;
-    max-width: 80vw;
-  }
-
-
-  .home-brand h1 {
-    font-size: 19px;
-  }
-
-
-  .home-card-btn {
-    padding: 18px;
-  }
-
-
-  .app-header {
-    padding: 14px;
-  }
-
-
-  .brand-title {
-    font-size: 12px;
-  }
-
-
-  .tabs {
-    transform: scale(0.95);
-  }
-
-
-  .section-content {
-    padding: 16px;
-  }
-
-
-  .form-row {
-    grid-template-columns: 1fr;
-  }
-
-
-  .params-box {
-    grid-template-columns: 1fr;
-  }
-
-
-  .total-box {
-    flex-direction: column;
-
-    align-items: stretch;
-
-    gap: 14px;
-  }
-
-
-  .btn-action {
-    justify-content: center;
-  }
-
 }
