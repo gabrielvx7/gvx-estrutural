@@ -16,7 +16,6 @@
 
     <!-- TELA INICIAL (SPLASH / MENU PRINCIPAL) -->
     <div id="telaInicio" class="home-screen">
-      <!-- Logotipo da Marca -->
       <div class="home-brand">
         <div class="logo-graphic">
           <div style="background: #0b192c; height: 35%; width: 100%; border-radius: 4px;"></div>
@@ -27,7 +26,6 @@
         <p>PROJETOS ESTRUTURAIS</p>
       </div>
 
-      <!-- Botões de Acesso -->
       <div class="home-buttons">
         <button id="btnIrNovo" class="home-card-btn">
           <div class="card-icon">🏛️</div>
@@ -41,8 +39,7 @@
       </div>
     </div>
 
-
-    <!-- CONTAINER PRINCIPAL DO APLICATIVO (Oculto inicialmente) -->
+    <!-- CONTAINER PRINCIPAL DO APLICATIVO -->
     <div id="appContainer" class="app-container hidden">
       
       <!-- CABEÇALHO DO APP -->
@@ -55,7 +52,6 @@
             <p class="brand-sub">Sistema de Orçamentos</p>
           </div>
         </div>
-        <!-- ABAS DE NAVEGAÇÃO -->
         <div class="tabs">
           <button id="tabNovo" class="tab-btn active">Novo</button>
           <button id="tabHistorico" class="tab-btn">Histórico</button>
@@ -100,14 +96,14 @@
           </div>
         </div>
 
-        <!-- SEÇÃO DE COMPLEXIDADE ATUALIZADA -->
+        <!-- SEÇÃO DE COMPLEXIDADE CORRIGIDA -->
         <div style="margin-bottom: 16px;">
-          <button type="button" id="btnAtivarComplexidade" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 8px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 8px;">
-            Ativar Complexidade
+          <button type="button" id="btnAtivarComplexidade" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 10px 12px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 8px; text-align: left; display: flex; justify-content: space-between; align-items: center;">
+            <span>⚙️ Ativar Complexidade</span>
+            <span id="iconeSetaComplexidade">▼</span>
           </button>
           
           <div id="containerComplexidades" style="display: none; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
-            <label style="font-size: 11px; font-weight: bold; color: #64748b; display: block; margin-bottom: 8px; text-transform: uppercase;">Fatores de Complexidade</label>
             <div id="listaComplexidades" class="complex-list"></div>
           </div>
         </div>
