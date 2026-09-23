@@ -1824,9 +1824,7 @@ async function gerarImagemA4Especifica(
         <div>
 
 
-            <!-- ==========================================
-                 CABEÇALHO DA A4
-            =========================================== -->
+            <!-- CABEÇALHO DA A4 -->
 
             <div
                 style="
@@ -1855,9 +1853,7 @@ async function gerarImagemA4Especifica(
 
 
 
-            <!-- ==========================================
-                 TÍTULO
-            =========================================== -->
+            <!-- TÍTULO -->
 
             <div
                 style="
@@ -1924,9 +1920,7 @@ async function gerarImagemA4Especifica(
 
 
 
-            <!-- ==========================================
-                 CLIENTE
-            =========================================== -->
+            <!-- CLIENTE -->
 
             <div
                 style="
@@ -1991,9 +1985,7 @@ async function gerarImagemA4Especifica(
 
 
 
-            <!-- ==========================================
-                 COMPLEXIDADES
-            =========================================== -->
+            <!-- COMPLEXIDADES -->
 
             <table
                 style="
@@ -2088,9 +2080,7 @@ async function gerarImagemA4Especifica(
 
 
 
-            <!-- ==========================================
-                 TOTAL
-            =========================================== -->
+            <!-- TOTAL -->
 
             <div
                 style="
@@ -2140,9 +2130,7 @@ async function gerarImagemA4Especifica(
 
 
 
-        <!-- ==============================================
-             RODAPÉ
-        =============================================== -->
+        <!-- RODAPÉ -->
 
         <div
             style="
