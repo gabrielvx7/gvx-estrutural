@@ -218,6 +218,77 @@ body {
     margin-bottom: 12px;
 }
 
+/* --- COMPLEXIDADE TOGGLE E CONTAINER --- */
+.btn-toggle-complex {
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 8px;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-toggle-complex:hover {
+    background: #e2e8f0;
+}
+
+.complex-container-hidden {
+    display: none !important;
+}
+
+.complex-container-visible {
+    display: block !important;
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    max-height: 250px;
+    overflow-y: auto;
+    margin-bottom: 12px;
+}
+
+.complex-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.complex-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-size: 13px;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 6px;
+}
+
+.complex-item-row span {
+    color: #334155;
+    font-weight: 500;
+}
+
+.btn-menos, .btn-mais {
+    padding: 2px 8px;
+    cursor: pointer;
+    background: #e2e8f0;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    color: #0b192c;
+}
+
+.btn-menos:hover, .btn-mais:hover {
+    background: #cbd5e1;
+}
+
 /* --- CAIXA DE TOTAL E BOTÃO DE AÇÃO --- */
 .total-box {
     background: #0b192c;
@@ -257,35 +328,6 @@ body {
 
 .btn-action:hover {
     background: #c5a030;
-}
-
-/* --- LISTAS DE COMPLEXIDADE E HISTÓRICO --- */
-.complex-list {
-    display: flex;
-    flex-direction: column;
-}
-
-/* Container expansível otimizado para os itens da planilha */
-#containerComplexidades {
-    background: #f8fafc;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #e2e8f0;
-    max-height: 280px;
-    overflow-y: auto;
-    margin-bottom: 12px;
-}
-
-.btn-menos, .btn-mais {
-    background: #e2e8f0;
-    border: none;
-    border-radius: 4px;
-    font-weight: bold;
-    color: #0b192c;
-}
-
-.btn-menos:hover, .btn-mais:hover {
-    background: #cbd5e1;
 }
 
 .history-list {
