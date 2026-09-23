@@ -1,364 +1,430 @@
 <!doctype html>
 <html lang="pt-BR">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GVX Engenharia - Orçamentos</title>
 
-    <link rel="stylesheet" href="./src/style.css">
-  </head>
+<head>
 
-  <body>
+  <meta charset="UTF-8" />
 
-    <!-- =====================================================
-         TELA INICIAL
-    ====================================================== -->
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
-    <div id="telaInicio" class="home-screen">
+  <title>
+    GVX Engenharia - Orçamentos
+  </title>
 
-      <div class="home-brand">
+  <link
+    rel="stylesheet"
+    href="./src/style.css"
+  />
 
-        <!-- LOGO OFICIAL -->
-        <img
-          src="./logo-cabecalho.png"
-          alt="Gabriel Vasconcelos - Projetos Estruturais"
-          class="home-logo"
-        >
-
-      </div>
+</head>
 
 
-      <div class="home-buttons">
-
-        <button
-          id="btnIrNovo"
-          class="home-card-btn"
-        >
-          <div class="card-icon">
-            🏛️
-          </div>
-
-          <span>
-            NOVO ORÇAMENTO
-          </span>
-        </button>
+<body>
 
 
-        <button
-          id="btnIrHistorico"
-          class="home-card-btn"
-        >
-          <div class="card-icon">
-            📋
-          </div>
+  <!-- =====================================================
+       TELA INICIAL
+  ====================================================== -->
 
-          <span>
-            HISTÓRICO
-          </span>
-        </button>
+  <div
+    id="telaInicio"
+    class="home-screen"
+  >
 
-      </div>
+    <div class="home-brand">
+
+      <!-- LOGO OFICIAL DA MARCA -->
+
+      <img
+        src="./logo-oficial.png"
+        alt="Gabriel Vasconcelos - Projetos Estruturais"
+        class="home-logo"
+      >
 
     </div>
 
 
-    <!-- =====================================================
-         APLICATIVO PRINCIPAL
-    ====================================================== -->
-
-    <div
-      id="appContainer"
-      class="app-container hidden"
-    >
-
-      <!-- CABEÇALHO -->
-
-      <div class="app-header">
-
-        <div class="brand-box">
-
-          <button
-            id="btnVoltarInicio"
-            class="btn-back"
-            title="Voltar ao Início"
-          >
-            ⬅
-          </button>
+    <div class="home-buttons">
 
 
-          <div class="brand-logo">
-            GVX
-          </div>
+      <!-- NOVO ORÇAMENTO -->
 
-
-          <div>
-
-            <h2 class="brand-title">
-              GVX ENGENHARIA
-            </h2>
-
-            <p class="brand-sub">
-              Sistema de Orçamentos
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <!-- ABAS -->
-
-        <div class="tabs">
-
-          <button
-            id="tabNovo"
-            class="tab-btn active"
-          >
-            Novo
-          </button>
-
-
-          <button
-            id="tabHistorico"
-            class="tab-btn"
-          >
-            Histórico
-          </button>
-
-        </div>
-
-      </div>
-
-
-      <!-- =================================================
-           NOVO ORÇAMENTO
-      ================================================== -->
-
-      <div
-        id="secaoNovo"
-        class="section-content"
+      <button
+        id="btnIrNovo"
+        class="home-card-btn"
       >
 
-        <!-- NÚMERO E DATA -->
-
-        <div class="form-row">
-
-          <div class="form-group">
-
-            <label>
-              Número do Orçamento
-            </label>
-
-            <input
-              type="text"
-              id="numOrcamento"
-              value="001/2026"
-              class="form-input"
-            />
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              Data
-            </label>
-
-            <input
-              type="date"
-              id="dataOrcamento"
-              class="form-input"
-            />
-
-          </div>
-
+        <div class="card-icon">
+          🏛️
         </div>
 
+        <span>
+          NOVO ORÇAMENTO
+        </span>
 
-        <!-- CLIENTE -->
+      </button>
 
-        <div class="form-group">
 
-          <label>
-            Nome do Cliente
-          </label>
+      <!-- HISTÓRICO -->
 
-          <input
-            type="text"
-            id="cliente"
-            placeholder="Ex: João da Silva"
-            class="form-input"
-          />
+      <button
+        id="btnIrHistorico"
+        class="home-card-btn"
+      >
 
+        <div class="card-icon">
+          📋
         </div>
 
+        <span>
+          HISTÓRICO
+        </span>
 
-        <!-- DESCRIÇÃO -->
+      </button>
 
-        <div class="form-group">
 
-          <label>
-            Descrição da Obra
-          </label>
+    </div>
 
-          <input
-            type="text"
-            id="descricaoObra"
-            placeholder="Ex: Residência Unifamiliar - 2 Pavimentos"
-            class="form-input"
-          />
+  </div>
 
+
+
+  <!-- =====================================================
+       APLICATIVO PRINCIPAL
+  ====================================================== -->
+
+  <div
+    id="appContainer"
+    class="app-container hidden"
+  >
+
+
+    <!-- CABEÇALHO -->
+
+    <div class="app-header">
+
+
+      <div class="brand-box">
+
+
+        <button
+          id="btnVoltarInicio"
+          class="btn-back"
+          title="Voltar ao Início"
+        >
+
+          ⬅
+
+        </button>
+
+
+        <div class="brand-logo">
+          GVX
         </div>
 
-
-        <!-- PARÂMETROS -->
-
-        <div class="params-box">
-
-          <div class="form-group">
-
-            <label>
-              Área (m²)
-            </label>
-
-            <input
-              type="number"
-              id="areaConstruida"
-              value="100"
-              class="form-input"
-            />
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              Preço/m² (R$)
-            </label>
-
-            <input
-              type="number"
-              id="precoMetro"
-              value="25"
-              class="form-input"
-            />
-
-          </div>
-
-
-          <div class="form-group">
-
-            <label>
-              Nota Fiscal (%)
-            </label>
-
-            <input
-              type="number"
-              id="notaFiscal"
-              value="0"
-              class="form-input"
-            />
-
-          </div>
-
-        </div>
-
-
-        <!-- =================================================
-             FATORES DE COMPLEXIDADE
-        ================================================== -->
 
         <div>
 
-          <label class="section-label">
-            Fatores de Complexidade
-          </label>
+          <h2 class="brand-title">
+            GVX ENGENHARIA
+          </h2>
 
-
-          <div
-            id="listaComplexidades"
-            class="complex-list"
-          ></div>
+          <p class="brand-sub">
+            Sistema de Orçamentos
+          </p>
 
         </div>
 
-
-        <!-- =================================================
-             TOTAL
-        ================================================== -->
-
-        <div class="total-box">
-
-          <div>
-
-            <span>
-              Valor Total do Projeto
-            </span>
-
-            <h2 id="resPrecoFinal">
-              R$ 0,00
-            </h2>
-
-          </div>
-
-
-          <!-- AÇÃO PRINCIPAL -->
-
-          <button
-            id="btnSalvarOrcamento"
-            type="button"
-            class="btn-action"
-          >
-            💾 Salvar Orçamento
-          </button>
-
-        </div>
 
       </div>
 
 
+
+      <!-- ABAS -->
+
+      <div class="tabs">
+
+
+        <button
+          id="tabNovo"
+          class="tab-btn active"
+        >
+
+          Novo
+
+        </button>
+
+
+        <button
+          id="tabHistorico"
+          class="tab-btn"
+        >
+
+          Histórico
+
+        </button>
+
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- =================================================
+         NOVO ORÇAMENTO
+    ================================================== -->
+
+    <div
+      id="secaoNovo"
+      class="section-content"
+    >
+
+
+      <!-- NÚMERO E DATA -->
+
+      <div class="form-row">
+
+
+        <div class="form-group">
+
+          <label>
+            Número do Orçamento
+          </label>
+
+          <input
+            type="text"
+            id="numOrcamento"
+            value="001/2026"
+            class="form-input"
+          />
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Data
+          </label>
+
+          <input
+            type="date"
+            id="dataOrcamento"
+            class="form-input"
+          />
+
+        </div>
+
+
+      </div>
+
+
+
+      <!-- CLIENTE -->
+
+      <div class="form-group">
+
+        <label>
+          Nome do Cliente
+        </label>
+
+        <input
+          type="text"
+          id="cliente"
+          placeholder="Ex: João da Silva"
+          class="form-input"
+        />
+
+      </div>
+
+
+
+      <!-- DESCRIÇÃO -->
+
+      <div class="form-group">
+
+        <label>
+          Descrição da Obra
+        </label>
+
+        <input
+          type="text"
+          id="descricaoObra"
+          placeholder="Ex: Residência Unifamiliar - 2 Pavimentos"
+          class="form-input"
+        />
+
+      </div>
+
+
+
+      <!-- PARÂMETROS -->
+
+      <div class="params-box">
+
+
+        <div class="form-group">
+
+          <label>
+            Área (m²)
+          </label>
+
+          <input
+            type="number"
+            id="areaConstruida"
+            value="100"
+            class="form-input"
+          />
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Preço/m² (R$)
+          </label>
+
+          <input
+            type="number"
+            id="precoMetro"
+            value="25"
+            class="form-input"
+          />
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Nota Fiscal (%)
+          </label>
+
+          <input
+            type="number"
+            id="notaFiscal"
+            value="0"
+            class="form-input"
+          />
+
+        </div>
+
+
+      </div>
+
+
+
       <!-- =================================================
-           HISTÓRICO
+           FATORES DE COMPLEXIDADE
       ================================================== -->
 
-      <div
-        id="secaoHistorico"
-        class="section-content hidden"
-      >
+      <div>
 
         <label class="section-label">
-          Orçamentos Emitidos
+          Fatores de Complexidade
         </label>
 
 
         <div
-          id="listaHistorico"
-          class="history-list"
+          id="listaComplexidades"
+          class="complex-list"
         ></div>
 
+
       </div>
+
+
+
+      <!-- =================================================
+           TOTAL
+      ================================================== -->
+
+      <div class="total-box">
+
+
+        <div>
+
+          <span>
+            Valor Total do Projeto
+          </span>
+
+          <h2 id="resPrecoFinal">
+            R$ 0,00
+          </h2>
+
+        </div>
+
+
+        <button
+          id="btnSalvarOrcamento"
+          type="button"
+          class="btn-action"
+        >
+
+          💾 Salvar Orçamento
+
+        </button>
+
+
+      </div>
+
 
     </div>
 
 
-    <!-- =====================================================
-         HTML2CANVAS
-         Usado somente para gerar a Imagem A4
-    ====================================================== -->
 
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
-    ></script>
+    <!-- =================================================
+         HISTÓRICO
+    ================================================== -->
+
+    <div
+      id="secaoHistorico"
+      class="section-content hidden"
+    >
 
 
-    <!-- JAVASCRIPT PRINCIPAL -->
+      <label class="section-label">
+        Orçamentos Emitidos
+      </label>
 
-    <script
-      type="module"
-      src="./src/main.js"
-    ></script>
 
-  </body>
+      <div
+        id="listaHistorico"
+        class="history-list"
+      ></div>
+
+
+    </div>
+
+
+  </div>
+
+
+
+  <!-- =====================================================
+       HTML2CANVAS
+       Utilizado para gerar a Imagem A4
+  ====================================================== -->
+
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+  ></script>
+
+
+  <!-- JAVASCRIPT PRINCIPAL -->
+
+  <script
+    type="module"
+    src="./src/main.js"
+  ></script>
+
+
+</body>
+
 </html>
