@@ -194,13 +194,12 @@ const precoMetroInput = document.getElementById('precoMetro');
 if (areaInput) areaInput.addEventListener('input', calcularOrcamento);
 if (precoMetroInput) precoMetroInput.addEventListener('input', calcularOrcamento);
 
-// --- BOTÃO PRINCIPAL: CONCLUIR ORÇAMENTO (APENAS SALVA E VAI PARA O HISTÓRICO) ---
+// --- BOTÃO PRINCIPAL: CONCLUIR ORÇAMENTO (ENVIA DIRETAMENTE PARA O HISTÓRICO) ---
 const btnAcaoPrincipal = document.getElementById('btnGerarPdf');
 
 if (btnAcaoPrincipal) {
     btnAcaoPrincipal.innerText = "Concluir Orçamento";
     
-    // Substitui o botão por um clone para apagar qualquer evento antigo de download de imagem
     const novoBtnAcao = btnAcaoPrincipal.cloneNode(true);
     btnAcaoPrincipal.parentNode.replaceChild(novoBtnAcao, btnAcaoPrincipal);
 
@@ -233,7 +232,7 @@ if (btnAcaoPrincipal) {
             valorTotal: precoFinal
         };
 
-        // 1. Salva no armazenamento local (localStorage)
+        // 1. Salva no histórico local
         salvarNoHistorico(orcamentoSalvo);
 
         // 2. Redireciona imediatamente para a aba de histórico
@@ -246,7 +245,6 @@ configurarToggleComplexidade();
 renderizarComplexidades();
 calcularOrcamento();
 
-// Define data de hoje por padrão no input de data se estiver vazio
 const inputData = document.getElementById('dataOrcamento');
 if (inputData && !inputData.value) {
     inputData.value = new Date().toISOString().split('T')[0];
