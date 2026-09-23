@@ -1,5 +1,6 @@
-import './style.css';
-import html2canvas from 'html2canvas';
+// O CSS é carregado pelo index.html.
+// html2canvas é carregado pelo CDN no index.html e fica disponível em window.html2canvas.
+const html2canvas = window.html2canvas;
 
 document.getElementById('dataOrcamento').valueAsDate = new Date();
 
