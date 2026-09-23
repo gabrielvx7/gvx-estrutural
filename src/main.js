@@ -16,7 +16,7 @@ let itensComplexidades = [
     { nome: "Detalhe a mais", qtd: 0, taxa: 0.10 }
 ];
 
-// --- CÁLCULO DO ORÇAMENTO ---
+// --- CÁLCULO DO ORÇAMENTO EM TEMPO REAL ---
 function calcularOrcamento() {
     const areaEl = document.getElementById('areaConstruida');
     const precoMetroEl = document.getElementById('precoMetro');
@@ -51,13 +51,13 @@ function renderizarComplexidades() {
     container.innerHTML = '';
     itensComplexidades.forEach((item, index) => {
         const div = document.createElement('div');
-        div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 13px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px;';
+        div.className = 'complex-item-row';
         div.innerHTML = `
-            <span style="color: #334155; font-weight: 500;">${item.nome} (${(item.taxa * 100).toFixed(0)}%)</span>
+            <span>${item.nome} (${(item.taxa * 100).toFixed(0)}%)</span>
             <div style="display: flex; gap: 8px; align-items: center;">
-                <button type="button" class="btn-menos" data-index="${index}" style="padding: 2px 8px; cursor: pointer; background: #e2e8f0; border: none; border-radius: 4px; font-weight: bold;">-</button>
+                <button type="button" class="btn-menos" data-index="${index}">-</button>
                 <span id="qtd-item-${index}" style="font-weight: bold; min-width: 20px; text-align: center; color: #0b192c;">${item.qtd}</span>
-                <button type="button" class="btn-mais" data-index="${index}" style="padding: 2px 8px; cursor: pointer; background: #e2e8f0; border: none; border-radius: 4px; font-weight: bold;">+</button>
+                <button type="button" class="btn-mais" data-index="${index}">+</button>
             </div>
         `;
         container.appendChild(div);
@@ -65,7 +65,7 @@ function renderizarComplexidades() {
 
     container.querySelectorAll('.btn-mais').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            const idx = e.target.getAttribute('data-index');
+            const idx = parseInt(e.target.getAttribute('data-index'), 10);
             itensComplexidades[idx].qtd++;
             renderizarComplexidades();
             calcularOrcamento();
@@ -74,7 +74,7 @@ function renderizarComplexidades() {
 
     container.querySelectorAll('.btn-menos').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            const idx = e.target.getAttribute('data-index');
+            const idx = parseInt(e.target.getAttribute('data-index'), 10);
             if (itensComplexidades[idx].qtd > 0) {
                 itensComplexidades[idx].qtd--;
                 renderizarComplexidades();
@@ -84,7 +84,7 @@ function renderizarComplexidades() {
     });
 }
 
-// --- TOGGLE / BOTÃO DE ATIVAR COMPLEXIDADE (CORRIGIDO) ---
+// --- TOGGLE / BOTÃO DE ATIVAR COMPLEXIDADE (GARANTIDO) ---
 function configurarToggleComplexidade() {
     const btnToggle = document.getElementById('btnAtivarComplexidade');
     const containerComplexidades = document.getElementById('containerComplexidades');
@@ -92,12 +92,14 @@ function configurarToggleComplexidade() {
 
     if (btnToggle && containerComplexidades) {
         btnToggle.addEventListener('click', () => {
-            const estaOculto = containerComplexidades.classList.contains('hidden');
+            const estaOculto = containerComplexidades.classList.contains('complex-container-hidden');
             if (estaOculto) {
-                containerComplexidades.classList.remove('hidden');
+                containerComplexidades.classList.remove('complex-container-hidden');
+                containerComplexidades.classList.add('complex-container-visible');
                 if (iconeSeta) iconeSeta.innerText = '▲';
             } else {
-                containerComplexidades.classList.add('hidden');
+                containerComplexidades.classList.remove('complex-container-visible');
+                containerComplexidades.classList.add('complex-container-hidden');
                 if (iconeSeta) iconeSeta.innerText = '▼';
             }
         });
@@ -203,7 +205,7 @@ function renderizarHistoricoNaTela() {
     });
 }
 
-// --- GERADOR DE IMAGEM A4 (GARANTIDO) ---
+// --- GERADOR DE IMAGEM A4 ---
 function gerarImagemA4(dados) {
     const canvas = document.getElementById('canvasOrcamento');
     if (!canvas) return;
@@ -307,7 +309,6 @@ function gerarImagemA4(dados) {
     link.download = `Orcamento_${nomeLimpo}.png`;
     link.href = canvas.toDataURL('image/png');
     
-    // Simula clique seguro para navegadores mobile e desktop
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
