@@ -313,11 +313,6 @@ button {
 
   height: 100%;
 
-  /*
-    IMPORTANTE:
-    mantém a proporção original da logo.
-  */
-
   object-fit: contain;
 
   object-position: left center;
@@ -491,7 +486,140 @@ button {
 
 
 /* =========================================================
-   FATORES DE COMPLEXIDADE
+   PAINEL RECOLHÍVEL DE COMPLEXIDADE
+   ========================================================= */
+
+.complexity-panel {
+
+  width: 100%;
+}
+
+
+/* CABEÇALHO DO PAINEL */
+
+.complexity-summary {
+
+  list-style: none;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 12px;
+
+  width: 100%;
+
+  padding: 11px 14px;
+
+  background: #f8fafc;
+
+  border: 1px solid #e2e8f0;
+
+  border-radius: 10px;
+
+  color: #334155;
+
+  transition:
+    background 0.2s,
+    border-color 0.2s;
+}
+
+
+/* Remove o triângulo padrão do Chrome */
+
+.complexity-summary::-webkit-details-marker {
+
+  display: none;
+}
+
+
+.complexity-summary:hover {
+
+  background: #f1f5f9;
+
+  border-color: #cbd5e1;
+}
+
+
+.complexity-summary-title {
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  color: #334155;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.2px;
+}
+
+
+.complexity-summary-action {
+
+  font-size: 11px;
+
+  font-weight: 700;
+
+  color: #0b192c;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================================
+   TEXTO DINÂMICO
+   ========================================================= */
+
+/* Fechado */
+
+.complexity-open-text {
+
+  display: none;
+}
+
+
+.complexity-closed-text {
+
+  display: inline;
+}
+
+
+/* Aberto */
+
+.complexity-panel[open]
+.complexity-open-text {
+
+  display: inline;
+}
+
+
+.complexity-panel[open]
+.complexity-closed-text {
+
+  display: none;
+}
+
+
+/* Quando aberto */
+
+.complexity-panel[open]
+.complexity-summary {
+
+  border-radius: 10px 10px 6px 6px;
+
+  background: #f1f5f9;
+
+  margin-bottom: 8px;
+}
+
+
+/* =========================================================
+   LISTA DE COMPLEXIDADES
    ========================================================= */
 
 .complex-list {
@@ -1059,6 +1187,18 @@ button {
     align-items: center;
   }
 
+
+  .complexity-summary {
+
+    padding: 11px 12px;
+  }
+
+
+  .complexity-summary-action {
+
+    font-size: 10px;
+  }
+
 }
 
 
@@ -1069,6 +1209,16 @@ button {
     width: 145px;
 
     height: 44px;
+  }
+
+
+  .complexity-summary {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 5px;
   }
 
 }
