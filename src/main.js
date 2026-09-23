@@ -1,25 +1,10 @@
 // =========================================================
-// GVX ENGENHARIA - SISTEMA DE ORÇAMENTOS
-// =========================================================
-//
-// O CSS é carregado pelo index.html.
-// html2canvas é carregado pelo CDN no index.html.
-// A geração da Imagem A4 utiliza:
-//   - logo-cabecalho.png
-//   - roda-pe.png
-//
+// GVX ENGENHARIA
+// SISTEMA DE ORÇAMENTOS
 // =========================================================
 
-const html2canvas = window.html2canvas;
-
-const CHAVE_HISTORICO = 'gvx_historico_orcamentos';
-
-
-// =========================================================
-// DATA INICIAL
-// =========================================================
-
-document.getElementById('dataOrcamento').valueAsDate = new Date();
+const CHAVE_HISTORICO =
+    'gvx_historico_orcamentos';
 
 
 // =========================================================
@@ -130,212 +115,303 @@ const itensComplexidades = [
 
 
 // =========================================================
-// CONTROLE DE TELAS E ABAS
+// ELEMENTOS
 // =========================================================
 
 const telaInicio =
-    document.getElementById('telaInicio');
+    document.getElementById(
+        'telaInicio'
+    );
 
 const appContainer =
-    document.getElementById('appContainer');
+    document.getElementById(
+        'appContainer'
+    );
 
 const btnIrNovo =
-    document.getElementById('btnIrNovo');
+    document.getElementById(
+        'btnIrNovo'
+    );
 
 const btnIrHistorico =
-    document.getElementById('btnIrHistorico');
+    document.getElementById(
+        'btnIrHistorico'
+    );
 
 const btnVoltarInicio =
-    document.getElementById('btnVoltarInicio');
+    document.getElementById(
+        'btnVoltarInicio'
+    );
 
 const btnNovo =
-    document.getElementById('tabNovo');
+    document.getElementById(
+        'tabNovo'
+    );
 
 const btnHistorico =
-    document.getElementById('tabHistorico');
+    document.getElementById(
+        'tabHistorico'
+    );
 
 const secaoNovo =
-    document.getElementById('secaoNovo');
+    document.getElementById(
+        'secaoNovo'
+    );
 
 const secaoHistorico =
-    document.getElementById('secaoHistorico');
+    document.getElementById(
+        'secaoHistorico'
+    );
 
 
 // =========================================================
-// NAVEGAÇÃO DA TELA INICIAL
+// NAVEGAÇÃO
 // =========================================================
 
-btnIrNovo.addEventListener('click', () => {
+btnIrNovo.addEventListener(
+    'click',
+    () => {
 
-    telaInicio.classList.add('hidden');
+        telaInicio.classList.add(
+            'hidden'
+        );
 
-    appContainer.classList.remove('hidden');
+        appContainer.classList.remove(
+            'hidden'
+        );
 
-    btnNovo.click();
+        btnNovo.click();
 
-});
-
-
-btnIrHistorico.addEventListener('click', () => {
-
-    telaInicio.classList.add('hidden');
-
-    appContainer.classList.remove('hidden');
-
-    btnHistorico.click();
-
-});
+    }
+);
 
 
-btnVoltarInicio.addEventListener('click', () => {
+btnIrHistorico.addEventListener(
+    'click',
+    () => {
 
-    appContainer.classList.add('hidden');
+        telaInicio.classList.add(
+            'hidden'
+        );
 
-    telaInicio.classList.remove('hidden');
+        appContainer.classList.remove(
+            'hidden'
+        );
 
-});
+        btnHistorico.click();
+
+    }
+);
+
+
+btnVoltarInicio.addEventListener(
+    'click',
+    () => {
+
+        appContainer.classList.add(
+            'hidden'
+        );
+
+        telaInicio.classList.remove(
+            'hidden'
+        );
+
+    }
+);
 
 
 // =========================================================
 // ABA NOVO
 // =========================================================
 
-btnNovo.addEventListener('click', () => {
+btnNovo.addEventListener(
+    'click',
+    () => {
 
-    btnNovo.classList.add('active');
+        btnNovo.classList.add(
+            'active'
+        );
 
-    btnHistorico.classList.remove('active');
+        btnHistorico.classList.remove(
+            'active'
+        );
 
-    secaoNovo.classList.remove('hidden');
+        secaoNovo.classList.remove(
+            'hidden'
+        );
 
-    secaoHistorico.classList.add('hidden');
+        secaoHistorico.classList.add(
+            'hidden'
+        );
 
-});
+    }
+);
 
 
 // =========================================================
 // ABA HISTÓRICO
 // =========================================================
 
-btnHistorico.addEventListener('click', () => {
+btnHistorico.addEventListener(
+    'click',
+    () => {
 
-    btnHistorico.classList.add('active');
+        btnHistorico.classList.add(
+            'active'
+        );
 
-    btnNovo.classList.remove('active');
+        btnNovo.classList.remove(
+            'active'
+        );
 
-    secaoHistorico.classList.remove('hidden');
+        secaoHistorico.classList.remove(
+            'hidden'
+        );
 
-    secaoNovo.classList.add('hidden');
+        secaoNovo.classList.add(
+            'hidden'
+        );
 
-    renderizarHistorico();
+        renderizarHistorico();
 
-});
+    }
+);
 
 
 // =========================================================
-// RENDERIZAÇÃO DOS FATORES
+// RENDERIZAR FATORES
 // =========================================================
 
 function renderizarComplexidades() {
 
     const container =
-        document.getElementById('listaComplexidades');
+        document.getElementById(
+            'listaComplexidades'
+        );
 
     if (!container) return;
+
 
     container.innerHTML = '';
 
 
-    itensComplexidades.forEach((item, index) => {
+    itensComplexidades.forEach(
+        (item, index) => {
 
-        const div =
-            document.createElement('div');
+            const div =
+                document.createElement(
+                    'div'
+                );
 
-        div.className =
-            'complex-item';
+
+            div.className =
+                'complex-item';
 
 
-        div.innerHTML = `
+            div.innerHTML = `
 
-            <div>
+                <div>
 
-                <p>
-                    ${item.nome}
-                </p>
+                    <p>
+                        ${item.nome}
+                    </p>
 
-                <p>
-                    Acréscimo:
-                    ${(item.taxa * 100).toFixed(0)}%
-                </p>
+                    <p>
+                        Acréscimo:
+                        ${(item.taxa * 100).toFixed(0)}%
+                    </p>
 
-            </div>
+                </div>
 
-            <div class="counter-box">
 
-                <button
-                    data-index="${index}"
-                    data-delta="-1"
-                    class="btn-cnt btn-qtd"
-                >
-                    -
-                </button>
+                <div class="counter-box">
 
-                <span
-                    id="qtd_${index}"
-                    style="
-                        width: 24px;
-                        text-align: center;
-                        font-size: 12px;
-                        font-weight: bold;
-                    "
-                >
-                    ${item.qtd}
-                </span>
+                    <button
+                        type="button"
+                        data-index="${index}"
+                        data-delta="-1"
+                        class="btn-cnt btn-qtd"
+                    >
+                        -
+                    </button>
 
-                <button
-                    data-index="${index}"
-                    data-delta="1"
-                    class="btn-cnt btn-qtd"
-                    style="
-                        color: #0b192c;
-                        background: #e0f2fe;
-                    "
-                >
-                    +
-                </button>
 
-            </div>
+                    <span
+                        id="qtd_${index}"
+                        style="
+                            width: 24px;
+                            text-align: center;
+                            font-size: 12px;
+                            font-weight: bold;
+                        "
+                    >
+                        ${item.qtd}
+                    </span>
 
-        `;
 
-        container.appendChild(div);
+                    <button
+                        type="button"
+                        data-index="${index}"
+                        data-delta="1"
+                        class="btn-cnt btn-qtd"
+                        style="
+                            color: #0b192c;
+                            background: #e0f2fe;
+                        "
+                    >
+                        +
+                    </button>
 
-    });
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                div
+            );
+
+        }
+    );
 
 
     document
-        .querySelectorAll('.btn-qtd')
-        .forEach(btn => {
+        .querySelectorAll(
+            '.btn-qtd'
+        )
+        .forEach(
+            btn => {
 
-            btn.addEventListener('click', (e) => {
+                btn.addEventListener(
+                    'click',
+                    event => {
 
-                const idx =
-                    parseInt(
-                        e.currentTarget
-                            .getAttribute('data-index')
-                    );
+                        const index =
+                            parseInt(
+                                event.currentTarget
+                                    .dataset
+                                    .index
+                            );
 
-                const delta =
-                    parseInt(
-                        e.currentTarget
-                            .getAttribute('data-delta')
-                    );
 
-                alterarQtd(idx, delta);
+                        const delta =
+                            parseInt(
+                                event.currentTarget
+                                    .dataset
+                                    .delta
+                            );
 
-            });
 
-        });
+                        alterarQtd(
+                            index,
+                            delta
+                        );
+
+                    }
+                );
+
+            }
+        );
 
 }
 
@@ -344,9 +420,13 @@ function renderizarComplexidades() {
 // ALTERAR QUANTIDADE
 // =========================================================
 
-function alterarQtd(index, delta) {
+function alterarQtd(
+    index,
+    delta
+) {
 
-    itensComplexidades[index].qtd += delta;
+    itensComplexidades[index].qtd +=
+        delta;
 
 
     if (
@@ -378,10 +458,12 @@ function alterarQtd(index, delta) {
 
 
 // =========================================================
-// FORMATAÇÃO DE MOEDA
+// MOEDA
 // =========================================================
 
-function formatarMoeda(valor) {
+function formatarMoeda(
+    valor
+) {
 
     return valor.toLocaleString(
         'pt-BR',
@@ -395,7 +477,7 @@ function formatarMoeda(valor) {
 
 
 // =========================================================
-// CÁLCULO DO ORÇAMENTO
+// CÁLCULO
 // =========================================================
 
 function calcularOrcamento() {
@@ -423,18 +505,20 @@ function calcularOrcamento() {
     let totalAcrescimoReais = 0;
 
 
-    itensComplexidades.forEach(item => {
+    itensComplexidades.forEach(
+        item => {
 
-        if (item.qtd > 0) {
+            if (item.qtd > 0) {
 
-            totalAcrescimoReais +=
-                totalBase *
-                item.taxa *
-                item.qtd;
+                totalAcrescimoReais +=
+                    totalBase *
+                    item.taxa *
+                    item.qtd;
+
+            }
 
         }
-
-    });
+    );
 
 
     const totalComAcrescimo =
@@ -452,7 +536,9 @@ function calcularOrcamento() {
 
     const valorNota =
         totalComAcrescimo *
-        (percNota / 100);
+        (
+            percNota / 100
+        );
 
 
     const precoFinal =
@@ -469,7 +555,9 @@ function calcularOrcamento() {
     if (elPrecoFinal) {
 
         elPrecoFinal.innerText =
-            formatarMoeda(precoFinal);
+            formatarMoeda(
+                precoFinal
+            );
 
     }
 
@@ -484,7 +572,9 @@ function calcularOrcamento() {
 // =========================================================
 
 document
-    .getElementById('areaConstruida')
+    .getElementById(
+        'areaConstruida'
+    )
     .addEventListener(
         'input',
         calcularOrcamento
@@ -492,7 +582,9 @@ document
 
 
 document
-    .getElementById('precoMetro')
+    .getElementById(
+        'precoMetro'
+    )
     .addEventListener(
         'input',
         calcularOrcamento
@@ -500,7 +592,9 @@ document
 
 
 document
-    .getElementById('notaFiscal')
+    .getElementById(
+        'notaFiscal'
+    )
     .addEventListener(
         'input',
         calcularOrcamento
@@ -508,7 +602,7 @@ document
 
 
 // =========================================================
-// LEITURA DO HISTÓRICO
+// LER HISTÓRICO
 // =========================================================
 
 function lerHistorico() {
@@ -529,17 +623,22 @@ function lerHistorico() {
     try {
 
         const historico =
-            JSON.parse(dados);
+            JSON.parse(
+                dados
+            );
 
 
-        return Array.isArray(historico)
+        return Array.isArray(
+            historico
+        )
             ? historico
             : [];
+
 
     } catch (error) {
 
         console.warn(
-            'Histórico inválido. Um novo histórico será criado.',
+            'Histórico inválido.',
             error
         );
 
@@ -557,16 +656,16 @@ function lerHistorico() {
 
 
 // =========================================================
-// HISTÓRICO DE EXEMPLO
+// EXEMPLOS
 // =========================================================
 
 function inicializarExemplosHistorico() {
 
-    const historicoAtual =
+    const atual =
         lerHistorico();
 
 
-    if (historicoAtual.length > 0) {
+    if (atual.length > 0) {
 
         return;
 
@@ -576,58 +675,72 @@ function inicializarExemplosHistorico() {
     const exemplos = [
 
         {
-            numOrcamento: '001/2026',
-            data: '2026-06-01',
-            cliente: 'Francisco Carlos de Sousa',
-            descricao: 'Residência Unifamiliar - 2 Pavimentos',
-            area: 180,
-            precoMetro: 25,
-            notaFiscal: 0,
-            complexidades: [
-                1,
+            numOrcamento:
+                '001/2026',
+
+            data:
+                '2026-06-01',
+
+            cliente:
+                'Francisco Carlos de Sousa',
+
+            descricao:
+                'Residência Unifamiliar - 2 Pavimentos',
+
+            area:
+                180,
+
+            precoMetro:
+                25,
+
+            notaFiscal:
                 0,
-                0,
-                0,
-                0,
-                1,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0
-            ],
-            valorTotal: 'R$ 5.062,50'
+
+            complexidades:
+                [
+                    1, 0, 0, 0,
+                    0, 1, 0, 0,
+                    0, 0, 0, 0,
+                    0, 0
+                ],
+
+            valorTotal:
+                'R$ 5.062,50'
         },
 
 
         {
-            numOrcamento: '002/2026',
-            data: '2026-06-15',
-            cliente: 'Maria das Graças Ximenes',
-            descricao: 'Edifício Comercial - 3 Pavimentos',
-            area: 320,
-            precoMetro: 30,
-            notaFiscal: 5,
-            complexidades: [
-                0,
-                1,
-                1,
-                0,
-                0,
-                0,
-                1,
-                1,
-                0,
-                0,
-                1,
-                0,
-                0,
-                0
-            ],
-            valorTotal: 'R$ 13.345,20'
+            numOrcamento:
+                '002/2026',
+
+            data:
+                '2026-06-15',
+
+            cliente:
+                'Maria das Graças Ximenes',
+
+            descricao:
+                'Edifício Comercial - 3 Pavimentos',
+
+            area:
+                320,
+
+            precoMetro:
+                30,
+
+            notaFiscal:
+                5,
+
+            complexidades:
+                [
+                    0, 1, 1, 0,
+                    0, 0, 1, 1,
+                    0, 0, 1, 0,
+                    0, 0
+                ],
+
+            valorTotal:
+                'R$ 13.345,20'
         }
 
     ];
@@ -635,7 +748,9 @@ function inicializarExemplosHistorico() {
 
     localStorage.setItem(
         CHAVE_HISTORICO,
-        JSON.stringify(exemplos)
+        JSON.stringify(
+            exemplos
+        )
     );
 
 }
@@ -645,29 +760,31 @@ function inicializarExemplosHistorico() {
 // SALVAR NO HISTÓRICO
 // =========================================================
 
-function salvarNoHistorico(orcamentoObj) {
+function salvarNoHistorico(
+    orcamento
+) {
 
     const historico =
         lerHistorico();
 
 
-    const indexExistente =
+    const existente =
         historico.findIndex(
             item =>
                 item.numOrcamento ===
-                orcamentoObj.numOrcamento
+                orcamento.numOrcamento
         );
 
 
-    if (indexExistente >= 0) {
+    if (existente >= 0) {
 
-        historico[indexExistente] =
-            orcamentoObj;
+        historico[existente] =
+            orcamento;
 
     } else {
 
         historico.unshift(
-            orcamentoObj
+            orcamento
         );
 
     }
@@ -675,7 +792,9 @@ function salvarNoHistorico(orcamentoObj) {
 
     localStorage.setItem(
         CHAVE_HISTORICO,
-        JSON.stringify(historico)
+        JSON.stringify(
+            historico
+        )
     );
 
 }
@@ -703,119 +822,160 @@ function renderizarHistorico() {
     container.innerHTML = '';
 
 
-    historico.forEach((item, index) => {
+    historico.forEach(
+        (item, index) => {
 
-        const div =
-            document.createElement('div');
+            const div =
+                document.createElement(
+                    'div'
+                );
 
 
-        div.className =
-            'history-card';
+            div.className =
+                'history-card';
 
 
-        div.innerHTML = `
+            div.innerHTML = `
 
-            <div>
+                <div>
 
-                <b>
-                    Nº ${item.numOrcamento}
-                    - ${item.cliente}
-                </b>
+                    <b>
+                        Nº ${escaparHtml(
+                            item.numOrcamento
+                        )}
+                        -
+                        ${escaparHtml(
+                            item.cliente
+                        )}
+                    </b>
 
-                <p>
-                    ${item.descricao || 'Sem descrição'}
-                    •
-                    ${
-                        item.data
-                            ? item.data
-                                .split('-')
-                                .reverse()
-                                .join('/')
-                            : ''
-                    }
-                </p>
 
-                <b
-                    style="
-                        color: #0b192c;
-                        display: block;
-                        margin-top: 4px;
-                    "
+                    <p>
+
+                        ${escaparHtml(
+                            item.descricao ||
+                            'Sem descrição'
+                        )}
+
+                        •
+
+                        ${
+                            item.data
+                                ? item.data
+                                    .split('-')
+                                    .reverse()
+                                    .join('/')
+                                : ''
+                        }
+
+                    </p>
+
+
+                    <b
+                        style="
+                            color: #0b192c;
+                            display: block;
+                            margin-top: 4px;
+                        "
+                    >
+                        ${escaparHtml(
+                            item.valorTotal
+                        )}
+                    </b>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    data-index="${index}"
+                    class="btn-load btn-abrir"
                 >
-                    ${item.valorTotal}
-                </b>
+                    Abrir
+                </button>
 
-            </div>
-
-
-            <button
-                data-index="${index}"
-                class="btn-load btn-abrir"
-            >
-                Abrir
-            </button>
-
-        `;
+            `;
 
 
-        container.appendChild(div);
-
-    });
-
-
-    document
-        .querySelectorAll('.btn-abrir')
-        .forEach(btn => {
-
-            btn.addEventListener(
-                'click',
-                (e) => {
-
-                    const idx =
-                        parseInt(
-                            e.currentTarget
-                                .getAttribute(
-                                    'data-index'
-                                )
-                        );
-
-
-                    abrirMenuOpcoes(
-                        historico[idx]
-                    );
-
-                }
+            container.appendChild(
+                div
             );
 
-        });
+        }
+    );
+
+
+    container
+        .querySelectorAll(
+            '.btn-abrir'
+        )
+        .forEach(
+            btn => {
+
+                btn.addEventListener(
+                    'click',
+                    event => {
+
+                        const index =
+                            parseInt(
+                                event.currentTarget
+                                    .dataset
+                                    .index
+                            );
+
+
+                        const historicoAtual =
+                            lerHistorico();
+
+
+                        const item =
+                            historicoAtual[
+                                index
+                            ];
+
+
+                        if (item) {
+
+                            abrirMenuOpcoes(
+                                item
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
 
 }
 
 
 // =========================================================
-// MENU DE OPÇÕES DO ORÇAMENTO
+// MENU DE OPÇÕES
 // =========================================================
 
-function abrirMenuOpcoes(item) {
+function abrirMenuOpcoes(
+    item
+) {
 
     const modal =
-        document.createElement('div');
+        document.createElement(
+            'div'
+        );
 
 
-    modal.style.position = 'fixed';
+    modal.style.position =
+        'fixed';
 
-    modal.style.top = '0';
-
-    modal.style.left = '0';
-
-    modal.style.width = '100%';
-
-    modal.style.height = '100%';
+    modal.style.inset =
+        '0';
 
     modal.style.background =
-        'rgba(0, 0, 0, 0.5)';
+        'rgba(0,0,0,0.5)';
 
-    modal.style.display = 'flex';
+    modal.style.display =
+        'flex';
 
     modal.style.alignItems =
         'center';
@@ -823,7 +983,8 @@ function abrirMenuOpcoes(item) {
     modal.style.justifyContent =
         'center';
 
-    modal.style.zIndex = '1000';
+    modal.style.zIndex =
+        '1000';
 
 
     modal.innerHTML = `
@@ -834,13 +995,16 @@ function abrirMenuOpcoes(item) {
                 padding: 24px;
                 border-radius: 12px;
                 width: 320px;
+                max-width: calc(100vw - 32px);
                 box-shadow:
-                    0 10px 25px rgba(0,0,0,0.2);
+                    0 10px 25px
+                    rgba(0,0,0,0.2);
                 display: flex;
                 flex-direction: column;
                 gap: 12px;
             "
         >
+
 
             <h3
                 style="
@@ -850,7 +1014,10 @@ function abrirMenuOpcoes(item) {
                     margin-bottom: 4px;
                 "
             >
-                Orçamento Nº ${item.numOrcamento}
+                Orçamento Nº
+                ${escaparHtml(
+                    item.numOrcamento
+                )}
             </h3>
 
 
@@ -861,11 +1028,15 @@ function abrirMenuOpcoes(item) {
                     margin-bottom: 12px;
                 "
             >
-                Escolha a ação desejada para este orçamento:
+                Escolha a ação desejada
+                para este orçamento:
             </p>
 
 
+            <!-- ATUALIZAR -->
+
             <button
+                type="button"
                 id="btnAtualizar"
                 style="
                     background: #0b192c;
@@ -882,7 +1053,10 @@ function abrirMenuOpcoes(item) {
             </button>
 
 
+            <!-- BAIXAR -->
+
             <button
+                type="button"
                 id="btnGerarImg"
                 style="
                     background: #d4af37;
@@ -899,12 +1073,16 @@ function abrirMenuOpcoes(item) {
             </button>
 
 
+            <!-- EXCLUIR -->
+
             <button
+                type="button"
                 id="btnExcluir"
                 style="
                     background: #fff1f2;
                     color: #b91c1c;
-                    border: 1px solid #fecdd3;
+                    border:
+                        1px solid #fecdd3;
                     padding: 10px;
                     border-radius: 8px;
                     font-size: 12px;
@@ -916,7 +1094,10 @@ function abrirMenuOpcoes(item) {
             </button>
 
 
+            <!-- CANCELAR -->
+
             <button
+                type="button"
                 id="btnCancelar"
                 style="
                     background: #f1f5f9;
@@ -933,47 +1114,53 @@ function abrirMenuOpcoes(item) {
                 Cancelar
             </button>
 
+
         </div>
 
     `;
 
 
-    document.body.appendChild(modal);
+    document.body.appendChild(
+        modal
+    );
 
 
     // -----------------------------------------------------
-    // ATUALIZAR ORÇAMENTO
+    // ATUALIZAR
     // -----------------------------------------------------
 
-    document
-        .getElementById('btnAtualizar')
+    modal
+        .querySelector(
+            '#btnAtualizar'
+        )
         .addEventListener(
             'click',
             () => {
 
-                carregarOrcamento(item);
-
-                document.body.removeChild(
-                    modal
+                carregarOrcamento(
+                    item
                 );
+
+
+                modal.remove();
 
             }
         );
 
 
     // -----------------------------------------------------
-    // BAIXAR ORÇAMENTO
+    // BAIXAR
     // -----------------------------------------------------
 
-    document
-        .getElementById('btnGerarImg')
+    modal
+        .querySelector(
+            '#btnGerarImg'
+        )
         .addEventListener(
             'click',
             () => {
 
-                document.body.removeChild(
-                    modal
-                );
+                modal.remove();
 
                 gerarImagemA4Especifica(
                     item
@@ -984,18 +1171,22 @@ function abrirMenuOpcoes(item) {
 
 
     // -----------------------------------------------------
-    // EXCLUIR ORÇAMENTO
+    // EXCLUIR
     // -----------------------------------------------------
 
-    document
-        .getElementById('btnExcluir')
+    modal
+        .querySelector(
+            '#btnExcluir'
+        )
         .addEventListener(
             'click',
             () => {
 
                 const confirmar =
                     window.confirm(
+
                         `Tem certeza que deseja excluir o orçamento Nº ${item.numOrcamento}?\n\nEsta ação não poderá ser desfeita.`
+
                     );
 
 
@@ -1006,12 +1197,12 @@ function abrirMenuOpcoes(item) {
                 }
 
 
-                excluirOrcamento(item);
-
-
-                document.body.removeChild(
-                    modal
+                excluirOrcamento(
+                    item
                 );
+
+
+                modal.remove();
 
 
                 renderizarHistorico();
@@ -1024,15 +1215,15 @@ function abrirMenuOpcoes(item) {
     // CANCELAR
     // -----------------------------------------------------
 
-    document
-        .getElementById('btnCancelar')
+    modal
+        .querySelector(
+            '#btnCancelar'
+        )
         .addEventListener(
             'click',
             () => {
 
-                document.body.removeChild(
-                    modal
-                );
+                modal.remove();
 
             }
         );
@@ -1044,7 +1235,9 @@ function abrirMenuOpcoes(item) {
 // EXCLUIR ORÇAMENTO
 // =========================================================
 
-function excluirOrcamento(item) {
+function excluirOrcamento(
+    item
+) {
 
     const historico =
         lerHistorico();
@@ -1053,8 +1246,10 @@ function excluirOrcamento(item) {
     const novoHistorico =
         historico.filter(
             orcamento =>
+
                 orcamento.numOrcamento !==
                 item.numOrcamento
+
         );
 
 
@@ -1072,59 +1267,61 @@ function excluirOrcamento(item) {
 // CARREGAR ORÇAMENTO
 // =========================================================
 
-function carregarOrcamento(item) {
+function carregarOrcamento(
+    item
+) {
 
     document.getElementById(
         'numOrcamento'
     ).value =
-        item.numOrcamento;
+        item.numOrcamento || '';
 
 
     document.getElementById(
         'dataOrcamento'
     ).value =
-        item.data;
+        item.data || '';
 
 
     document.getElementById(
         'cliente'
     ).value =
-        item.cliente;
+        item.cliente || '';
 
 
     document.getElementById(
         'descricaoObra'
     ).value =
-        item.descricao;
+        item.descricao || '';
 
 
     document.getElementById(
         'areaConstruida'
     ).value =
-        item.area;
+        item.area || 0;
 
 
     document.getElementById(
         'precoMetro'
     ).value =
-        item.precoMetro;
+        item.precoMetro || 0;
 
 
     document.getElementById(
         'notaFiscal'
     ).value =
-        item.notaFiscal;
+        item.notaFiscal || 0;
 
 
     itensComplexidades.forEach(
-        (comp, i) => {
+        (comp, index) => {
 
             comp.qtd =
                 (
                     item.complexidades &&
-                    item.complexidades[i]
+                    item.complexidades[index]
                 )
-                    ? item.complexidades[i]
+                    ? item.complexidades[index]
                     : 0;
 
         }
@@ -1141,17 +1338,41 @@ function carregarOrcamento(item) {
 
 
 // =========================================================
-// SEGURANÇA HTML
+// ESCAPAR HTML
 // =========================================================
 
-function escaparHtml(valor) {
+function escaparHtml(
+    valor
+) {
 
-    return String(valor ?? '')
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#039;');
+    return String(
+        valor ?? ''
+    )
+
+        .replace(
+            /&/g,
+            '&amp;'
+        )
+
+        .replace(
+            /</g,
+            '&lt;'
+        )
+
+        .replace(
+            />/g,
+            '&gt;'
+        )
+
+        .replace(
+            /"/g,
+            '&quot;'
+        )
+
+        .replace(
+            /'/g,
+            '&#039;'
+        );
 
 }
 
@@ -1160,24 +1381,34 @@ function escaparHtml(valor) {
 // NOME DO ARQUIVO
 // =========================================================
 
-function formatarNomeArquivo(valor) {
+function formatarNomeArquivo(
+    valor
+) {
 
     return String(
         valor || 'Cliente'
     )
-        .normalize('NFD')
+
+        .normalize(
+            'NFD'
+        )
+
         .replace(
             /[\u0300-\u036f]/g,
             ''
         )
+
         .replace(
             /[^a-zA-Z0-9]+/g,
             '_'
         )
+
         .replace(
             /^_+|_+$/g,
             ''
-        ) || 'Cliente';
+        )
+
+        || 'Cliente';
 
 }
 
@@ -1186,22 +1417,22 @@ function formatarNomeArquivo(valor) {
 // GERAR IMAGEM A4
 // =========================================================
 
-async function gerarImagemA4Especifica(item) {
+async function gerarImagemA4Especifica(
+    item
+) {
+
+    const html2canvas =
+        window.html2canvas;
+
 
     if (
         typeof html2canvas !==
         'function'
     ) {
 
-        console.error(
-            'html2canvas não foi carregado.'
-        );
-
-
         alert(
             'Não foi possível gerar a Imagem A4. Recarregue a página e tente novamente.'
         );
-
 
         return;
 
@@ -1212,14 +1443,14 @@ async function gerarImagemA4Especifica(item) {
 
 
     itensComplexidades.forEach(
-        (comp, i) => {
+        (comp, index) => {
 
             const qtd =
                 (
                     item.complexidades &&
-                    item.complexidades[i]
+                    item.complexidades[index]
                 )
-                    ? item.complexidades[i]
+                    ? item.complexidades[index]
                     : 0;
 
 
@@ -1231,27 +1462,40 @@ async function gerarImagemA4Especifica(item) {
 
                         <td
                             style="
-                                padding: 12px 16px;
+                                padding:
+                                    12px 16px;
                                 border-bottom:
-                                    1px solid #e2e8f0;
-                                color: #334155;
-                                font-weight: 500;
-                                font-size: 14px;
+                                    1px solid
+                                    #e2e8f0;
+                                color:
+                                    #334155;
+                                font-weight:
+                                    500;
+                                font-size:
+                                    14px;
                             "
                         >
-                            ${escaparHtml(comp.nome)}
+                            ${escaparHtml(
+                                comp.nome
+                            )}
                         </td>
 
 
                         <td
                             style="
-                                padding: 12px 16px;
+                                padding:
+                                    12px 16px;
                                 border-bottom:
-                                    1px solid #e2e8f0;
-                                text-align: center;
-                                color: #334155;
-                                font-weight: 700;
-                                font-size: 14px;
+                                    1px solid
+                                    #e2e8f0;
+                                text-align:
+                                    center;
+                                color:
+                                    #334155;
+                                font-weight:
+                                    600;
+                                font-size:
+                                    14px;
                             "
                         >
                             ${qtd}
@@ -1260,13 +1504,19 @@ async function gerarImagemA4Especifica(item) {
 
                         <td
                             style="
-                                padding: 12px 16px;
+                                padding:
+                                    12px 16px;
                                 border-bottom:
-                                    1px solid #e2e8f0;
-                                text-align: right;
-                                color: #0b192c;
-                                font-weight: 700;
-                                font-size: 14px;
+                                    1px solid
+                                    #e2e8f0;
+                                text-align:
+                                    right;
+                                color:
+                                    #0b192c;
+                                font-weight:
+                                    bold;
+                                font-size:
+                                    14px;
                             "
                         >
                             ${(comp.taxa * 100).toFixed(0)}%
@@ -1282,40 +1532,45 @@ async function gerarImagemA4Especifica(item) {
     );
 
 
-    // -----------------------------------------------------
-    // FOLHA A4
-    // -----------------------------------------------------
-
     const elemento =
-        document.createElement('div');
+        document.createElement(
+            'div'
+        );
 
 
     Object.assign(
         elemento.style,
         {
 
-            width: '794px',
+            width:
+                '794px',
 
-            height: '1123px',
+            height:
+                '1123px',
 
-            position: 'fixed',
+            position:
+                'fixed',
 
-            left: '-10000px',
+            left:
+                '-10000px',
 
-            top: '0',
+            top:
+                '0',
 
-            zIndex: '-1',
+            background:
+                '#ffffff',
 
-            background: '#ffffff',
-
-            color: '#0b192c',
+            color:
+                '#0b192c',
 
             fontFamily:
                 'Inter, Arial, sans-serif',
 
-            boxSizing: 'border-box',
+            boxSizing:
+                'border-box',
 
-            overflow: 'hidden'
+            overflow:
+                'hidden'
 
         }
     );
@@ -1329,14 +1584,11 @@ async function gerarImagemA4Especifica(item) {
                 width: 100%;
                 height: 100%;
                 background: #ffffff;
-                box-sizing: border-box;
             "
         >
 
 
-            <!-- =================================================
-                 LOGO DO CABEÇALHO
-                 ================================================= -->
+            <!-- LOGO -->
 
             <div
                 style="
@@ -1345,30 +1597,28 @@ async function gerarImagemA4Especifica(item) {
                     left: 70px;
                     width: 654px;
                     height: 116px;
-                    display: flex;
-                    align-items: flex-start;
                 "
             >
 
                 <img
                     src="./logo-cabecalho.png"
-                    alt="Gabriel Vasconcelos - Projetos Estruturais"
+                    alt="Gabriel Vasconcelos"
                     crossorigin="anonymous"
                     style="
                         display: block;
                         width: 330px;
                         height: 117px;
                         object-fit: contain;
-                        object-position: left top;
+                        object-position:
+                            left top;
                     "
                 >
 
             </div>
 
 
-            <!-- =================================================
-                 TÍTULO E IDENTIFICAÇÃO
-                 ================================================= -->
+
+            <!-- TÍTULO -->
 
             <div
                 style="
@@ -1377,16 +1627,13 @@ async function gerarImagemA4Especifica(item) {
                     left: 70px;
                     width: 654px;
                     height: 74px;
-
                     border-bottom:
                         2px solid #0b192c;
-
                     box-sizing: border-box;
-
                     display: flex;
                     align-items: flex-end;
-                    justify-content: space-between;
-
+                    justify-content:
+                        space-between;
                     padding-bottom: 9px;
                 "
             >
@@ -1398,7 +1645,8 @@ async function gerarImagemA4Especifica(item) {
                         font-size: 16px;
                         line-height: 20px;
                         font-weight: 800;
-                        text-transform: uppercase;
+                        text-transform:
+                            uppercase;
                         white-space: nowrap;
                     "
                 >
@@ -1418,16 +1666,12 @@ async function gerarImagemA4Especifica(item) {
 
                     <div>
 
-                        <strong
-                            style="
-                                color: #334155;
-                            "
-                        >
+                        <strong>
                             Orçamento Nº:
                         </strong>
 
                         ${escaparHtml(
-                            item.numOrcamento || ''
+                            item.numOrcamento
                         )}
 
                     </div>
@@ -1435,11 +1679,7 @@ async function gerarImagemA4Especifica(item) {
 
                     <div>
 
-                        <strong
-                            style="
-                                color: #334155;
-                            "
-                        >
+                        <strong>
                             Data:
                         </strong>
 
@@ -1459,48 +1699,31 @@ async function gerarImagemA4Especifica(item) {
             </div>
 
 
-            <!-- =================================================
-                 DADOS DO CLIENTE
-                 ================================================= -->
+
+            <!-- CLIENTE -->
 
             <div
                 style="
                     position: absolute;
-
                     top: 263px;
-
                     left: 70px;
-
                     width: 654px;
-
                     min-height: 78px;
-
                     background: #f8fafc;
-
                     border:
                         1px solid #e2e8f0;
-
                     border-radius: 10px;
-
                     padding: 15px 18px;
-
                     box-sizing: border-box;
-
                     color: #475569;
-
                     font-size: 14px;
-
                     line-height: 25px;
                 "
             >
 
                 <div>
 
-                    <strong
-                        style="
-                            color: #334155;
-                        "
-                    >
+                    <strong>
                         Cliente:
                     </strong>
 
@@ -1514,11 +1737,7 @@ async function gerarImagemA4Especifica(item) {
 
                 <div>
 
-                    <strong
-                        style="
-                            color: #334155;
-                        "
-                    >
+                    <strong>
                         Descrição da Obra:
                     </strong>
 
@@ -1532,9 +1751,8 @@ async function gerarImagemA4Especifica(item) {
             </div>
 
 
-            <!-- =================================================
-                 TABELA DE COMPLEXIDADE
-                 ================================================= -->
+
+            <!-- FATORES -->
 
             <div
                 style="
@@ -1548,8 +1766,8 @@ async function gerarImagemA4Especifica(item) {
                 <table
                     style="
                         width: 100%;
-                        border-collapse: collapse;
-                        table-layout: fixed;
+                        border-collapse:
+                            collapse;
                     "
                 >
 
@@ -1557,18 +1775,22 @@ async function gerarImagemA4Especifica(item) {
 
                         <tr
                             style="
-                                background: #0b192c;
-                                color: #ffffff;
+                                background:
+                                    #0b192c;
+                                color:
+                                    white;
                             "
                         >
 
                             <th
                                 style="
                                     width: 66%;
-                                    padding: 12px 16px;
-                                    text-align: left;
-                                    font-size: 14px;
-                                    font-weight: 800;
+                                    padding:
+                                        12px 16px;
+                                    text-align:
+                                        left;
+                                    font-size:
+                                        14px;
                                 "
                             >
                                 Fator de Complexidade
@@ -1578,10 +1800,12 @@ async function gerarImagemA4Especifica(item) {
                             <th
                                 style="
                                     width: 12%;
-                                    padding: 12px 8px;
-                                    text-align: center;
-                                    font-size: 14px;
-                                    font-weight: 800;
+                                    padding:
+                                        12px 8px;
+                                    text-align:
+                                        center;
+                                    font-size:
+                                        14px;
                                 "
                             >
                                 Qtd
@@ -1591,10 +1815,12 @@ async function gerarImagemA4Especifica(item) {
                             <th
                                 style="
                                     width: 22%;
-                                    padding: 12px 16px;
-                                    text-align: right;
-                                    font-size: 14px;
-                                    font-weight: 800;
+                                    padding:
+                                        12px 16px;
+                                    text-align:
+                                        right;
+                                    font-size:
+                                        14px;
                                 "
                             >
                                 Acréscimo
@@ -1617,16 +1843,13 @@ async function gerarImagemA4Especifica(item) {
                                         colspan="3"
                                         style="
                                             padding:
-                                                30px 12px;
+                                                30px;
                                             text-align:
                                                 center;
                                             color:
                                                 #64748b;
                                             font-size:
                                                 14px;
-                                            border-bottom:
-                                                1px solid
-                                                #e2e8f0;
                                         "
                                     >
                                         Nenhum fator de
@@ -1645,50 +1868,40 @@ async function gerarImagemA4Especifica(item) {
             </div>
 
 
-            <!-- =================================================
-                 VALOR TOTAL
-                 ================================================= -->
+
+            <!-- TOTAL -->
 
             <div
                 style="
                     position: absolute;
-
                     top: 489px;
-
                     left: 70px;
-
                     width: 654px;
-
                     height: 97px;
-
                     background: #f8fafc;
-
                     border:
                         2px solid #0b192c;
-
                     border-radius: 12px;
-
                     box-sizing: border-box;
-
                     display: flex;
-
-                    flex-direction: column;
-
-                    align-items: flex-end;
-
-                    justify-content: center;
-
-                    padding: 14px 24px;
+                    flex-direction:
+                        column;
+                    align-items:
+                        flex-end;
+                    justify-content:
+                        center;
+                    padding:
+                        14px 24px;
                 "
             >
 
                 <div
                     style="
                         font-size: 14px;
-                        line-height: 20px;
                         color: #475569;
-                        font-weight: 700;
-                        text-transform: uppercase;
+                        font-weight: 600;
+                        text-transform:
+                            uppercase;
                     "
                 >
                     VALOR TOTAL DO PROJETO:
@@ -1697,11 +1910,10 @@ async function gerarImagemA4Especifica(item) {
 
                 <div
                     style="
-                        margin-top: 3px;
+                        margin-top: 4px;
                         font-size: 26px;
-                        line-height: 31px;
                         color: #0b192c;
-                        font-weight: 900;
+                        font-weight: 800;
                     "
                 >
                     ${escaparHtml(
@@ -1713,41 +1925,35 @@ async function gerarImagemA4Especifica(item) {
             </div>
 
 
-            <!-- =================================================
-                 RODAPÉ
-                 ================================================= -->
+
+            <!-- RODAPÉ -->
 
             <div
                 style="
                     position: absolute;
-
                     left: 70px;
-
                     bottom: 0;
-
                     width: 654px;
-
                     height: 145px;
-
-                    overflow: hidden;
-
                     display: flex;
-
-                    align-items: flex-end;
-
-                    justify-content: center;
+                    align-items:
+                        flex-end;
+                    justify-content:
+                        center;
+                    overflow: hidden;
                 "
             >
 
                 <img
                     src="./roda-pe.png"
-                    alt="Rodapé GVX Engenharia"
+                    alt="Rodapé GVX"
                     crossorigin="anonymous"
                     style="
                         display: block;
                         width: 654px;
                         height: 141px;
-                        object-fit: contain;
+                        object-fit:
+                            contain;
                         object-position:
                             center bottom;
                     "
@@ -1772,39 +1978,50 @@ async function gerarImagemA4Especifica(item) {
 
     const imagens =
         Array.from(
-            elemento.querySelectorAll('img')
+            elemento.querySelectorAll(
+                'img'
+            )
         );
 
 
-    const imagensCarregadas =
+    const resultados =
         await Promise.all(
 
             imagens.map(
-
                 img =>
 
-                    new Promise(resolve => {
+                    new Promise(
+                        resolve => {
 
-                        if (
-                            img.complete &&
-                            img.naturalWidth > 0
-                        ) {
+                            if (
+                                img.complete &&
+                                img.naturalWidth > 0
+                            ) {
 
-                            resolve(true);
+                                resolve(
+                                    true
+                                );
 
-                            return;
+                                return;
+
+                            }
+
+
+                            img.onload =
+                                () =>
+                                    resolve(
+                                        true
+                                    );
+
+
+                            img.onerror =
+                                () =>
+                                    resolve(
+                                        false
+                                    );
 
                         }
-
-
-                        img.onload =
-                            () => resolve(true);
-
-
-                        img.onerror =
-                            () => resolve(false);
-
-                    })
+                    )
 
             )
 
@@ -1812,26 +2029,17 @@ async function gerarImagemA4Especifica(item) {
 
 
     if (
-        imagensCarregadas.some(
-            carregou => !carregou
+        resultados.some(
+            resultado =>
+                !resultado
         )
     ) {
 
-        if (
-            document.body.contains(
-                elemento
-            )
-        ) {
-
-            document.body.removeChild(
-                elemento
-            );
-
-        }
+        elemento.remove();
 
 
         alert(
-            'Não foi possível carregar logo-cabecalho.png ou roda-pe.png. Verifique se os dois arquivos estão na pasta principal do projeto.'
+            'Não foi possível carregar logo-cabecalho.png ou roda-pe.png.'
         );
 
 
@@ -1839,9 +2047,6 @@ async function gerarImagemA4Especifica(item) {
 
     }
 
-
-    // Pequeno atraso para garantir
-    // carregamento das fontes/imagens.
 
     await new Promise(
         resolve =>
@@ -1853,7 +2058,7 @@ async function gerarImagemA4Especifica(item) {
 
 
     // =====================================================
-    // CAPTURA DA IMAGEM
+    // CAPTURAR A4
     // =====================================================
 
     try {
@@ -1877,25 +2082,29 @@ async function gerarImagemA4Especifica(item) {
                     imageTimeout:
                         15000,
 
-                    width: 794,
+                    width:
+                        794,
 
-                    height: 1123,
+                    height:
+                        1123,
 
-                    windowWidth: 794,
+                    windowWidth:
+                        794,
 
-                    windowHeight: 1123
+                    windowHeight:
+                        1123
 
                 }
             );
 
 
-        document.body.removeChild(
-            elemento
-        );
+        elemento.remove();
 
 
         const link =
-            document.createElement('a');
+            document.createElement(
+                'a'
+            );
 
 
         link.download =
@@ -1922,21 +2131,11 @@ async function gerarImagemA4Especifica(item) {
         );
 
 
-        if (
-            document.body.contains(
-                elemento
-            )
-        ) {
-
-            document.body.removeChild(
-                elemento
-            );
-
-        }
+        elemento.remove();
 
 
         alert(
-            'Não foi possível gerar a Imagem A4. Tente novamente.'
+            'Não foi possível gerar a Imagem A4.'
         );
 
     }
@@ -2005,12 +2204,6 @@ function obterOrcamentoAtual() {
             : 'R$ 0,00';
 
 
-    const qtdsArray =
-        itensComplexidades.map(
-            item => item.qtd
-        );
-
-
     return {
 
         numOrcamento,
@@ -2028,7 +2221,9 @@ function obterOrcamentoAtual() {
         notaFiscal,
 
         complexidades:
-            qtdsArray,
+            itensComplexidades.map(
+                item => item.qtd
+            ),
 
         valorTotal:
             precoFinal
@@ -2039,13 +2234,26 @@ function obterOrcamentoAtual() {
 
 
 // =========================================================
-// SALVAR ORÇAMENTO ATUAL
+// SALVAR ORÇAMENTO
 // =========================================================
 
 function salvarOrcamentoAtual() {
 
     const orcamento =
         obterOrcamentoAtual();
+
+
+    if (
+        !orcamento.numOrcamento
+    ) {
+
+        alert(
+            'Informe o número do orçamento antes de salvar.'
+        );
+
+        return;
+
+    }
 
 
     salvarNoHistorico(
@@ -2059,25 +2267,69 @@ function salvarOrcamentoAtual() {
 
 
 // =========================================================
-// EVENTO SALVAR
-// =========================================================
-
-document
-    .getElementById(
-        'btnSalvarOrcamento'
-    )
-    .addEventListener(
-        'click',
-        salvarOrcamentoAtual
-    );
-
-
-// =========================================================
 // INICIALIZAÇÃO
 // =========================================================
 
-renderizarComplexidades();
+function inicializarAplicativo() {
 
-calcularOrcamento();
+    const campoData =
+        document.getElementById(
+            'dataOrcamento'
+        );
 
-inicializarExemplosHistorico();
+
+    if (
+        campoData &&
+        !campoData.value
+    ) {
+
+        campoData.valueAsDate =
+            new Date();
+
+    }
+
+
+    const btnSalvar =
+        document.getElementById(
+            'btnSalvarOrcamento'
+        );
+
+
+    if (btnSalvar) {
+
+        btnSalvar.addEventListener(
+            'click',
+            salvarOrcamentoAtual
+        );
+
+    }
+
+
+    renderizarComplexidades();
+
+    calcularOrcamento();
+
+    inicializarExemplosHistorico();
+
+}
+
+
+// =========================================================
+// GARANTIR QUE O DOM ESTEJA PRONTO
+// =========================================================
+
+if (
+    document.readyState ===
+    'loading'
+) {
+
+    document.addEventListener(
+        'DOMContentLoaded',
+        inicializarAplicativo
+    );
+
+} else {
+
+    inicializarAplicativo();
+
+}
