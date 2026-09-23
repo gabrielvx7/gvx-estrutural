@@ -413,12 +413,16 @@ async function gerarImagemA4Especifica(item) {
     }
 }
 
-// Botão principal agora é "Concluir Orçamento"
+// Botão principal "Concluir Orçamento"
 const btnAcaoPrincipal = document.getElementById('btnGerarPdf');
 if (btnAcaoPrincipal) {
     btnAcaoPrincipal.innerText = "Concluir Orçamento";
     
-    btnAcaoPrincipal.addEventListener('click', async () => {
+    // Removemos qualquer evento anterior clonando o elemento para evitar duplicações
+    const novoBtnAcao = btnAcaoPrincipal.cloneNode(true);
+    btnAcaoPrincipal.parentNode.replaceChild(novoBtnAcao, btnAcaoPrincipal);
+
+    document.getElementById('btnGerarPdf').addEventListener('click', () => {
         const cliente = document.getElementById('cliente').value || 'Cliente não informado';
         const numOrcamento = document.getElementById('numOrcamento').value;
         const data = document.getElementById('dataOrcamento').value;
@@ -430,19 +434,9 @@ if (btnAcaoPrincipal) {
         const precoFinalEl = document.getElementById('resPrecoFinal');
         const precoFinal = precoFinalEl ? precoFinalEl.innerText : 'R$ 0,00';
 
-        let itensHtml = '';
         let qtdsArray = [];
         itensComplexidades.forEach(item => {
             qtdsArray.push(item.qtd);
-            if (item.qtd > 0) {
-                itensHtml += `
-                    <tr>
-                        <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-weight: 500; font-size: 14px;">${item.nome}</td>
-                        <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; text-align: center; color: #1e293b; font-weight: 600; font-size: 14px;">${item.qtd}</td>
-                        <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; text-align: right; color: #0b192c; font-weight: bold; font-size: 14px;">${(item.taxa * 100).toFixed(0)}%</td>
-                    </tr>
-                `;
-            }
         });
 
         const orcamentoSalvo = {
@@ -457,43 +451,33 @@ if (btnAcaoPrincipal) {
             valorTotal: precoFinal
         };
 
+        // 1. Salva no histórico primeiro
         salvarNoHistorico(orcamentoSalvo);
 
-        // Modal de confirmação para download pós-conclusão
+        // 2. Cria e exibe o modal perguntando se quer baixar
         const modalDownload = document.createElement('div');
         modalDownload.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;';
         modalDownload.innerHTML = `
             <div style="background: white; padding: 24px; border-radius: 12px; width: 320px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: flex; flex-direction: column; gap: 12px; text-align: center;">
                 <h3 style="font-size: 15px; font-weight: bold; color: #0b192c; margin: 0;">Orçamento Concluído!</h3>
-                <p style="font-size: 13px; color: #64748b; margin: 0;">Deseja efetuar o download da imagem A4 agora?</p>
+                <p style="font-size: 13px; color: #64748b; margin: 0;">Salvo no histórico. Deseja efetuar o download da imagem A4 agora?</p>
                 <button id="btnSimDownload" style="background: #d4af37; color: #0f172a; border: none; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;">Sim, Baixar</button>
                 <button id="btnNaoDownload" style="background: #f1f5f9; color: #334155; border: none; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;">Não, ir para Histórico</button>
             </div>
         `;
         document.body.appendChild(modalDownload);
 
+        // Ação do botão "Sim, Baixar"
         document.getElementById('btnSimDownload').addEventListener('click', async () => {
             document.body.removeChild(modalDownload);
             await gerarImagemA4Especifica(orcamentoSalvo);
-            btnHistorico.click(); // Redireciona para o histórico
+            btnHistorico.click(); // Vai para a aba do histórico
         });
 
+        // Ação do botão "Não, ir para Histórico"
         document.getElementById('btnNaoDownload').addEventListener('click', () => {
             document.body.removeChild(modalDownload);
-            btnHistorico.click(); // Redireciona para o histórico
+            btnHistorico.click(); // Vai direto para a aba do histórico
         });
-    });
-}
-
-criarToggleComplexidade();
-inicializarExemplosHistorico();
-renderizarComplexidades();
-calcularOrcamento();
-
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-            .then(() => console.log('Service Worker registado com sucesso!'))
-            .catch(err => console.log('Erro ao registar Service Worker:', err));
     });
 }
