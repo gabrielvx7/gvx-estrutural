@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>GVX Engenharia - Orçamentos</title>
 
     <link rel="stylesheet" href="./src/style.css">
@@ -10,35 +11,28 @@
 
   <body>
 
-    <!-- =========================================
-         TELA INICIAL
-    ========================================== -->
+    <!-- TELA INICIAL -->
     <div id="telaInicio" class="home-screen">
 
       <div class="home-brand">
-        <img
-          src="./logo-oficial.png"
-          alt="Gabriel Vasconcelos - Projetos Estruturais"
-          class="home-logo"
-        >
+        <div class="logo-graphic">
+          <div style="background: #0b192c; height: 35%; width: 100%; border-radius: 4px;"></div>
+          <div style="background: #d4af37; height: 30%; width: 90%; margin: 4px auto; border-radius: 4px;"></div>
+          <div style="background: #0b192c; height: 35%; width: 80%; margin: 0 auto; border-radius: 4px;"></div>
+        </div>
+
+        <h1>GABRIEL VASCONCELOS</h1>
+        <p>PROJETOS ESTRUTURAIS</p>
       </div>
 
       <div class="home-buttons">
 
-        <button
-          id="btnIrNovo"
-          type="button"
-          class="home-card-btn"
-        >
+        <button id="btnIrNovo" class="home-card-btn">
           <div class="card-icon">🏛️</div>
           <span>NOVO ORÇAMENTO</span>
         </button>
 
-        <button
-          id="btnIrHistorico"
-          type="button"
-          class="home-card-btn"
-        >
+        <button id="btnIrHistorico" class="home-card-btn">
           <div class="card-icon">📋</div>
           <span>HISTÓRICO</span>
         </button>
@@ -47,9 +41,7 @@
     </div>
 
 
-    <!-- =========================================
-         CONTAINER PRINCIPAL
-    ========================================== -->
+    <!-- APLICATIVO PRINCIPAL -->
     <div id="appContainer" class="app-container hidden">
 
       <!-- CABEÇALHO -->
@@ -59,7 +51,6 @@
 
           <button
             id="btnVoltarInicio"
-            type="button"
             class="btn-back"
             title="Voltar ao Início"
           >
@@ -88,7 +79,6 @@
 
           <button
             id="tabNovo"
-            type="button"
             class="tab-btn active"
           >
             Novo
@@ -96,7 +86,6 @@
 
           <button
             id="tabHistorico"
-            type="button"
             class="tab-btn"
           >
             Histórico
@@ -107,10 +96,14 @@
       </div>
 
 
-      <!-- =========================================
-           ABA NOVO ORÇAMENTO
-      ========================================== -->
-      <div id="secaoNovo" class="section-content">
+      <!-- ========================= -->
+      <!-- NOVO ORÇAMENTO -->
+      <!-- ========================= -->
+
+      <div
+        id="secaoNovo"
+        class="section-content"
+      >
 
         <div class="form-row">
 
@@ -232,22 +225,10 @@
         </div>
 
 
-        <!-- =========================================
-             FATORES DE COMPLEXIDADE
-        ========================================== -->
-
+        <!-- FATORES -->
         <div>
 
-          <label
-            style="
-              font-size: 12px;
-              font-weight: bold;
-              color: #334155;
-              display: block;
-              margin-bottom: 8px;
-              text-transform: uppercase;
-            "
-          >
+          <label class="section-label">
             Fatores de Complexidade
           </label>
 
@@ -259,10 +240,7 @@
         </div>
 
 
-        <!-- =========================================
-             TOTAL + SALVAR
-        ========================================== -->
-
+        <!-- TOTAL + SALVAR -->
         <div class="total-box">
 
           <div>
@@ -291,23 +269,16 @@
       </div>
 
 
-      <!-- =========================================
-           ABA HISTÓRICO
-      ========================================== -->
+      <!-- ========================= -->
+      <!-- HISTÓRICO -->
+      <!-- ========================= -->
 
       <div
         id="secaoHistorico"
         class="section-content hidden"
       >
 
-        <label
-          style="
-            font-size: 12px;
-            font-weight: bold;
-            color: #334155;
-            text-transform: uppercase;
-          "
-        >
+        <label class="section-label">
           Orçamentos Emitidos
         </label>
 
@@ -321,13 +292,12 @@
     </div>
 
 
-    <!-- html2canvas -->
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
-    ></script>
+    <!--
+      html2canvas será usado somente
+      para gerar a Imagem A4.
+    -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-
-    <!-- JavaScript principal -->
     <script
       type="module"
       src="./src/main.js"
