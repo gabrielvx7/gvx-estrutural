@@ -3,12 +3,12 @@
 
 <head>
 
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
 
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1.0"
-  />
+  >
 
   <title>
     GVX Engenharia - Orçamentos
@@ -17,7 +17,7 @@
   <link
     rel="stylesheet"
     href="./src/style.css"
-  />
+  >
 
 </head>
 
@@ -102,7 +102,9 @@
   >
 
 
-    <!-- CABEÇALHO -->
+    <!-- =================================================
+         CABEÇALHO
+    ================================================== -->
 
     <div class="app-header">
 
@@ -110,31 +112,28 @@
       <div class="brand-box">
 
 
+        <!-- VOLTAR -->
+
         <button
           id="btnVoltarInicio"
           class="btn-back"
-          title="Voltar ao Início"
+          title="Voltar ao início"
+          type="button"
         >
 
-          ⬅
+          ←
 
         </button>
 
 
-        <div class="brand-logo">
-          GVX
-        </div>
+        <!-- LOGO DO CABEÇALHO -->
 
+        <div class="app-header-logo">
 
-        <div>
-
-          <h2 class="brand-title">
-            GVX ENGENHARIA
-          </h2>
-
-          <p class="brand-sub">
-            Sistema de Orçamentos
-          </p>
+          <img
+            src="./logo-cabecalho.png"
+            alt="Gabriel Vasconcelos - Projetos Estruturais"
+          >
 
         </div>
 
@@ -151,6 +150,7 @@
         <button
           id="tabNovo"
           class="tab-btn active"
+          type="button"
         >
 
           Novo
@@ -161,6 +161,7 @@
         <button
           id="tabHistorico"
           class="tab-btn"
+          type="button"
         >
 
           Histórico
@@ -201,7 +202,7 @@
             id="numOrcamento"
             value="001/2026"
             class="form-input"
-          />
+          >
 
         </div>
 
@@ -216,7 +217,7 @@
             type="date"
             id="dataOrcamento"
             class="form-input"
-          />
+          >
 
         </div>
 
@@ -238,7 +239,7 @@
           id="cliente"
           placeholder="Ex: João da Silva"
           class="form-input"
-        />
+        >
 
       </div>
 
@@ -257,7 +258,7 @@
           id="descricaoObra"
           placeholder="Ex: Residência Unifamiliar - 2 Pavimentos"
           class="form-input"
-        />
+        >
 
       </div>
 
@@ -279,7 +280,7 @@
             id="areaConstruida"
             value="100"
             class="form-input"
-          />
+          >
 
         </div>
 
@@ -295,7 +296,7 @@
             id="precoMetro"
             value="25"
             class="form-input"
-          />
+          >
 
         </div>
 
@@ -311,7 +312,7 @@
             id="notaFiscal"
             value="0"
             class="form-input"
-          />
+          >
 
         </div>
 
@@ -409,7 +410,6 @@
 
   <!-- =====================================================
        HTML2CANVAS
-       Utilizado para gerar a Imagem A4
   ====================================================== -->
 
   <script
