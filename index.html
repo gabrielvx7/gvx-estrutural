@@ -9,7 +9,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="GVX Engenharia">
     <link rel="apple-touch-icon" href="./src/logo.png">
-    <link rel="stylesheet" href="/src/style.css">
+    <link rel="stylesheet" href="./src/style.css">
   </head>
   <body>
 
@@ -95,7 +95,7 @@
           </div>
         </div>
 
-        <!-- SEÇÃO DE COMPLEXIDADE -->
+        <!-- SEÇÃO DE COMPLEXIDADE CORRIGIDA -->
         <div style="margin-bottom: 16px;">
           <button type="button" id="btnAtivarComplexidade" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 10px 12px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 8px; text-align: left; display: flex; justify-content: space-between; align-items: center;">
             <span>⚙️ Ativar Complexidade</span>
@@ -112,7 +112,7 @@
             <span>Valor Total do Projeto</span>
             <h2 id="resPrecoFinal">R$ 0,00</h2>
           </div>
-          <button type="button" id="btnConcluirOrcamento" class="btn-action">
+          <button type="button" id="btnGerarPdf" class="btn-action">
             📥 Concluir Orçamento
           </button>
         </div>
@@ -125,6 +125,9 @@
       </div>
 
     </div>
+
+    <!-- CANVAS OCULTO PARA GERAR A IMAGEM A4 -->
+    <canvas id="canvasOrcamento" width="1240" height="1754" style="display: none;"></canvas>
 
     <script type="module" src="./src/main.js"></script>
   </body>
