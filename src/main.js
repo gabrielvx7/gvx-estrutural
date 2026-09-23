@@ -10,12 +10,14 @@ let itensComplexidades = [
 function calcularOrcamento() {
     const areaEl = document.getElementById('areaConstruida');
     const precoMetroEl = document.getElementById('precoMetro');
+    const notaFiscalEl = document.getElementById('notaFiscal');
     const resPrecoFinal = document.getElementById('resPrecoFinal');
 
     if (!areaEl || !precoMetroEl || !resPrecoFinal) return;
 
     const area = parseFloat(areaEl.value) || 0;
     const precoMetro = parseFloat(precoMetroEl.value) || 0;
+    const notaFiscal = notaFiscalEl ? (parseFloat(notaFiscalEl.value) || 0) / 100 : 0;
 
     let subtotal = area * precoMetro;
     let adicionalComplexidade = 0;
@@ -24,7 +26,9 @@ function calcularOrcamento() {
         adicionalComplexidade += subtotal * (item.taxa * item.qtd);
     });
 
-    const totalFinal = subtotal + adicionalComplexidade;
+    let totalParcial = subtotal + adicionalComplexidade;
+    let valorNotaFiscal = totalParcial * notaFiscal;
+    const totalFinal = totalParcial + valorNotaFiscal;
 
     resPrecoFinal.innerText = totalFinal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
@@ -70,7 +74,7 @@ function renderizarComplexidades() {
     });
 }
 
-// --- TOGGLE / BOTÃO DE ATIVAR COMPLEXIDADE (CORRIGIDO) ---
+// --- TOGGLE / BOTÃO DE ATIVAR COMPLEXIDADE ---
 function configurarToggleComplexidade() {
     const btnToggle = document.getElementById('btnAtivarComplexidade');
     const containerComplexidades = document.getElementById('containerComplexidades');
@@ -165,7 +169,7 @@ function renderizarHistoricoNaTela() {
     }
 
     listaHistoricoEl.innerHTML = '';
-    historico.forEach((item) => {
+    historico.forEach((item, index) => {
         const div = document.createElement('div');
         div.style.cssText = 'background: white; padding: 14px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);';
         div.innerHTML = `
@@ -175,24 +179,132 @@ function renderizarHistoricoNaTela() {
             </div>
             <div style="font-size: 12px; color: #475569; margin-bottom: 2px;"><b>Cliente:</b> ${item.cliente}</div>
             <div style="font-size: 12px; color: #475569; margin-bottom: 2px;"><b>Obra:</b> ${item.descricao || 'Não informada'}</div>
-            <div style="font-size: 11px; color: #94a3b8;">Data: ${item.data || 'Não informada'}</div>
+            <div style="font-size: 11px; color: #94a3b8; margin-bottom: 8px;">Data: ${item.data || 'Não informada'}</div>
+            <button type="button" class="btn-baixar-historico" data-index="${index}" style="background: #0b192c; color: #d4af37; border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;">📥 Baixar Orçamento (A4)</button>
         `;
         listaHistoricoEl.appendChild(div);
     });
+
+    // Evento para baixar o orçamento específico do histórico em imagem A4
+    listaHistoricoEl.querySelectorAll('.btn-baixar-historico').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const idx = e.target.getAttribute('data-index');
+            gerarImagemA4(historico[idx]);
+        });
+    });
 }
 
-// --- EVENTOS DOS INPUTS ---
+// --- GERADOR DE IMAGEM A4 (CANVAS) ---
+function gerarImagemA4(dados) {
+    const canvas = document.getElementById('canvasOrcamento');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    // Fundo Branco A4
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    // Cabeçalho institucional
+    ctx.fillStyle = '#0b192c';
+    ctx.fillRect(80, 80, canvas.width - 160, 160);
+
+    ctx.fillStyle = '#d4af37';
+    ctx.font = 'bold 36px sans-serif';
+    ctx.fillText('GVX ENGENHARIA', 120, 150);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '20px sans-serif';
+    ctx.fillText('Projetos Estruturais e Cibil', 120, 190);
+
+    ctx.textAlign = 'right';
+    ctx.fillText(`Orçamento: ${dados.numOrcamento}`, canvas.width - 120, 150);
+    ctx.fillText(`Data: ${dados.data}`, canvas.width - 120, 190);
+    ctx.textAlign = 'left';
+
+    // Informações do Cliente
+    let yPos = 300;
+    ctx.fillStyle = '#0b192c';
+    ctx.font = 'bold 24px sans-serif';
+    ctx.fillText('DADOS DO CLIENTE E DA OBRA', 80, yPos);
+
+    yPos += 40;
+    ctx.strokeStyle = '#cbd5e1';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(80, yPos, canvas.width - 160, 120);
+
+    ctx.font = '20px sans-serif';
+    ctx.fillStyle = '#334155';
+    ctx.fillText(`Cliente: ${dados.cliente}`, 110, yPos + 45);
+    ctx.fillText(`Obra: ${dados.descricao || 'Não informada'}`, 110, yPos + 90);
+
+    // Parâmetros da Obra
+    yPos += 180;
+    ctx.fillStyle = '#0b192c';
+    ctx.font = 'bold 24px sans-serif';
+    ctx.fillText('PARÂMETROS E VALORES', 80, yPos);
+
+    yPos += 40;
+    ctx.strokeRect(80, yPos, canvas.width - 160, 160);
+
+    ctx.font = '20px sans-serif';
+    ctx.fillStyle = '#334155';
+    ctx.fillText(`Área Construída: ${dados.area} m²`, 110, yPos + 50);
+    ctx.fillText(`Preço por m²: R$ ${dados.precoMetro}`, 110, yPos + 110);
+
+    // Complexidades selecionadas
+    yPos += 220;
+    ctx.fillStyle = '#0b192c';
+    ctx.font = 'bold 24px sans-serif';
+    ctx.fillText('DISCIPLINAS / COMPLEXIDADES', 80, yPos);
+
+    yPos += 40;
+    ctx.strokeRect(80, yPos, canvas.width - 160, 220);
+
+    let posYItem = yPos + 45;
+    if (dados.complexidades && dados.complexidades.length > 0) {
+        itensComplexidades.forEach((item, i) => {
+            let qtd = dados.complexidades[i] || 0;
+            ctx.fillText(`${item.nome} (Qtd: ${qtd}) - Taxa: ${(item.taxa * 100)}%`, 110, posYItem);
+            posYItem += 45;
+        });
+    }
+
+    // Rodapé / Valor Total
+    yPos += 280;
+    ctx.fillStyle = '#0b192c';
+    ctx.fillRect(80, yPos, canvas.width - 160, 120);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = 'bold 24px sans-serif';
+    ctx.fillText('VALOR TOTAL DO PROJETO:', 120, yPos + 70);
+
+    ctx.fillStyle = '#d4af37';
+    ctx.font = 'bold 36px sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(dados.valorTotal, canvas.width - 120, yPos + 75);
+    ctx.textAlign = 'left';
+
+    // Disparar Download Automático da Imagem A4
+    const link = document.createElement('a');
+    link.download = `Orcamento_${dados.cliente.replace(/\s+/g, '_')}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+}
+
+// --- EVENTOS DOS INPUTS (Cálculo em tempo real) ---
 const areaInput = document.getElementById('areaConstruida');
 const precoMetroInput = document.getElementById('precoMetro');
+const notaFiscalInput = document.getElementById('notaFiscal');
 
 if (areaInput) areaInput.addEventListener('input', calcularOrcamento);
 if (precoMetroInput) precoMetroInput.addEventListener('input', calcularOrcamento);
+if (notaFiscalInput) notaFiscalInput.addEventListener('input', calcularOrcamento);
 
-// --- BOTÃO PRINCIPAL: CONCLUIR ORÇAMENTO (ENVIA APENAS PARA O HISTÓRICO) ---
-const btnConcluirOrcamento = document.getElementById('btnConcluirOrcamento');
+// --- BOTÃO PRINCIPAL: CONCLUIR ORÇAMENTO ---
+const btnGerarPdf = document.getElementById('btnGerarPdf');
 
-if (btnConcluirOrcamento) {
-    btnConcluirOrcamento.addEventListener('click', () => {
+if (btnGerarPdf) {
+    btnGerarPdf.addEventListener('click', () => {
         const cliente = document.getElementById('cliente').value || 'Cliente não informado';
         const numOrcamento = document.getElementById('numOrcamento').value || '001/2026';
         const data = document.getElementById('dataOrcamento').value || new Date().toISOString().split('T')[0];
@@ -221,10 +333,10 @@ if (btnConcluirOrcamento) {
             valorTotal: precoFinal
         };
 
-        // 1. Salva no histórico local
+        // 1. Salva no histórico
         salvarNoHistorico(orcamentoSalvo);
 
-        // 2. Vai direto para a aba de histórico
+        // 2. Redireciona para a aba de histórico para ver o resultado salvo e a opção de download
         mudarAba('historico');
     });
 }
