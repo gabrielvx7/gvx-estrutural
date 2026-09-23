@@ -111,9 +111,11 @@ button {
 
   display: block;
 
-  width: min(360px, 88vw);
+  width: 260px;
 
-  max-height: 180px;
+  max-width: 70%;
+
+  max-height: 140px;
 
   height: auto;
 
