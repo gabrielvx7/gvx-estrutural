@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>GVX Engenharia - Orçamentos</title>
 
     <link rel="stylesheet" href="./src/style.css">
@@ -11,40 +10,69 @@
 
   <body>
 
-    <!-- TELA INICIAL -->
+    <!-- =====================================================
+         TELA INICIAL
+    ====================================================== -->
+
     <div id="telaInicio" class="home-screen">
 
       <div class="home-brand">
-        <div class="logo-graphic">
-          <div style="background: #0b192c; height: 35%; width: 100%; border-radius: 4px;"></div>
-          <div style="background: #d4af37; height: 30%; width: 90%; margin: 4px auto; border-radius: 4px;"></div>
-          <div style="background: #0b192c; height: 35%; width: 80%; margin: 0 auto; border-radius: 4px;"></div>
-        </div>
 
-        <h1>GABRIEL VASCONCELOS</h1>
-        <p>PROJETOS ESTRUTURAIS</p>
+        <!-- LOGO OFICIAL -->
+        <img
+          src="./logo-cabecalho.png"
+          alt="Gabriel Vasconcelos - Projetos Estruturais"
+          class="home-logo"
+        >
+
       </div>
+
 
       <div class="home-buttons">
 
-        <button id="btnIrNovo" class="home-card-btn">
-          <div class="card-icon">🏛️</div>
-          <span>NOVO ORÇAMENTO</span>
+        <button
+          id="btnIrNovo"
+          class="home-card-btn"
+        >
+          <div class="card-icon">
+            🏛️
+          </div>
+
+          <span>
+            NOVO ORÇAMENTO
+          </span>
         </button>
 
-        <button id="btnIrHistorico" class="home-card-btn">
-          <div class="card-icon">📋</div>
-          <span>HISTÓRICO</span>
+
+        <button
+          id="btnIrHistorico"
+          class="home-card-btn"
+        >
+          <div class="card-icon">
+            📋
+          </div>
+
+          <span>
+            HISTÓRICO
+          </span>
         </button>
 
       </div>
+
     </div>
 
 
-    <!-- APLICATIVO PRINCIPAL -->
-    <div id="appContainer" class="app-container hidden">
+    <!-- =====================================================
+         APLICATIVO PRINCIPAL
+    ====================================================== -->
+
+    <div
+      id="appContainer"
+      class="app-container hidden"
+    >
 
       <!-- CABEÇALHO -->
+
       <div class="app-header">
 
         <div class="brand-box">
@@ -57,11 +85,14 @@
             ⬅
           </button>
 
+
           <div class="brand-logo">
             GVX
           </div>
 
+
           <div>
+
             <h2 class="brand-title">
               GVX ENGENHARIA
             </h2>
@@ -69,12 +100,14 @@
             <p class="brand-sub">
               Sistema de Orçamentos
             </p>
+
           </div>
 
         </div>
 
 
         <!-- ABAS -->
+
         <div class="tabs">
 
           <button
@@ -83,6 +116,7 @@
           >
             Novo
           </button>
+
 
           <button
             id="tabHistorico"
@@ -96,14 +130,16 @@
       </div>
 
 
-      <!-- ========================= -->
-      <!-- NOVO ORÇAMENTO -->
-      <!-- ========================= -->
+      <!-- =================================================
+           NOVO ORÇAMENTO
+      ================================================== -->
 
       <div
         id="secaoNovo"
         class="section-content"
       >
+
+        <!-- NÚMERO E DATA -->
 
         <div class="form-row">
 
@@ -140,6 +176,8 @@
         </div>
 
 
+        <!-- CLIENTE -->
+
         <div class="form-group">
 
           <label>
@@ -155,6 +193,8 @@
 
         </div>
 
+
+        <!-- DESCRIÇÃO -->
 
         <div class="form-group">
 
@@ -173,6 +213,7 @@
 
 
         <!-- PARÂMETROS -->
+
         <div class="params-box">
 
           <div class="form-group">
@@ -225,12 +266,16 @@
         </div>
 
 
-        <!-- FATORES -->
+        <!-- =================================================
+             FATORES DE COMPLEXIDADE
+        ================================================== -->
+
         <div>
 
           <label class="section-label">
             Fatores de Complexidade
           </label>
+
 
           <div
             id="listaComplexidades"
@@ -240,7 +285,10 @@
         </div>
 
 
-        <!-- TOTAL + SALVAR -->
+        <!-- =================================================
+             TOTAL
+        ================================================== -->
+
         <div class="total-box">
 
           <div>
@@ -256,6 +304,8 @@
           </div>
 
 
+          <!-- AÇÃO PRINCIPAL -->
+
           <button
             id="btnSalvarOrcamento"
             type="button"
@@ -269,9 +319,9 @@
       </div>
 
 
-      <!-- ========================= -->
-      <!-- HISTÓRICO -->
-      <!-- ========================= -->
+      <!-- =================================================
+           HISTÓRICO
+      ================================================== -->
 
       <div
         id="secaoHistorico"
@@ -281,6 +331,7 @@
         <label class="section-label">
           Orçamentos Emitidos
         </label>
+
 
         <div
           id="listaHistorico"
@@ -292,11 +343,17 @@
     </div>
 
 
-    <!--
-      html2canvas será usado somente
-      para gerar a Imagem A4.
-    -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- =====================================================
+         HTML2CANVAS
+         Usado somente para gerar a Imagem A4
+    ====================================================== -->
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+    ></script>
+
+
+    <!-- JAVASCRIPT PRINCIPAL -->
 
     <script
       type="module"
