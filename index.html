@@ -4,17 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GVX Engenharia - Orçamentos</title>
-    <link rel="manifest" href="./manifest.json">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="GVX Engenharia">
-    <link rel="apple-touch-icon" href="./src/logo.png">
     <link rel="stylesheet" href="./src/style.css">
   </head>
   <body>
 
     <!-- TELA INICIAL (SPLASH / MENU PRINCIPAL) -->
     <div id="telaInicio" class="home-screen">
+      <!-- Logotipo da Marca -->
       <div class="home-brand">
         <div class="logo-graphic">
           <div style="background: #0b192c; height: 35%; width: 100%; border-radius: 4px;"></div>
@@ -25,13 +21,14 @@
         <p>PROJETOS ESTRUTURAIS</p>
       </div>
 
+      <!-- Botões de Acesso -->
       <div class="home-buttons">
-        <button id="btnIrNovo" class="home-card-btn" type="button">
+        <button id="btnIrNovo" class="home-card-btn">
           <div class="card-icon">🏛️</div>
           <span>NOVO ORÇAMENTO</span>
         </button>
 
-        <button id="btnIrHistorico" class="home-card-btn" type="button">
+        <button id="btnIrHistorico" class="home-card-btn">
           <div class="card-icon">📋</div>
           <span>HISTÓRICO</span>
         </button>
@@ -44,16 +41,17 @@
       <!-- CABEÇALHO DO APP -->
       <div class="app-header">
         <div class="brand-box">
-          <button id="btnVoltarInicio" class="btn-back" type="button" title="Voltar ao Início">⬅</button>
+          <button id="btnVoltarInicio" class="btn-back" title="Voltar ao Início">⬅</button>
           <div class="brand-logo">GVX</div>
           <div>
             <h2 class="brand-title">GVX ENGENHARIA</h2>
             <p class="brand-sub">Sistema de Orçamentos</p>
           </div>
         </div>
+        <!-- ABAS DE NAVEGAÇÃO -->
         <div class="tabs">
-          <button id="tabNovo" class="tab-btn active" type="button">Novo</button>
-          <button id="tabHistorico" class="tab-btn" type="button">Histórico</button>
+          <button id="tabNovo" class="tab-btn active">Novo</button>
+          <button id="tabHistorico" class="tab-btn">Histórico</button>
         </div>
       </div>
 
@@ -61,50 +59,43 @@
       <div id="secaoNovo" class="section-content">
         <div class="form-row">
           <div class="form-group">
-            <label for="numOrcamento">Número do Orçamento</label>
+            <label>Número do Orçamento</label>
             <input type="text" id="numOrcamento" value="001/2026" class="form-input" />
           </div>
           <div class="form-group">
-            <label for="dataOrcamento">Data</label>
+            <label>Data</label>
             <input type="date" id="dataOrcamento" class="form-input" />
           </div>
         </div>
 
         <div class="form-group">
-          <label for="cliente">Nome do Cliente</label>
+          <label>Nome do Cliente</label>
           <input type="text" id="cliente" placeholder="Ex: João da Silva" class="form-input" />
         </div>
 
         <div class="form-group">
-          <label for="descricaoObra">Descrição da Obra</label>
+          <label>Descrição da Obra</label>
           <input type="text" id="descricaoObra" placeholder="Ex: Residência Unifamiliar - 2 Pavimentos" class="form-input" />
         </div>
 
         <div class="params-box">
           <div class="form-group">
-            <label for="areaConstruida">Área (m²)</label>
+            <label>Área (m²)</label>
             <input type="number" id="areaConstruida" value="100" class="form-input" />
           </div>
           <div class="form-group">
-            <label for="precoMetro">Preço/m² (R$)</label>
-            <input type="number" id="precoMetro" value="35" class="form-input" />
+            <label>Preço/m² (R$)</label>
+            <input type="number" id="precoMetro" value="25" class="form-input" />
           </div>
           <div class="form-group">
-            <label for="notaFiscal">Nota Fiscal (%)</label>
+            <label>Nota Fiscal (%)</label>
             <input type="number" id="notaFiscal" value="0" class="form-input" />
           </div>
         </div>
 
-        <!-- SEÇÃO DE COMPLEXIDADE -->
-        <div style="margin-bottom: 16px;">
-          <button type="button" id="btnAtivarComplexidade" class="btn-toggle-complex">
-            <span>⚙️ Ativar Complexidades de Projeto</span>
-            <span id="iconeSetaComplexidade">▼</span>
-          </button>
-          
-          <div id="containerComplexidades" class="complex-container-hidden">
-            <div id="listaComplexidades" class="complex-list"></div>
-          </div>
+        <div>
+          <label style="font-size: 12px; font-weight: bold; color: #334155; display: block; margin-bottom: 8px; text-transform: uppercase;">Fatores de Complexidade</label>
+          <div id="listaComplexidades" class="complex-list"></div>
         </div>
 
         <div class="total-box">
@@ -112,8 +103,8 @@
             <span>Valor Total do Projeto</span>
             <h2 id="resPrecoFinal">R$ 0,00</h2>
           </div>
-          <button type="button" id="btnConcluirOrcamento" class="btn-action">
-            📥 Concluir Orçamento
+          <button id="btnGerarPdf" class="btn-action">
+            📥 Baixar Orçamento
           </button>
         </div>
       </div>
@@ -125,9 +116,6 @@
       </div>
 
     </div>
-
-    <!-- CANVAS OCULTO PARA GERAR A IMAGEM A4 -->
-    <canvas id="canvasOrcamento" width="1240" height="1754" style="display: none;"></canvas>
 
     <script type="module" src="./src/main.js"></script>
   </body>
