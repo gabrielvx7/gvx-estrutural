@@ -1,9 +1,19 @@
-// --- VARIÁVEIS E DADOS GLOBAIS ---
+// --- VARIÁVEIS E DADOS GLOBAIS DE COMPLEXIDADE (Baseado na Planilha Oficial) ---
 let itensComplexidades = [
-    { nome: "Projeto Estrutural", qtd: 0, taxa: 0.10 },
-    { nome: "Projeto Hidrossanitário", qtd: 0, taxa: 0.08 },
-    { nome: "Projeto Elétrico", qtd: 0, taxa: 0.08 },
-    { nome: "Projeto de Fundações", qtd: 0, taxa: 0.07 }
+    { nome: "BALANÇO (2 à 4m)", qtd: 0, taxa: 0.10 },
+    { nome: "BALANÇO (>4m)", qtd: 0, taxa: 0.20 },
+    { nome: "VIGA DE TRANSIÇÃO (2 - 4m)", qtd: 0, taxa: 0.10 },
+    { nome: "VIGA DE TRANSIÇÃO (4 - 6 m)", qtd: 0, taxa: 0.15 },
+    { nome: "VIGA DE TRANSIÇÃO (>6m)", qtd: 0, taxa: 0.20 },
+    { nome: "VIGA VÃO (6 - 9m)", qtd: 0, taxa: 0.10 },
+    { nome: "VIGA VÃO (>9m)", qtd: 0, taxa: 0.15 },
+    { nome: "ESCADA MODERNA", qtd: 0, taxa: 0.07 },
+    { nome: "TERRENO DESNÍVEL (3 - 6m)", qtd: 0, taxa: 0.10 },
+    { nome: "TERRENO DESNÍVEL (>6m)", qtd: 0, taxa: 0.15 },
+    { nome: "FUNDAÇÃO PROFUNDA", qtd: 0, taxa: 0.15 },
+    { nome: "FUNDAÇÃO EXCÊNTRICA", qtd: 0, taxa: 0.10 },
+    { nome: "PISCINA NA COBERTURA", qtd: 0, taxa: 0.20 },
+    { nome: "Detalhe a mais", qtd: 0, taxa: 0.10 }
 ];
 
 // --- FUNÇÃO DE CÁLCULO DO ORÇAMENTO ---
@@ -26,9 +36,9 @@ function calcularOrcamento() {
         adicionalComplexidade += subtotal * (item.taxa * item.qtd);
     });
 
-    let totalParcial = subtotal + adicionalComplexidade;
-    let valorNotaFiscal = totalParcial * notaFiscal;
-    const totalFinal = totalParcial + valorNotaFiscal;
+    let totalComAcrecimo = subtotal + adicionalComplexidade;
+    let valorNotaFiscal = totalComAcrecimo * notaFiscal;
+    const totalFinal = totalComAcrecimo + valorNotaFiscal;
 
     resPrecoFinal.innerText = totalFinal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
@@ -41,13 +51,13 @@ function renderizarComplexidades() {
     container.innerHTML = '';
     itensComplexidades.forEach((item, index) => {
         const div = document.createElement('div');
-        div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 14px;';
+        div.style.cssText = 'display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 13px; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px;';
         div.innerHTML = `
-            <span>${item.nome} (${(item.taxa * 100).toFixed(0)}%)</span>
+            <span style="color: #334155; font-weight: 500;">${item.nome} (${(item.taxa * 100).toFixed(0)}%)</span>
             <div style="display: flex; gap: 8px; align-items: center;">
-                <button type="button" class="btn-menos" data-index="${index}" style="padding: 2px 8px; cursor: pointer;">-</button>
-                <span id="qtd-item-${index}" style="font-weight: bold; min-width: 20px; text-align: center;">${item.qtd}</span>
-                <button type="button" class="btn-mais" data-index="${index}" style="padding: 2px 8px; cursor: pointer;">+</button>
+                <button type="button" class="btn-menos" data-index="${index}" style="padding: 2px 8px; cursor: pointer; background: #e2e8f0; border: none; border-radius: 4px; font-weight: bold;">-</button>
+                <span id="qtd-item-${index}" style="font-weight: bold; min-width: 20px; text-align: center; color: #0b192c;">${item.qtd}</span>
+                <button type="button" class="btn-mais" data-index="${index}" style="padding: 2px 8px; cursor: pointer; background: #e2e8f0; border: none; border-radius: 4px; font-weight: bold;">+</button>
             </div>
         `;
         container.appendChild(div);
@@ -74,7 +84,7 @@ function renderizarComplexidades() {
     });
 }
 
-// --- TOGGLE / BOTÃO DE ATIVAR COMPLEXIDADE ---
+// --- TOGGLE / BOTÃO DE ATIVAR COMPLEXIDADE (CORRIGIDO) ---
 function configurarToggleComplexidade() {
     const btnToggle = document.getElementById('btnAtivarComplexidade');
     const containerComplexidades = document.getElementById('containerComplexidades');
@@ -185,7 +195,6 @@ function renderizarHistoricoNaTela() {
         listaHistoricoEl.appendChild(div);
     });
 
-    // Evento para baixar o orçamento específico do histórico em imagem A4
     listaHistoricoEl.querySelectorAll('.btn-baixar-historico').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const idx = e.target.getAttribute('data-index');
@@ -224,64 +233,73 @@ function gerarImagemA4(dados) {
     // Informações do Cliente
     let yPos = 300;
     ctx.fillStyle = '#0b192c';
-    ctx.font = 'bold 24px sans-serif';
+    ctx.font = 'bold 22px sans-serif';
     ctx.fillText('DADOS DO CLIENTE E DA OBRA', 80, yPos);
 
-    yPos += 40;
+    yPos += 30;
     ctx.strokeStyle = '#cbd5e1';
     ctx.lineWidth = 2;
-    ctx.strokeRect(80, yPos, canvas.width - 160, 120);
+    ctx.strokeRect(80, yPos, canvas.width - 160, 110);
 
-    ctx.font = '20px sans-serif';
+    ctx.font = '18px sans-serif';
     ctx.fillStyle = '#334155';
     ctx.fillText(`Cliente: ${dados.cliente}`, 110, yPos + 45);
-    ctx.fillText(`Obra: ${dados.descricao || 'Não informada'}`, 110, yPos + 90);
+    ctx.fillText(`Obra: ${dados.descricao || 'Não informada'}`, 110, yPos + 80);
 
     // Parâmetros da Obra
-    yPos += 180;
+    yPos += 150;
     ctx.fillStyle = '#0b192c';
-    ctx.font = 'bold 24px sans-serif';
+    ctx.font = 'bold 22px sans-serif';
     ctx.fillText('PARÂMETROS E VALORES', 80, yPos);
 
-    yPos += 40;
-    ctx.strokeRect(80, yPos, canvas.width - 160, 160);
+    yPos += 30;
+    ctx.strokeRect(80, yPos, canvas.width - 160, 120);
 
-    ctx.font = '20px sans-serif';
+    ctx.font = '18px sans-serif';
     ctx.fillStyle = '#334155';
-    ctx.fillText(`Área Construída: ${dados.area} m²`, 110, yPos + 50);
-    ctx.fillText(`Preço por m²: R$ ${dados.precoMetro}`, 110, yPos + 110);
+    ctx.fillText(`Área Construída: ${dados.area} m²`, 110, yPos + 45);
+    ctx.fillText(`Preço por m²: R$ ${dados.precoMetro} | Nota Fiscal: ${dados.notaFiscal}%`, 110, yPos + 85);
 
     // Complexidades selecionadas
-    yPos += 220;
+    yPos += 160;
     ctx.fillStyle = '#0b192c';
-    ctx.font = 'bold 24px sans-serif';
-    ctx.fillText('DISCIPLINAS / COMPLEXIDADES', 80, yPos);
+    ctx.font = 'bold 22px sans-serif';
+    ctx.fillText('ITENS DE COMPLEXIDADE', 80, yPos);
 
-    yPos += 40;
-    ctx.strokeRect(80, yPos, canvas.width - 160, 220);
+    yPos += 30;
+    
+    // Filtrar apenas complexidades com quantidade > 0 para o relatório ficar limpo
+    let complexidadesAtivas = dados.complexidades.filter(c => c.qtd > 0);
+    let alturaBoxComplex = Math.max(100, (complexidadesAtivas.length * 35) + 40);
+    ctx.strokeRect(80, yPos, canvas.width - 160, alturaBoxComplex);
 
-    let posYItem = yPos + 45;
-    if (dados.complexidades && dados.complexidades.length > 0) {
-        itensComplexidades.forEach((item, i) => {
-            let qtd = dados.complexidades[i] || 0;
-            ctx.fillText(`${item.nome} (Qtd: ${qtd}) - Taxa: ${(item.taxa * 100)}%`, 110, posYItem);
-            posYItem += 45;
+    let posYItem = yPos + 40;
+    if (complexidadesAtivas.length > 0) {
+        complexidadesAtivas.forEach((item) => {
+            ctx.font = '16px sans-serif';
+            ctx.fillStyle = '#334155';
+            ctx.fillText(`• ${item.nome} (Qtd: ${item.qtd}) — Acréscimo: ${(item.taxa * 100)}% cada`, 110, posYItem);
+            posYItem += 35;
         });
+    } else {
+        ctx.font = '16px italic sans-serif';
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillText('Nenhum item de complexidade ativado.', 110, yPos + 50);
     }
 
     // Rodapé / Valor Total
-    yPos += 280;
+    yPos += alturaBoxComplex + 40;
     ctx.fillStyle = '#0b192c';
-    ctx.fillRect(80, yPos, canvas.width - 160, 120);
+    ctx.fillRect(80, yPos, canvas.width - 160, 100);
 
     ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 24px sans-serif';
-    ctx.fillText('VALOR TOTAL DO PROJETO:', 120, yPos + 70);
+    ctx.font = 'bold 22px sans-serif';
+    ctx.fillText('VALOR TOTAL DO PROJETO:', 120, yPos + 60);
 
     ctx.fillStyle = '#d4af37';
-    ctx.font = 'bold 36px sans-serif';
+    ctx.font = 'bold 32px sans-serif';
     ctx.textAlign = 'right';
-    ctx.fillText(dados.valorTotal, canvas.width - 120, yPos + 75);
+    ctx.fillText(dados.valorTotal, canvas.width - 120, yPos + 65);
     ctx.textAlign = 'left';
 
     // Disparar Download Automático da Imagem A4
@@ -301,10 +319,10 @@ if (precoMetroInput) precoMetroInput.addEventListener('input', calcularOrcamento
 if (notaFiscalInput) notaFiscalInput.addEventListener('input', calcularOrcamento);
 
 // --- BOTÃO PRINCIPAL: CONCLUIR ORÇAMENTO ---
-const btnGerarPdf = document.getElementById('btnGerarPdf');
+const btnConcluirOrcamento = document.getElementById('btnConcluirOrcamento');
 
-if (btnGerarPdf) {
-    btnGerarPdf.addEventListener('click', () => {
+if (btnConcluirOrcamento) {
+    btnConcluirOrcamento.addEventListener('click', () => {
         const cliente = document.getElementById('cliente').value || 'Cliente não informado';
         const numOrcamento = document.getElementById('numOrcamento').value || '001/2026';
         const data = document.getElementById('dataOrcamento').value || new Date().toISOString().split('T')[0];
@@ -316,10 +334,12 @@ if (btnGerarPdf) {
         const precoFinalEl = document.getElementById('resPrecoFinal');
         const precoFinal = precoFinalEl ? precoFinalEl.innerText : 'R$ 0,00';
 
-        let qtdsArray = [];
-        itensComplexidades.forEach(item => {
-            qtdsArray.push(item.qtd);
-        });
+        // Salva cópia estruturada com nome e taxa de cada complexidade ativa
+        let complexidadesSalvas = itensComplexidades.map(item => ({
+            nome: item.nome,
+            qtd: item.qtd,
+            taxa: item.taxa
+        }));
 
         const orcamentoSalvo = {
             numOrcamento,
@@ -329,14 +349,14 @@ if (btnGerarPdf) {
             area,
             precoMetro,
             notaFiscal,
-            complexidades: qtdsArray,
+            complexidades: complexidadesSalvas,
             valorTotal: precoFinal
         };
 
-        // 1. Salva no histórico
+        // 1. Salva no histórico local
         salvarNoHistorico(orcamentoSalvo);
 
-        // 2. Redireciona para a aba de histórico para ver o resultado salvo e a opção de download
+        // 2. Redireciona para a aba de histórico para visualizar o orçamento salvo
         mudarAba('historico');
     });
 }
