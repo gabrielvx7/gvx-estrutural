@@ -18,7 +18,6 @@
     <div id="telaInicio" class="home-screen">
       <!-- Logotipo da Marca -->
       <div class="home-brand">
-        <!-- Substitua a imagem abaixo pela sua logo se preferir, ou use o container estrutural -->
         <div class="logo-graphic">
           <div style="background: #0b192c; height: 35%; width: 100%; border-radius: 4px;"></div>
           <div style="background: #d4af37; height: 30%; width: 90%; margin: 4px auto; border-radius: 4px;"></div>
@@ -101,9 +100,16 @@
           </div>
         </div>
 
-        <div>
-          <label style="font-size: 12px; font-weight: bold; color: #334155; display: block; margin-bottom: 8px; text-transform: uppercase;">Fatores de Complexidade</label>
-          <div id="listaComplexidades" class="complex-list"></div>
+        <!-- SEÇÃO DE COMPLEXIDADE ATUALIZADA -->
+        <div style="margin-bottom: 16px;">
+          <button type="button" id="btnAtivarComplexidade" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 8px 12px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 8px;">
+            Ativar Complexidade
+          </button>
+          
+          <div id="containerComplexidades" style="display: none; background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0;">
+            <label style="font-size: 11px; font-weight: bold; color: #64748b; display: block; margin-bottom: 8px; text-transform: uppercase;">Fatores de Complexidade</label>
+            <div id="listaComplexidades" class="complex-list"></div>
+          </div>
         </div>
 
         <div class="total-box">
