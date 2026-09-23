@@ -6,10 +6,12 @@
     <title>GVX Engenharia - Orçamentos</title>
     <link rel="stylesheet" href="./src/style.css">
   </head>
+
   <body>
 
-    <!-- TELA INICIAL (SPLASH / MENU PRINCIPAL) -->
+    <!-- TELA INICIAL -->
     <div id="telaInicio" class="home-screen">
+
       <div class="home-brand">
         <img
           src="./logo-oficial.png"
@@ -19,6 +21,7 @@
       </div>
 
       <div class="home-buttons">
+
         <button id="btnIrNovo" class="home-card-btn">
           <div class="card-icon">🏛️</div>
           <span>NOVO ORÇAMENTO</span>
@@ -28,93 +31,281 @@
           <div class="card-icon">📋</div>
           <span>HISTÓRICO</span>
         </button>
+
       </div>
+
     </div>
 
-    <!-- CONTAINER PRINCIPAL DO APLICATIVO (Oculto inicialmente) -->
+
+    <!-- CONTAINER PRINCIPAL -->
     <div id="appContainer" class="app-container hidden">
-      
-      <!-- CABEÇALHO DO APP -->
+
+      <!-- CABEÇALHO -->
       <div class="app-header">
+
         <div class="brand-box">
-          <button id="btnVoltarInicio" class="btn-back" title="Voltar ao Início">⬅</button>
-          <div class="brand-logo">GVX</div>
-          <div>
-            <h2 class="brand-title">GVX ENGENHARIA</h2>
-            <p class="brand-sub">Sistema de Orçamentos</p>
+
+          <button
+            id="btnVoltarInicio"
+            class="btn-back"
+            title="Voltar ao Início"
+          >
+            ⬅
+          </button>
+
+          <div class="brand-logo">
+            GVX
           </div>
+
+          <div>
+            <h2 class="brand-title">
+              GVX ENGENHARIA
+            </h2>
+
+            <p class="brand-sub">
+              Sistema de Orçamentos
+            </p>
+          </div>
+
         </div>
-        <!-- ABAS DE NAVEGAÇÃO -->
+
+
+        <!-- ABAS -->
         <div class="tabs">
-          <button id="tabNovo" class="tab-btn active">Novo</button>
-          <button id="tabHistorico" class="tab-btn">Histórico</button>
+
+          <button
+            id="tabNovo"
+            class="tab-btn active"
+          >
+            Novo
+          </button>
+
+          <button
+            id="tabHistorico"
+            class="tab-btn"
+          >
+            Histórico
+          </button>
+
         </div>
+
       </div>
 
-      <!-- CONTEÚDO DA ABA: NOVO ORÇAMENTO -->
-      <div id="secaoNovo" class="section-content">
+
+      <!-- ABA NOVO ORÇAMENTO -->
+      <div
+        id="secaoNovo"
+        class="section-content"
+      >
+
         <div class="form-row">
+
           <div class="form-group">
-            <label>Número do Orçamento</label>
-            <input type="text" id="numOrcamento" value="001/2026" class="form-input" />
+
+            <label>
+              Número do Orçamento
+            </label>
+
+            <input
+              type="text"
+              id="numOrcamento"
+              value="001/2026"
+              class="form-input"
+            />
+
           </div>
+
+
           <div class="form-group">
-            <label>Data</label>
-            <input type="date" id="dataOrcamento" class="form-input" />
+
+            <label>
+              Data
+            </label>
+
+            <input
+              type="date"
+              id="dataOrcamento"
+              class="form-input"
+            />
+
           </div>
+
         </div>
 
-        <div class="form-group">
-          <label>Nome do Cliente</label>
-          <input type="text" id="cliente" placeholder="Ex: João da Silva" class="form-input" />
-        </div>
 
         <div class="form-group">
-          <label>Descrição da Obra</label>
-          <input type="text" id="descricaoObra" placeholder="Ex: Residência Unifamiliar - 2 Pavimentos" class="form-input" />
+
+          <label>
+            Nome do Cliente
+          </label>
+
+          <input
+            type="text"
+            id="cliente"
+            placeholder="Ex: João da Silva"
+            class="form-input"
+          />
+
         </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Descrição da Obra
+          </label>
+
+          <input
+            type="text"
+            id="descricaoObra"
+            placeholder="Ex: Residência Unifamiliar - 2 Pavimentos"
+            class="form-input"
+          />
+
+        </div>
+
 
         <div class="params-box">
+
           <div class="form-group">
-            <label>Área (m²)</label>
-            <input type="number" id="areaConstruida" value="100" class="form-input" />
+
+            <label>
+              Área (m²)
+            </label>
+
+            <input
+              type="number"
+              id="areaConstruida"
+              value="100"
+              class="form-input"
+            />
+
           </div>
+
+
           <div class="form-group">
-            <label>Preço/m² (R$)</label>
-            <input type="number" id="precoMetro" value="25" class="form-input" />
+
+            <label>
+              Preço/m² (R$)
+            </label>
+
+            <input
+              type="number"
+              id="precoMetro"
+              value="25"
+              class="form-input"
+            />
+
           </div>
+
+
           <div class="form-group">
-            <label>Nota Fiscal (%)</label>
-            <input type="number" id="notaFiscal" value="0" class="form-input" />
+
+            <label>
+              Nota Fiscal (%)
+            </label>
+
+            <input
+              type="number"
+              id="notaFiscal"
+              value="0"
+              class="form-input"
+            />
+
           </div>
+
         </div>
 
+
+        <!-- FATORES -->
         <div>
-          <label style="font-size: 12px; font-weight: bold; color: #334155; display: block; margin-bottom: 8px; text-transform: uppercase;">Fatores de Complexidade</label>
-          <div id="listaComplexidades" class="complex-list"></div>
+
+          <label
+            style="
+              font-size: 12px;
+              font-weight: bold;
+              color: #334155;
+              display: block;
+              margin-bottom: 8px;
+              text-transform: uppercase;
+            "
+          >
+            Fatores de Complexidade
+          </label>
+
+          <div
+            id="listaComplexidades"
+            class="complex-list"
+          ></div>
+
         </div>
 
+
+        <!-- TOTAL -->
         <div class="total-box">
+
           <div>
-            <span>Valor Total do Projeto</span>
-            <h2 id="resPrecoFinal">R$ 0,00</h2>
+
+            <span>
+              Valor Total do Projeto
+            </span>
+
+            <h2 id="resPrecoFinal">
+              R$ 0,00
+            </h2>
+
           </div>
-          <button id="btnSalvarOrcamento" class="btn-action">
+
+
+          <button
+            id="btnSalvarOrcamento"
+            class="btn-action"
+          >
             💾 Salvar Orçamento
           </button>
+
         </div>
+
       </div>
 
-      <!-- CONTEÚDO DA ABA: HISTÓRICO DE ORÇAMENTOS -->
-      <div id="secaoHistorico" class="section-content hidden">
-        <label style="font-size: 12px; font-weight: bold; color: #334155; text-transform: uppercase;">Orçamentos Emitidos</label>
-        <div id="listaHistorico" class="history-list"></div>
+
+      <!-- ABA HISTÓRICO -->
+      <div
+        id="secaoHistorico"
+        class="section-content hidden"
+      >
+
+        <label
+          style="
+            font-size: 12px;
+            font-weight: bold;
+            color: #334155;
+            text-transform: uppercase;
+          "
+        >
+          Orçamentos Emitidos
+        </label>
+
+        <div
+          id="listaHistorico"
+          class="history-list"
+        ></div>
+
       </div>
 
     </div>
 
-    <!-- html2canvas carregado diretamente no navegador para compatibilidade com a hospedagem atual -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script type="module" src="./src/main.js"></script>
+
+    <!-- HTML2CANVAS -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"
+    ></script>
+
+    <!-- JAVASCRIPT -->
+    <script
+      type="module"
+      src="./src/main.js"
+    ></script>
+
   </body>
 </html>
