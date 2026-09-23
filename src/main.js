@@ -1,4 +1,3 @@
-
 document.getElementById('dataOrcamento').valueAsDate = new Date();
 
 const itensComplexidades = [
@@ -10,6 +9,7 @@ const itensComplexidades = [
     { id: 'vigaVao1', nome: 'VIGA VÃO (6 - 9m)', taxa: 0.10, qtd: 0 },
     { id: 'vigaVao2', nome: 'VIGA VÃO (>9m)', taxa: 0.15, qtd: 0 },
     { id: 'escada', nome: 'ESCADA MODERNA', taxa: 0.07, qtd: 0 },
+    { id: 'escadaPatamar', nome: 'ESCADA COM MAIS DE UM PATAMAR INTERMEDIÁRIO', taxa: 0.10, qtd: 0 },
     { id: 'desnivel1', nome: 'TERRENO DESNÍVEL (3 - 6m)', taxa: 0.10, qtd: 0 },
     { id: 'desnivel2', nome: 'TERRENO DESNÍVEL (>6m)', taxa: 0.15, qtd: 0 },
     { id: 'fundProf', nome: 'FUNDAÇÃO PROFUNDA', taxa: 0.15, qtd: 0 },
@@ -17,6 +17,8 @@ const itensComplexidades = [
     { id: 'piscina', nome: 'PISCINA NA COBERTURA', taxa: 0.20, qtd: 0 },
     { id: 'detalheExtra', nome: 'Detalhe a mais', taxa: 0.10, qtd: 0 }
 ];
+
+let usarComplexidade = false;
 
 // --- CONTROLE DE TELAS E ABAS ---
 const telaInicio = document.getElementById('telaInicio');
@@ -30,42 +32,62 @@ const btnHistorico = document.getElementById('tabHistorico');
 const secaoNovo = document.getElementById('secaoNovo');
 const secaoHistorico = document.getElementById('secaoHistorico');
 
-btnIrNovo.addEventListener('click', () => {
-    telaInicio.classList.add('hidden');
-    appContainer.classList.remove('hidden');
-    btnNovo.click();
-});
+if (btnIrNovo) {
+    btnIrNovo.addEventListener('click', () => {
+        telaInicio.classList.add('hidden');
+        appContainer.classList.remove('hidden');
+        btnNovo.click();
+    });
+}
 
-btnIrHistorico.addEventListener('click', () => {
-    telaInicio.classList.add('hidden');
-    appContainer.classList.remove('hidden');
-    btnHistorico.click();
-});
+if (btnIrHistorico) {
+    btnIrHistorico.addEventListener('click', () => {
+        telaInicio.classList.add('hidden');
+        appContainer.classList.remove('hidden');
+        btnHistorico.click();
+    });
+}
 
-btnVoltarInicio.addEventListener('click', () => {
-    appContainer.classList.add('hidden');
-    telaInicio.classList.remove('hidden');
-});
+if (btnVoltarInicio) {
+    btnVoltarInicio.addEventListener('click', () => {
+        appContainer.classList.add('hidden');
+        telaInicio.classList.remove('hidden');
+    });
+}
 
-btnNovo.addEventListener('click', () => {
-    btnNovo.classList.add('active');
-    btnHistorico.classList.remove('active');
-    secaoNovo.classList.remove('hidden');
-    secaoHistorico.classList.add('hidden');
-});
+if (btnNovo) {
+    btnNovo.addEventListener('click', () => {
+        btnNovo.classList.add('active');
+        btnHistorico.classList.remove('active');
+        secaoNovo.classList.remove('hidden');
+        secaoHistorico.classList.add('hidden');
+    });
+}
 
-btnHistorico.addEventListener('click', () => {
-    btnHistorico.classList.add('active');
-    btnNovo.classList.remove('active');
-    secaoHistorico.classList.remove('hidden');
-    secaoNovo.classList.add('hidden');
-    renderizarHistorico();
-});
+if (btnHistorico) {
+    btnHistorico.addEventListener('click', () => {
+        btnHistorico.classList.add('active');
+        btnNovo.classList.remove('active');
+        secaoHistorico.classList.remove('hidden');
+        secaoNovo.classList.add('hidden');
+        renderizarHistorico();
+    });
+}
 
 function renderizarComplexidades() {
     const container = document.getElementById('listaComplexidades');
     if (!container) return;
+    
     container.innerHTML = '';
+
+    if (!usarComplexidade) {
+        container.innerHTML = `
+            <div style="padding: 12px; text-align: center; color: #64748b; font-size: 13px;">
+                Fatores de complexidade desativados (Ideal para casas térreas ou obras padrão).
+            </div>
+        `;
+        return;
+    }
 
     itensComplexidades.forEach((item, index) => {
         const div = document.createElement('div');
@@ -111,11 +133,13 @@ function calcularOrcamento() {
     const totalBase = area * precoM2;
 
     let totalAcrescimoReais = 0;
-    itensComplexidades.forEach(item => {
-        if (item.qtd > 0) {
-            totalAcrescimoReais += totalBase * item.taxa * item.qtd;
-        }
-    });
+    if (usarComplexidade) {
+        itensComplexidades.forEach(item => {
+            if (item.qtd > 0) {
+                totalAcrescimoReais += totalBase * item.taxa * item.qtd;
+            }
+        });
+    }
 
     const totalComAcrescimo = totalBase + totalAcrescimoReais;
     const percNota = parseFloat(document.getElementById('notaFiscal').value) || 0;
@@ -126,6 +150,44 @@ function calcularOrcamento() {
     if (elPrecoFinal) elPrecoFinal.innerText = formatarMoeda(precoFinal);
 
     return precoFinal;
+}
+
+// Injetar o botão Toggle de Complexidade antes da lista se não existir
+function criarToggleComplexidade() {
+    const secao = document.getElementById('secaoNovo');
+    if (!secao || document.getElementById('toggleComplexidadeContainer')) return;
+
+    const toggleDiv = document.createElement('div');
+    toggleDiv.id = 'toggleComplexidadeContainer';
+    toggleDiv.style.cssText = 'margin: 15px 0; display: flex; align-items: center; justify-content: space-between; background: #ffffff; padding: 12px 16px; border-radius: 10px; border: 1px solid #e2e8f0;';
+    
+    toggleDiv.innerHTML = `
+        <span style="font-size: 13px; font-weight: bold; color: #0b192c;">Aplicar Fatores de Complexidade?</span>
+        <button id="btnToggleComp" style="background: #e2e8f0; color: #334155; border: none; padding: 6px 14px; border-radius: 6px; font-size: 12px; font-weight: bold; cursor: pointer;">Não</button>
+    `;
+
+    const listaCompEl = document.getElementById('listaComplexidades');
+    if (listaCompEl && listaCompEl.parentNode) {
+        listaCompEl.parentNode.insertBefore(toggleDiv, listaCompEl);
+    }
+
+    document.getElementById('btnToggleComp').addEventListener('click', () => {
+        usarComplexidade = !usarComplexidade;
+        const btn = document.getElementById('btnToggleComp');
+        if (usarComplexidade) {
+            btn.innerText = 'Sim';
+            btn.style.background = '#0b192c';
+            btn.style.color = '#ffffff';
+        } else {
+            btn.innerText = 'Não';
+            btn.style.background = '#e2e8f0';
+            btn.style.color = '#334155';
+            // Resetar quantidades se desativar
+            itensComplexidades.forEach(item => item.qtd = 0);
+        }
+        renderizarComplexidades();
+        calcularOrcamento();
+    });
 }
 
 document.getElementById('areaConstruida').addEventListener('input', calcularOrcamento);
@@ -144,19 +206,8 @@ function inicializarExemplosHistorico() {
                 area: 180,
                 precoMetro: 25,
                 notaFiscal: 0,
-                complexidades: [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+                complexidades: [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                 valorTotal: "R$ 5.062,50"
-            },
-            {
-                numOrcamento: "002/2026",
-                data: "2026-06-15",
-                cliente: "Maria das Graças Ximenes",
-                descricao: "Edifício Comercial - 3 Pavimentos",
-                area: 320,
-                precoMetro: 30,
-                notaFiscal: 5,
-                complexidades: [0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0],
-                valorTotal: "R$ 13.345,20"
             }
         ];
         localStorage.setItem('gvx_historico_orcamentos', JSON.stringify(historico));
@@ -205,16 +256,7 @@ function renderizarHistorico() {
 
 function abrirMenuOpcoes(item) {
     const modal = document.createElement('div');
-    modal.style.position = 'fixed';
-    modal.style.top = '0';
-    modal.style.left = '0';
-    modal.style.width = '100%';
-    modal.style.height = '100%';
-    modal.style.background = 'rgba(0, 0, 0, 0.5)';
-    modal.style.display = 'flex';
-    modal.style.alignItems = 'center';
-    modal.style.justifyContent = 'center';
-    modal.style.zIndex = '1000';
+    modal.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;';
 
     modal.innerHTML = `
         <div style="background: white; padding: 24px; border-radius: 12px; width: 320px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: flex; flex-direction: column; gap: 12px;">
@@ -222,7 +264,7 @@ function abrirMenuOpcoes(item) {
             <p style="font-size: 12px; color: #64748b; margin-bottom: 12px;">Escolha a ação desejada para este orçamento:</p>
             
             <button id="btnAtualizar" style="background: #0b192c; color: white; border: none; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;">Atualizar Orçamento</button>
-            <button id="btnGerarImg" style="background: #d4af37; color: #0f172a; border: none; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold;">Baixar Orçamento</button>
+            <button id="btnGerarImg" style="background: #d4af37; color: #0f172a; border: none; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;">Baixar Orçamento</button>
             <button id="btnCancelar" style="background: #f1f5f9; color: #334155; border: none; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; margin-top: 4px;">Cancelar</button>
         </div>
     `;
@@ -253,6 +295,16 @@ function carregarOrcamento(item) {
     document.getElementById('precoMetro').value = item.precoMetro;
     document.getElementById('notaFiscal').value = item.notaFiscal;
 
+    if (item.complexidades && item.complexidades.some(q => q > 0)) {
+        usarComplexidade = true;
+        const btnToggle = document.getElementById('btnToggleComp');
+        if (btnToggle) {
+            btnToggle.innerText = 'Sim';
+            btnToggle.style.background = '#0b192c';
+            btnToggle.style.color = '#ffffff';
+        }
+    }
+
     itensComplexidades.forEach((comp, i) => {
         comp.qtd = (item.complexidades && item.complexidades[i]) ? item.complexidades[i] : 0;
     });
@@ -278,31 +330,17 @@ async function gerarImagemA4Especifica(item) {
     });
 
     const elemento = document.createElement('div');
-    elemento.style.width = '794px';
-    elemento.style.height = '1123px';
-    elemento.style.position = 'absolute';
-    elemento.style.left = '-9999px';
-    elemento.style.top = '0';
-    elemento.style.fontFamily = 'Inter, sans-serif';
-    elemento.style.boxSizing = 'border-box';
-    elemento.style.backgroundColor = '#ffffff';
-    elemento.style.padding = '60px 70px';
-    elemento.style.display = 'flex';
-    elemento.style.flexDirection = 'column';
-    elemento.style.justifyContent = 'space-between';
+    elemento.style.cssText = 'width: 794px; height: 1123px; position: absolute; left: -9999px; top: 0; font-family: Inter, sans-serif; box-sizing: border-box; background-color: #ffffff; padding: 60px 70px; display: flex; flex-direction: column; justify-content: space-between;';
 
     elemento.innerHTML = `
         <div>
             <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px; border-bottom: 3px solid #0b192c; padding-bottom: 15px;">
-                <div style="width: 55px; height: 45px; background: #0b192c; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #d4af37; font-weight: 900; font-size: 18px;">
-                    GVX
-                </div>
+                <div style="width: 55px; height: 45px; background: #0b192c; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #d4af37; font-weight: 900; font-size: 18px;">GVX</div>
                 <div>
-                    <h1 style="margin: 0; font-size: 22px; font-weight: 900; color: #0b192c; letter-spacing: 0.5px; line-height: 1.1;">GVX ENGENHARIA</h1>
+                    <h1 style="margin: 0; font-size: 22px; font-weight: 900; color: #0b192c;">GVX ENGENHARIA</h1>
                     <p style="margin: 3px 0 0 0; font-size: 10px; font-weight: 700; color: #64748b; letter-spacing: 2px; text-transform: uppercase;">Projetos Estruturais</p>
                 </div>
             </div>
-
             <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #0b192c; padding-bottom: 8px; margin-bottom: 20px;">
                 <h2 style="margin: 0; color: #0b192c; font-size: 16px; font-weight: 800; text-transform: uppercase;">Orçamento de Projeto Estrutural</h2>
                 <div style="text-align: right; font-size: 13px; color: #334155; line-height: 1.4;">
@@ -310,31 +348,27 @@ async function gerarImagemA4Especifica(item) {
                     <strong>Data:</strong> ${item.data ? item.data.split('-').reverse().join('/') : ''}
                 </div>
             </div>
-            
             <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 18px; margin-bottom: 20px; font-size: 14px; color: #334155;">
                 <p style="margin: 0 0 6px 0;"><strong>Cliente:</strong> ${item.cliente}</p>
                 <p style="margin: 0;"><strong>Descrição da Obra:</strong> ${item.descricao}</p>
             </div>
-            
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
                 <thead>
                     <tr style="background: #0b192c; color: white;">
-                        <th style="padding: 12px 16px; text-align: left; font-size: 14px; border-top-left-radius: 8px; border-bottom-left-radius: 8px;">Fator de Complexidade</th>
+                        <th style="padding: 12px 16px; text-align: left; font-size: 14px;">Fator de Complexidade</th>
                         <th style="padding: 12px 16px; text-align: center; font-size: 14px;">Qtd</th>
-                        <th style="padding: 12px 16px; text-align: right; font-size: 14px; border-top-right-radius: 8px; border-bottom-right-radius: 8px;">Acréscimo</th>
+                        <th style="padding: 12px 16px; text-align: right; font-size: 14px;">Acréscimo</th>
                     </tr>
                 </thead>
                 <tbody>
                     ${itensHtml || '<tr><td colspan="3" style="padding: 20px; text-align: center; color: #64748b; font-size: 14px;">Nenhum fator de complexidade adicional selecionado.</td></tr>'}
                 </tbody>
             </table>
-
             <div style="background: #f8fafc; border: 2px solid #0b192c; padding: 16px 24px; border-radius: 12px; text-align: right;">
                 <p style="margin: 0; font-size: 14px; color: #475569; font-weight: 600; text-transform: uppercase;">Valor Total do Projeto:</p>
                 <p style="margin: 4px 0 0 0; font-size: 26px; color: #0b192c; font-weight: 800;">${item.valorTotal}</p>
             </div>
         </div>
-
         <div style="width: 100%; border-top: 2px solid #e2e8f0; padding-top: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #64748b;">
             <span>📞 (85) 9 9818-7532</span>
             <span>📷 @eng.gvx</span>
@@ -345,164 +379,121 @@ async function gerarImagemA4Especifica(item) {
     document.body.appendChild(elemento);
 
     try {
-        const canvas = await html2canvas(elemento, {
-            scale: 4,
-            useCORS: true,
-            logging: false,
-            backgroundColor: '#ffffff'
-        });
-
+        const canvas = await html2canvas(elemento, { scale: 4, useCORS: true, logging: false, backgroundColor: '#ffffff' });
         document.body.removeChild(elemento);
 
-        const link = document.createElement('a');
-        link.download = `Orcamento_${item.cliente.replace(/\s+/g, '_')}.png`;
-        link.href = canvas.toDataURL('image/png', 1.0);
-        link.click();
+        canvas.toBlob(async (blob) => {
+            const fileName = `Orcamento_${item.cliente.replace(/\s+/g, '_')}.png`;
+            const file = new File([blob], fileName, { type: 'image/png' });
+
+            if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                try {
+                    await navigator.share({
+                        files: [file],
+                        title: 'Orçamento GVX Engenharia',
+                        text: `Orçamento Nº ${item.numOrcamento} - ${item.cliente}`
+                    });
+                    return;
+                } catch (err) {
+                    if (err.name !== 'AbortError') console.error(err);
+                }
+            }
+
+            // Fallback seguro para download com Blob
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = fileName;
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }, 'image/png', 1.0);
 
     } catch (error) {
         console.error('Erro ao gerar imagem:', error);
-        if (document.body.contains(elemento)) {
-            document.body.removeChild(elemento);
-        }
+        if (document.body.contains(elemento)) document.body.removeChild(elemento);
     }
 }
 
-document.getElementById('btnGerarPdf').addEventListener('click', async () => {
-    const cliente = document.getElementById('cliente').value || 'Cliente não informado';
-    const numOrcamento = document.getElementById('numOrcamento').value;
-    const data = document.getElementById('dataOrcamento').value;
-    const descricao = document.getElementById('descricaoObra').value;
-    const area = document.getElementById('areaConstruida').value;
-    const precoMetro = document.getElementById('precoMetro').value;
-    const notaFiscal = document.getElementById('notaFiscal').value;
+// Botão principal agora é "Concluir Orçamento"
+const btnAcaoPrincipal = document.getElementById('btnGerarPdf');
+if (btnAcaoPrincipal) {
+    btnAcaoPrincipal.innerText = "Concluir Orçamento";
     
-    const precoFinalEl = document.getElementById('resPrecoFinal');
-    const precoFinal = precoFinalEl ? precoFinalEl.innerText : 'R$ 0,00';
+    btnAcaoPrincipal.addEventListener('click', async () => {
+        const cliente = document.getElementById('cliente').value || 'Cliente não informado';
+        const numOrcamento = document.getElementById('numOrcamento').value;
+        const data = document.getElementById('dataOrcamento').value;
+        const descricao = document.getElementById('descricaoObra').value;
+        const area = document.getElementById('areaConstruida').value;
+        const precoMetro = document.getElementById('precoMetro').value;
+        const notaFiscal = document.getElementById('notaFiscal').value;
+        
+        const precoFinalEl = document.getElementById('resPrecoFinal');
+        const precoFinal = precoFinalEl ? precoFinalEl.innerText : 'R$ 0,00';
 
-    let itensHtml = '';
-    let qtdsArray = [];
-    itensComplexidades.forEach(item => {
-        qtdsArray.push(item.qtd);
-        if (item.qtd > 0) {
-            itensHtml += `
-                <tr>
-                    <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-weight: 500; font-size: 14px;">${item.nome}</td>
-                    <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; text-align: center; color: #1e293b; font-weight: 600; font-size: 14px;">${item.qtd}</td>
-                    <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; text-align: right; color: #0b192c; font-weight: bold; font-size: 14px;">${(item.taxa * 100).toFixed(0)}%</td>
-                </tr>
-            `;
-        }
-    });
-
-    salvarNoHistorico({
-        numOrcamento,
-        data,
-        cliente,
-        descricao,
-        area,
-        precoMetro,
-        notaFiscal,
-        complexidades: qtdsArray,
-        valorTotal: precoFinal
-    });
-
-    const elemento = document.createElement('div');
-    elemento.style.width = '794px';
-    elemento.style.height = '1123px';
-    elemento.style.position = 'absolute';
-    elemento.style.left = '-9999px';
-    elemento.style.top = '0';
-    elemento.style.fontFamily = 'Inter, sans-serif';
-    elemento.style.boxSizing = 'border-box';
-    elemento.style.backgroundColor = '#ffffff';
-    elemento.style.padding = '60px 70px';
-    elemento.style.display = 'flex';
-    elemento.style.flexDirection = 'column';
-    elemento.style.justifyContent = 'space-between';
-
-    elemento.innerHTML = `
-        <div>
-            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px; border-bottom: 3px solid #0b192c; padding-bottom: 15px;">
-                <div style="width: 55px; height: 45px; background: #0b192c; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #d4af37; font-weight: 900; font-size: 18px;">
-                    GVX
-                </div>
-                <div>
-                    <h1 style="margin: 0; font-size: 22px; font-weight: 900; color: #0b192c; letter-spacing: 0.5px; line-height: 1.1;">GVX ENGENHARIA</h1>
-                    <p style="margin: 3px 0 0 0; font-size: 10px; font-weight: 700; color: #64748b; letter-spacing: 2px; text-transform: uppercase;">Projetos Estruturais</p>
-                </div>
-            </div>
-
-            <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #0b192c; padding-bottom: 8px; margin-bottom: 20px;">
-                <h2 style="margin: 0; color: #0b192c; font-size: 16px; font-weight: 800; text-transform: uppercase;">Orçamento de Projeto Estrutural</h2>
-                <div style="text-align: right; font-size: 13px; color: #334155; line-height: 1.4;">
-                    <strong>Orçamento Nº:</strong> ${numOrcamento}<br>
-                    <strong>Data:</strong> ${data ? data.split('-').reverse().join('/') : ''}
-                </div>
-            </div>
-            
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 18px; margin-bottom: 20px; font-size: 14px; color: #334155;">
-                <p style="margin: 0 0 6px 0;"><strong>Cliente:</strong> ${cliente}</p>
-                <p style="margin: 0;"><strong>Descrição da Obra:</strong> ${descricao}</p>
-            </div>
-            
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-                <thead>
-                    <tr style="background: #0b192c; color: white;">
-                        <th style="padding: 12px 16px; text-align: left; font-size: 14px; border-top-left-radius: 8px; border-bottom-left-radius: 8px;">Fator de Complexidade</th>
-                        <th style="padding: 12px 16px; text-align: center; font-size: 14px;">Qtd</th>
-                        <th style="padding: 12px 16px; text-align: right; font-size: 14px; border-top-right-radius: 8px; border-bottom-right-radius: 8px;">Acréscimo</th>
+        let itensHtml = '';
+        let qtdsArray = [];
+        itensComplexidades.forEach(item => {
+            qtdsArray.push(item.qtd);
+            if (item.qtd > 0) {
+                itensHtml += `
+                    <tr>
+                        <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-weight: 500; font-size: 14px;">${item.nome}</td>
+                        <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; text-align: center; color: #1e293b; font-weight: 600; font-size: 14px;">${item.qtd}</td>
+                        <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; text-align: right; color: #0b192c; font-weight: bold; font-size: 14px;">${(item.taxa * 100).toFixed(0)}%</td>
                     </tr>
-                </thead>
-                <tbody>
-                    ${itensHtml || '<tr><td colspan="3" style="padding: 20px; text-align: center; color: #64748b; font-size: 14px;">Nenhum fator de complexidade adicional selecionado.</td></tr>'}
-                </tbody>
-            </table>
-
-            <div style="background: #f8fafc; border: 2px solid #0b192c; padding: 16px 24px; border-radius: 12px; text-align: right;">
-                <p style="margin: 0; font-size: 14px; color: #475569; font-weight: 600; text-transform: uppercase;">Valor Total do Projeto:</p>
-                <p style="margin: 4px 0 0 0; font-size: 26px; color: #0b192c; font-weight: 800;">${precoFinal}</p>
-            </div>
-        </div>
-
-        <div style="width: 100%; border-top: 2px solid #e2e8f0; padding-top: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #64748b;">
-            <span>📞 (85) 9 9818-7532</span>
-            <span>📷 @eng.gvx</span>
-            <span>✉️ eng.gvx@gmail.com</span>
-        </div>
-    `;
-
-    document.body.appendChild(elemento);
-
-    try {
-        const canvas = await html2canvas(elemento, {
-            scale: 4,
-            useCORS: true,
-            logging: false,
-            backgroundColor: '#ffffff'
+                `;
+            }
         });
 
-        document.body.removeChild(elemento);
+        const orcamentoSalvo = {
+            numOrcamento,
+            data,
+            cliente,
+            descricao,
+            area,
+            precoMetro,
+            notaFiscal,
+            complexidades: qtdsArray,
+            valorTotal: precoFinal
+        };
 
-        const link = document.createElement('a');
-        link.download = `Orcamento_${cliente.replace(/\s+/g, '_')}.png`;
-        link.href = canvas.toDataURL('image/png', 1.0);
-        link.click();
+        salvarNoHistorico(orcamentoSalvo);
 
-    } catch (error) {
-        console.error('Erro ao gerar imagem:', error);
-        if (document.body.contains(elemento)) {
-            document.body.removeChild(elemento);
-        }
-    }
-});
+        // Modal de confirmação para download pós-conclusão
+        const modalDownload = document.createElement('div');
+        modalDownload.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;';
+        modalDownload.innerHTML = `
+            <div style="background: white; padding: 24px; border-radius: 12px; width: 320px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: flex; flex-direction: column; gap: 12px; text-align: center;">
+                <h3 style="font-size: 15px; font-weight: bold; color: #0b192c; margin: 0;">Orçamento Concluído!</h3>
+                <p style="font-size: 13px; color: #64748b; margin: 0;">Deseja efetuar o download da imagem A4 agora?</p>
+                <button id="btnSimDownload" style="background: #d4af37; color: #0f172a; border: none; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;">Sim, Baixar</button>
+                <button id="btnNaoDownload" style="background: #f1f5f9; color: #334155; border: none; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;">Não, ir para Histórico</button>
+            </div>
+        `;
+        document.body.appendChild(modalDownload);
 
+        document.getElementById('btnSimDownload').addEventListener('click', async () => {
+            document.body.removeChild(modalDownload);
+            await gerarImagemA4Especifica(orcamentoSalvo);
+            btnHistorico.click(); // Redireciona para o histórico
+        });
+
+        document.getElementById('btnNaoDownload').addEventListener('click', () => {
+            document.body.removeChild(modalDownload);
+            btnHistorico.click(); // Redireciona para o histórico
+        });
+    });
+}
+
+criarToggleComplexidade();
 inicializarExemplosHistorico();
 renderizarComplexidades();
 calcularOrcamento();
+
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js')
-      .then(() => console.log('Service Worker registado com sucesso!'))
-      .catch(err => console.log('Erro ao registar Service Worker:', err));
-  });
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+            .then(() => console.log('Service Worker registado com sucesso!'))
+            .catch(err => console.log('Erro ao registar Service Worker:', err));
+    });
 }
