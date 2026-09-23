@@ -1,17 +1,16 @@
 <!doctype html>
 <html lang="pt-BR">
   <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GVX Engenharia - Orçamentos</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GVX Engenharia - Orçamentos</title>
     <link rel="manifest" href="./manifest.json">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="GVX Engenharia">
-<link rel="apple-touch-icon" href="./src/logo.png">
-  <link rel="stylesheet" href="/src/style.css">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-</head>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="GVX Engenharia">
+    <link rel="apple-touch-icon" href="./src/logo.png">
+    <link rel="stylesheet" href="/src/style.css">
+  </head>
   <body>
 
     <!-- TELA INICIAL (SPLASH / MENU PRINCIPAL) -->
@@ -96,7 +95,7 @@
           </div>
         </div>
 
-        <!-- SEÇÃO DE COMPLEXIDADE CORRIGIDA -->
+        <!-- SEÇÃO DE COMPLEXIDADE -->
         <div style="margin-bottom: 16px;">
           <button type="button" id="btnAtivarComplexidade" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 10px 12px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 8px; text-align: left; display: flex; justify-content: space-between; align-items: center;">
             <span>⚙️ Ativar Complexidade</span>
@@ -113,7 +112,7 @@
             <span>Valor Total do Projeto</span>
             <h2 id="resPrecoFinal">R$ 0,00</h2>
           </div>
-          <button id="btnGerarPdf" class="btn-action">
+          <button type="button" id="btnConcluirOrcamento" class="btn-action">
             📥 Concluir Orçamento
           </button>
         </div>
