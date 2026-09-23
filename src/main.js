@@ -1,23 +1,51 @@
-// ============================================================
-// GVX ENGENHARIA - SISTEMA DE ORÇAMENTOS
-// ============================================================
-//
-// O CSS é carregado pelo index.html.
-//
-// html2canvas é carregado pelo CDN no index.html.
-// Ele fica disponível através de window.html2canvas.
-//
-// ============================================================
-
+// GVX ENGENHARIA - Sistema de Orçamentos
+// A lógica abaixo usa localStorage para o histórico e html2canvas via CDN.
+// A Imagem A4 é gerada somente a partir do Histórico.
 
 const html2canvas = window.html2canvas;
-
 const CHAVE_HISTORICO = 'gvx_historico_orcamentos';
 
+const itensComplexidades = [
+    { id: 'balanco1', nome: 'BALANÇO (2 à 4m)', taxa: 0.10, qtd: 0 },
+    { id: 'balanco2', nome: 'BALANÇO (>4m)', taxa: 0.20, qtd: 0 },
+
+    { id: 'transicao1', nome: 'VIGA DE TRANSIÇÃO (2 - 4m)', taxa: 0.10, qtd: 0 },
+    { id: 'transicao2', nome: 'VIGA DE TRANSIÇÃO (4 - 6m)', taxa: 0.15, qtd: 0 },
+    { id: 'transicao3', nome: 'VIGA DE TRANSIÇÃO (>6m)', taxa: 0.20, qtd: 0 },
+
+    { id: 'vigaVao1', nome: 'VIGA VÃO (6 - 9m)', taxa: 0.10, qtd: 0 },
+    { id: 'vigaVao2', nome: 'VIGA VÃO (>9m)', taxa: 0.15, qtd: 0 },
+
+    { id: 'escada', nome: 'ESCADA MODERNA', taxa: 0.07, qtd: 0 },
+
+    { id: 'desnivel1', nome: 'TERRENO DESNÍVEL (3 - 6m)', taxa: 0.10, qtd: 0 },
+    { id: 'desnivel2', nome: 'TERRENO DESNÍVEL (>6m)', taxa: 0.15, qtd: 0 },
+
+    { id: 'fundProf', nome: 'FUNDAÇÃO PROFUNDA', taxa: 0.15, qtd: 0 },
+    { id: 'fundExc', nome: 'FUNDAÇÃO EXCENTRICA', taxa: 0.10, qtd: 0 },
+
+    { id: 'piscina', nome: 'PISCINA NA COBERTURA', taxa: 0.20, qtd: 0 },
+
+    { id: 'detalheExtra', nome: 'Detalhe a mais', taxa: 0.10, qtd: 0 }
+];
+
 
 // ============================================================
-// DATA INICIAL
+// ELEMENTOS DA INTERFACE
 // ============================================================
+
+const telaInicio = document.getElementById('telaInicio');
+const appContainer = document.getElementById('appContainer');
+
+const btnIrNovo = document.getElementById('btnIrNovo');
+const btnIrHistorico = document.getElementById('btnIrHistorico');
+const btnVoltarInicio = document.getElementById('btnVoltarInicio');
+
+const btnNovo = document.getElementById('tabNovo');
+const btnHistorico = document.getElementById('tabHistorico');
+
+const secaoNovo = document.getElementById('secaoNovo');
+const secaoHistorico = document.getElementById('secaoHistorico');
 
 const campoData = document.getElementById('dataOrcamento');
 
@@ -27,204 +55,53 @@ if (campoData) {
 
 
 // ============================================================
-// FATORES DE COMPLEXIDADE
+// NAVEGAÇÃO
 // ============================================================
 
-const itensComplexidades = [
-
-    {
-        id: 'balanco1',
-        nome: 'BALANÇO (2 à 4m)',
-        taxa: 0.10,
-        qtd: 0
-    },
-
-    {
-        id: 'balanco2',
-        nome: 'BALANÇO (>4m)',
-        taxa: 0.20,
-        qtd: 0
-    },
-
-    {
-        id: 'transicao1',
-        nome: 'VIGA DE TRANSIÇÃO (2 - 4m)',
-        taxa: 0.10,
-        qtd: 0
-    },
-
-    {
-        id: 'transicao2',
-        nome: 'VIGA DE TRANSIÇÃO (4 - 6m)',
-        taxa: 0.15,
-        qtd: 0
-    },
-
-    {
-        id: 'transicao3',
-        nome: 'VIGA DE TRANSIÇÃO (>6m)',
-        taxa: 0.20,
-        qtd: 0
-    },
-
-    {
-        id: 'vigaVao1',
-        nome: 'VIGA VÃO (6 - 9m)',
-        taxa: 0.10,
-        qtd: 0
-    },
-
-    {
-        id: 'vigaVao2',
-        nome: 'VIGA VÃO (>9m)',
-        taxa: 0.15,
-        qtd: 0
-    },
-
-    {
-        id: 'escada',
-        nome: 'ESCADA MODERNA',
-        taxa: 0.07,
-        qtd: 0
-    },
-
-    {
-        id: 'desnivel1',
-        nome: 'TERRENO DESNÍVEL (3 - 6m)',
-        taxa: 0.10,
-        qtd: 0
-    },
-
-    {
-        id: 'desnivel2',
-        nome: 'TERRENO DESNÍVEL (>6m)',
-        taxa: 0.15,
-        qtd: 0
-    },
-
-    {
-        id: 'fundProf',
-        nome: 'FUNDAÇÃO PROFUNDA',
-        taxa: 0.15,
-        qtd: 0
-    },
-
-    {
-        id: 'fundExc',
-        nome: 'FUNDAÇÃO EXCENTRICA',
-        taxa: 0.10,
-        qtd: 0
-    },
-
-    {
-        id: 'piscina',
-        nome: 'PISCINA NA COBERTURA',
-        taxa: 0.20,
-        qtd: 0
-    },
-
-    {
-        id: 'detalheExtra',
-        nome: 'Detalhe a mais',
-        taxa: 0.10,
-        qtd: 0
-    }
-
-];
-
-
-// ============================================================
-// ELEMENTOS DA INTERFACE
-// ============================================================
-
-const telaInicio = document.getElementById('telaInicio');
-
-const appContainer = document.getElementById('appContainer');
-
-const btnIrNovo = document.getElementById('btnIrNovo');
-
-const btnIrHistorico = document.getElementById('btnIrHistorico');
-
-const btnVoltarInicio = document.getElementById('btnVoltarInicio');
-
-const btnNovo = document.getElementById('tabNovo');
-
-const btnHistorico = document.getElementById('tabHistorico');
-
-const secaoNovo = document.getElementById('secaoNovo');
-
-const secaoHistorico = document.getElementById('secaoHistorico');
-
-
-// ============================================================
-// NAVEGAÇÃO - TELA INICIAL
-// ============================================================
-
-btnIrNovo.addEventListener('click', () => {
-
+btnIrNovo?.addEventListener('click', () => {
     telaInicio.classList.add('hidden');
-
     appContainer.classList.remove('hidden');
 
-    btnNovo.click();
-
+    btnNovo?.click();
 });
 
 
-btnIrHistorico.addEventListener('click', () => {
-
+btnIrHistorico?.addEventListener('click', () => {
     telaInicio.classList.add('hidden');
-
     appContainer.classList.remove('hidden');
 
-    btnHistorico.click();
-
+    btnHistorico?.click();
 });
 
 
-btnVoltarInicio.addEventListener('click', () => {
-
+btnVoltarInicio?.addEventListener('click', () => {
     appContainer.classList.add('hidden');
-
     telaInicio.classList.remove('hidden');
-
 });
 
 
-// ============================================================
-// NAVEGAÇÃO - ABAS
-// ============================================================
-
-btnNovo.addEventListener('click', () => {
-
+btnNovo?.addEventListener('click', () => {
     btnNovo.classList.add('active');
-
     btnHistorico.classList.remove('active');
 
     secaoNovo.classList.remove('hidden');
-
     secaoHistorico.classList.add('hidden');
-
 });
 
 
-btnHistorico.addEventListener('click', () => {
-
+btnHistorico?.addEventListener('click', () => {
     btnHistorico.classList.add('active');
-
     btnNovo.classList.remove('active');
 
     secaoHistorico.classList.remove('hidden');
-
     secaoNovo.classList.add('hidden');
 
     renderizarHistorico();
-
 });
 
 
 // ============================================================
-// RENDERIZAR FATORES DE COMPLEXIDADE
+// FATORES DE COMPLEXIDADE
 // ============================================================
 
 function renderizarComplexidades() {
@@ -232,11 +109,11 @@ function renderizarComplexidades() {
     const container = document.getElementById('listaComplexidades');
 
     if (!container) {
+        console.warn('Elemento #listaComplexidades não encontrado.');
         return;
     }
 
     container.innerHTML = '';
-
 
     itensComplexidades.forEach((item, index) => {
 
@@ -244,22 +121,18 @@ function renderizarComplexidades() {
 
         div.className = 'complex-item';
 
-
         div.innerHTML = `
-
-            <div>
-
-                <p>
-                    ${item.nome}
-                </p>
+            <div class="complex-info">
 
                 <p>
-                    Acréscimo:
-                    ${(item.taxa * 100).toFixed(0)}%
+                    ${escaparHtml(item.nome)}
                 </p>
+
+                <span>
+                    Acréscimo: ${(item.taxa * 100).toFixed(0)}%
+                </span>
 
             </div>
-
 
             <div class="counter-box">
 
@@ -268,80 +141,56 @@ function renderizarComplexidades() {
                     data-index="${index}"
                     data-delta="-1"
                     class="btn-cnt btn-qtd"
+                    aria-label="Diminuir quantidade"
                 >
-                    -
+                    −
                 </button>
-
 
                 <span
                     id="qtd_${index}"
-                    style="
-                        width: 24px;
-                        text-align: center;
-                        font-size: 12px;
-                        font-weight: bold;
-                    "
+                    class="qtd-value"
                 >
                     ${item.qtd}
                 </span>
-
 
                 <button
                     type="button"
                     data-index="${index}"
                     data-delta="1"
-                    class="btn-cnt btn-qtd"
-                    style="
-                        color: #0b192c;
-                        background: #e0f2fe;
-                    "
+                    class="btn-cnt btn-qtd btn-plus"
+                    aria-label="Aumentar quantidade"
                 >
                     +
                 </button>
 
             </div>
-
         `;
 
-
         container.appendChild(div);
-
     });
 
 
-    document
+    container
         .querySelectorAll('.btn-qtd')
         .forEach(button => {
 
-            button.addEventListener('click', event => {
+            button.addEventListener('click', () => {
 
-                const index = parseInt(
-                    event.currentTarget.getAttribute('data-index')
-                );
-
-                const delta = parseInt(
-                    event.currentTarget.getAttribute('data-delta')
-                );
+                const index = Number(button.dataset.index);
+                const delta = Number(button.dataset.delta);
 
                 alterarQtd(index, delta);
-
             });
 
         });
-
 }
 
-
-// ============================================================
-// ALTERAR QUANTIDADE
-// ============================================================
 
 function alterarQtd(index, delta) {
 
     if (!itensComplexidades[index]) {
         return;
     }
-
 
     itensComplexidades[index].qtd += delta;
 
@@ -351,63 +200,58 @@ function alterarQtd(index, delta) {
     }
 
 
-    const spanQtd = document.getElementById(
-        `qtd_${index}`
-    );
-
+    const spanQtd = document.getElementById(`qtd_${index}`);
 
     if (spanQtd) {
-
-        spanQtd.innerText =
-            itensComplexidades[index].qtd;
-
+        spanQtd.textContent = itensComplexidades[index].qtd;
     }
 
 
     calcularOrcamento();
-
 }
 
 
 // ============================================================
-// MOEDA
+// CÁLCULO DO ORÇAMENTO
 // ============================================================
 
 function formatarMoeda(valor) {
 
-    return valor.toLocaleString(
+    return Number(valor || 0).toLocaleString(
         'pt-BR',
         {
             style: 'currency',
             currency: 'BRL'
         }
     );
-
 }
 
-
-// ============================================================
-// CALCULAR ORÇAMENTO
-// ============================================================
 
 function calcularOrcamento() {
 
     const area =
         parseFloat(
-            document.getElementById('areaConstruida').value
+            document.getElementById('areaConstruida')?.value
         ) || 0;
 
 
     const precoM2 =
         parseFloat(
-            document.getElementById('precoMetro').value
+            document.getElementById('precoMetro')?.value
         ) || 0;
 
 
-    const totalBase =
-        area * precoM2;
+    const percNota =
+        parseFloat(
+            document.getElementById('notaFiscal')?.value
+        ) || 0;
 
 
+    // Valor base
+    const totalBase = area * precoM2;
+
+
+    // Acréscimos dos fatores
     let totalAcrescimoReais = 0;
 
 
@@ -419,57 +263,49 @@ function calcularOrcamento() {
                 totalBase *
                 item.taxa *
                 item.qtd;
-
         }
 
     });
 
 
+    // Total após complexidades
     const totalComAcrescimo =
         totalBase +
         totalAcrescimoReais;
 
 
-    const percNota =
-        parseFloat(
-            document.getElementById('notaFiscal').value
-        ) || 0;
-
-
+    // Nota fiscal
     const valorNota =
         totalComAcrescimo *
         (percNota / 100);
 
 
+    // Preço final
     const precoFinal =
         totalComAcrescimo +
         valorNota;
 
 
-    const elPrecoFinal =
+    const resultado =
         document.getElementById('resPrecoFinal');
 
 
-    if (elPrecoFinal) {
+    if (resultado) {
 
-        elPrecoFinal.innerText =
+        resultado.textContent =
             formatarMoeda(precoFinal);
-
     }
 
 
     return precoFinal;
-
 }
 
 
-// ============================================================
-// RECALCULAR QUANDO CAMPOS FOREM ALTERADOS
-// ============================================================
+// Atualização automática do cálculo
 
 document
     .getElementById('areaConstruida')
-    .addEventListener(
+    ?.addEventListener(
         'input',
         calcularOrcamento
     );
@@ -477,7 +313,7 @@ document
 
 document
     .getElementById('precoMetro')
-    .addEventListener(
+    ?.addEventListener(
         'input',
         calcularOrcamento
     );
@@ -485,14 +321,14 @@ document
 
 document
     .getElementById('notaFiscal')
-    .addEventListener(
+    ?.addEventListener(
         'input',
         calcularOrcamento
     );
 
 
 // ============================================================
-// LER HISTÓRICO
+// HISTÓRICO
 // ============================================================
 
 function lerHistorico() {
@@ -513,11 +349,9 @@ function lerHistorico() {
         const historico =
             JSON.parse(dados);
 
-
         return Array.isArray(historico)
             ? historico
             : [];
-
 
     } catch (error) {
 
@@ -526,30 +360,31 @@ function lerHistorico() {
             error
         );
 
-
         localStorage.removeItem(
             CHAVE_HISTORICO
         );
 
-
         return [];
-
     }
+}
 
+
+function salvarHistorico(historico) {
+
+    localStorage.setItem(
+        CHAVE_HISTORICO,
+        JSON.stringify(historico)
+    );
 }
 
 
 // ============================================================
-// HISTÓRICO DE EXEMPLO
+// EXEMPLOS INICIAIS
 // ============================================================
 
 function inicializarExemplosHistorico() {
 
-    const historicoAtual =
-        lerHistorico();
-
-
-    if (historicoAtual.length > 0) {
+    if (lerHistorico().length > 0) {
         return;
     }
 
@@ -564,6 +399,7 @@ function inicializarExemplosHistorico() {
             area: 180,
             precoMetro: 25,
             notaFiscal: 0,
+
             complexidades: [
                 1,
                 0,
@@ -580,6 +416,7 @@ function inicializarExemplosHistorico() {
                 0,
                 0
             ],
+
             valorTotal: 'R$ 5.062,50'
         },
 
@@ -592,6 +429,7 @@ function inicializarExemplosHistorico() {
             area: 320,
             precoMetro: 30,
             notaFiscal: 5,
+
             complexidades: [
                 0,
                 1,
@@ -608,17 +446,14 @@ function inicializarExemplosHistorico() {
                 0,
                 0
             ],
+
             valorTotal: 'R$ 13.345,20'
         }
 
     ];
 
 
-    localStorage.setItem(
-        CHAVE_HISTORICO,
-        JSON.stringify(exemplos)
-    );
-
+    salvarHistorico(exemplos);
 }
 
 
@@ -650,15 +485,10 @@ function salvarNoHistorico(orcamentoObj) {
         historico.unshift(
             orcamentoObj
         );
-
     }
 
 
-    localStorage.setItem(
-        CHAVE_HISTORICO,
-        JSON.stringify(historico)
-    );
-
+    salvarHistorico(historico);
 }
 
 
@@ -689,127 +519,118 @@ function renderizarHistorico() {
     if (historico.length === 0) {
 
         container.innerHTML = `
-
-            <div
-                style="
-                    padding: 20px;
-                    text-align: center;
-                    color: #64748b;
-                    font-size: 12px;
-                "
-            >
+            <div class="history-empty">
                 Nenhum orçamento salvo.
             </div>
-
         `;
 
         return;
-
     }
 
 
-    historico.forEach((item, index) => {
+    historico.forEach(
+        (item, index) => {
 
-        const div =
-            document.createElement('div');
-
-
-        div.className =
-            'history-card';
-
-
-        div.innerHTML = `
-
-            <div>
-
-                <b>
-                    Nº ${escaparHtml(item.numOrcamento)}
-                    -
-                    ${escaparHtml(item.cliente)}
-                </b>
+            const div =
+                document.createElement(
+                    'div'
+                );
 
 
-                <p>
-                    ${escaparHtml(
-                        item.descricao || 'Sem descrição'
-                    )}
-
-                    •
-                    ${
-                        item.data
-                            ? item.data
-                                .split('-')
-                                .reverse()
-                                .join('/')
-                            : ''
-                    }
-                </p>
+            div.className =
+                'history-card';
 
 
-                <b
-                    style="
-                        color: #0b192c;
-                        display: block;
-                        margin-top: 4px;
-                    "
+            div.innerHTML = `
+
+                <div class="history-info">
+
+                    <b>
+                        Nº ${escaparHtml(item.numOrcamento)}
+                        -
+                        ${escaparHtml(item.cliente)}
+                    </b>
+
+                    <p>
+                        ${escaparHtml(
+                            item.descricao ||
+                            'Sem descrição'
+                        )}
+
+                        •
+
+                        ${
+                            item.data
+                                ? item.data
+                                    .split('-')
+                                    .reverse()
+                                    .join('/')
+                                : ''
+                        }
+                    </p>
+
+                    <strong>
+                        ${escaparHtml(
+                            item.valorTotal ||
+                            'R$ 0,00'
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    data-index="${index}"
+                    class="btn-load btn-abrir"
                 >
-                    ${escaparHtml(item.valorTotal)}
-                </b>
+                    Abrir
+                </button>
 
-            </div>
-
-
-            <button
-                type="button"
-                data-index="${index}"
-                class="btn-load btn-abrir"
-            >
-                Abrir
-            </button>
-
-        `;
+            `;
 
 
-        container.appendChild(div);
+            container.appendChild(div);
+        }
+    );
 
-    });
 
-
-    document
+    container
         .querySelectorAll('.btn-abrir')
         .forEach(button => {
 
             button.addEventListener(
                 'click',
-                event => {
+                () => {
 
                     const index =
-                        parseInt(
-                            event.currentTarget
-                                .getAttribute('data-index')
+                        Number(
+                            button.dataset.index
                         );
 
 
+                    const historicoAtual =
+                        lerHistorico();
+
+
                     const item =
-                        historico[index];
+                        historicoAtual[index];
 
 
                     if (item) {
 
                         abrirMenuOpcoes(item);
-
                     }
 
                 }
             );
 
         });
-
 }
 
 
 // ============================================================
-// MENU DE OPÇÕES DO ORÇAMENTO
+// MENU DE AÇÕES DO HISTÓRICO
 // ============================================================
 
 function abrirMenuOpcoes(item) {
@@ -818,131 +639,61 @@ function abrirMenuOpcoes(item) {
         document.createElement('div');
 
 
-    modal.style.position = 'fixed';
-    modal.style.top = '0';
-    modal.style.left = '0';
-    modal.style.width = '100%';
-    modal.style.height = '100%';
-    modal.style.background = 'rgba(0, 0, 0, 0.5)';
-    modal.style.display = 'flex';
-    modal.style.alignItems = 'center';
-    modal.style.justifyContent = 'center';
-    modal.style.zIndex = '1000';
+    modal.className =
+        'modal-overlay';
 
 
     modal.innerHTML = `
 
         <div
-            style="
-                background: white;
-                padding: 24px;
-                border-radius: 12px;
-                width: 320px;
-                max-width: calc(100vw - 32px);
-                box-shadow:
-                    0 10px 25px rgba(0,0,0,0.2);
-                display: flex;
-                flex-direction: column;
-                gap: 12px;
-            "
+            class="modal-card"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modalTitulo"
         >
 
-            <h3
-                style="
-                    font-size: 14px;
-                    font-weight: bold;
-                    color: #0b192c;
-                    margin-bottom: 4px;
-                "
-            >
+            <h3 id="modalTitulo">
                 Orçamento Nº
                 ${escaparHtml(item.numOrcamento)}
             </h3>
 
 
-            <p
-                style="
-                    font-size: 12px;
-                    color: #64748b;
-                    margin-bottom: 12px;
-                "
-            >
+            <p>
                 Escolha a ação desejada para este orçamento:
             </p>
 
 
-            <!-- 1. ATUALIZAR -->
             <button
-                id="btnAtualizar"
                 type="button"
-                style="
-                    background: #0b192c;
-                    color: white;
-                    border: none;
-                    padding: 10px;
-                    border-radius: 8px;
-                    font-size: 12px;
-                    font-weight: bold;
-                    cursor: pointer;
-                "
+                id="btnAtualizar"
+                class="modal-btn modal-primary"
             >
                 Atualizar Orçamento
             </button>
 
 
-            <!-- 2. BAIXAR -->
             <button
-                id="btnBaixarOrcamento"
                 type="button"
-                style="
-                    background: #d4af37;
-                    color: #0f172a;
-                    border: none;
-                    padding: 10px;
-                    border-radius: 8px;
-                    font-size: 12px;
-                    font-weight: bold;
-                    cursor: pointer;
-                "
+                id="btnBaixar"
+                class="modal-btn modal-gold"
             >
                 Baixar Orçamento
             </button>
 
 
-            <!-- 3. EXCLUIR -->
             <button
-                id="btnExcluir"
                 type="button"
-                style="
-                    background: #fff1f2;
-                    color: #b91c1c;
-                    border: 1px solid #fecdd3;
-                    padding: 10px;
-                    border-radius: 8px;
-                    font-size: 12px;
-                    font-weight: bold;
-                    cursor: pointer;
-                "
+                id="btnExcluir"
+                class="modal-btn modal-danger"
             >
                 Excluir Orçamento
             </button>
 
 
-            <!-- 4. CANCELAR -->
             <button
-                id="btnCancelar"
                 type="button"
-                style="
-                    background: #f1f5f9;
-                    color: #334155;
-                    border: none;
-                    padding: 8px;
-                    border-radius: 8px;
-                    font-size: 12px;
-                    font-weight: bold;
-                    cursor: pointer;
-                    margin-top: 4px;
-                "
+                id="btnCancelar"
+                class="modal-btn modal-cancel"
             >
                 Cancelar
             </button>
@@ -955,89 +706,71 @@ function abrirMenuOpcoes(item) {
     document.body.appendChild(modal);
 
 
-    // ========================================================
-    // ATUALIZAR
-    // ========================================================
+    // Atualizar
+    modal
+        .querySelector('#btnAtualizar')
+        .addEventListener(
+            'click',
+            () => {
 
-    document
-        .getElementById('btnAtualizar')
-        .addEventListener('click', () => {
+                carregarOrcamento(item);
 
-            carregarOrcamento(item);
+                modal.remove();
+            }
+        );
 
-            if (document.body.contains(modal)) {
-                document.body.removeChild(modal);
+
+    // Baixar Imagem A4
+    modal
+        .querySelector('#btnBaixar')
+        .addEventListener(
+            'click',
+            async () => {
+
+                modal.remove();
+
+                await gerarImagemA4Especifica(item);
+            }
+        );
+
+
+    // Excluir
+    modal
+        .querySelector('#btnExcluir')
+        .addEventListener(
+            'click',
+            () => {
+
+                excluirOrcamento(item);
+
+                modal.remove();
+            }
+        );
+
+
+    // Cancelar
+    modal
+        .querySelector('#btnCancelar')
+        .addEventListener(
+            'click',
+            () => {
+
+                modal.remove();
+            }
+        );
+
+
+    // Clicar fora do modal
+    modal.addEventListener(
+        'click',
+        event => {
+
+            if (event.target === modal) {
+                modal.remove();
             }
 
-        });
-
-
-    // ========================================================
-    // BAIXAR ORÇAMENTO
-    // ========================================================
-
-    document
-        .getElementById('btnBaixarOrcamento')
-        .addEventListener('click', () => {
-
-            if (document.body.contains(modal)) {
-                document.body.removeChild(modal);
-            }
-
-            gerarImagemA4Especifica(item);
-
-        });
-
-
-    // ========================================================
-    // EXCLUIR ORÇAMENTO
-    // ========================================================
-
-    document
-        .getElementById('btnExcluir')
-        .addEventListener('click', () => {
-
-            const confirmar =
-                window.confirm(
-
-                    `Tem certeza que deseja excluir o orçamento Nº ${item.numOrcamento}?\n\n` +
-                    `Esta ação não poderá ser desfeita.`
-
-                );
-
-
-            if (!confirmar) {
-                return;
-            }
-
-
-            excluirOrcamento(item);
-
-
-            if (document.body.contains(modal)) {
-                document.body.removeChild(modal);
-            }
-
-
-            renderizarHistorico();
-
-        });
-
-
-    // ========================================================
-    // CANCELAR
-    // ========================================================
-
-    document
-        .getElementById('btnCancelar')
-        .addEventListener('click', () => {
-
-            if (document.body.contains(modal)) {
-                document.body.removeChild(modal);
-            }
-
-        });
-
+        }
+    );
 }
 
 
@@ -1047,23 +780,29 @@ function abrirMenuOpcoes(item) {
 
 function excluirOrcamento(item) {
 
+    const confirmou =
+        window.confirm(
+            `Excluir o orçamento Nº ${item.numOrcamento}?\n\nEsta ação não poderá ser desfeita.`
+        );
+
+
+    if (!confirmou) {
+        return;
+    }
+
+
     const historico =
-        lerHistorico();
-
-
-    const novoHistorico =
-        historico.filter(
-            orcamento =>
-                orcamento.numOrcamento !==
+        lerHistorico().filter(
+            registro =>
+                registro.numOrcamento !==
                 item.numOrcamento
         );
 
 
-    localStorage.setItem(
-        CHAVE_HISTORICO,
-        JSON.stringify(novoHistorico)
-    );
+    salvarHistorico(historico);
 
+
+    renderizarHistorico();
 }
 
 
@@ -1073,138 +812,318 @@ function excluirOrcamento(item) {
 
 function carregarOrcamento(item) {
 
-    document.getElementById(
-        'numOrcamento'
-    ).value =
-        item.numOrcamento || '';
+    const numOrcamento =
+        document.getElementById(
+            'numOrcamento'
+        );
 
 
-    document.getElementById(
-        'dataOrcamento'
-    ).value =
-        item.data || '';
+    const dataOrcamento =
+        document.getElementById(
+            'dataOrcamento'
+        );
 
 
-    document.getElementById(
-        'cliente'
-    ).value =
-        item.cliente || '';
+    const cliente =
+        document.getElementById(
+            'cliente'
+        );
 
 
-    document.getElementById(
-        'descricaoObra'
-    ).value =
-        item.descricao || '';
+    const descricaoObra =
+        document.getElementById(
+            'descricaoObra'
+        );
 
 
-    document.getElementById(
-        'areaConstruida'
-    ).value =
-        item.area || 0;
+    const areaConstruida =
+        document.getElementById(
+            'areaConstruida'
+        );
 
 
-    document.getElementById(
-        'precoMetro'
-    ).value =
-        item.precoMetro || 0;
+    const precoMetro =
+        document.getElementById(
+            'precoMetro'
+        );
 
 
-    document.getElementById(
-        'notaFiscal'
-    ).value =
-        item.notaFiscal || 0;
+    const notaFiscal =
+        document.getElementById(
+            'notaFiscal'
+        );
+
+
+    if (numOrcamento) {
+        numOrcamento.value =
+            item.numOrcamento || '';
+    }
+
+
+    if (dataOrcamento) {
+        dataOrcamento.value =
+            item.data || '';
+    }
+
+
+    if (cliente) {
+        cliente.value =
+            item.cliente || '';
+    }
+
+
+    if (descricaoObra) {
+        descricaoObra.value =
+            item.descricao || '';
+    }
+
+
+    if (areaConstruida) {
+        areaConstruida.value =
+            item.area ?? '';
+    }
+
+
+    if (precoMetro) {
+        precoMetro.value =
+            item.precoMetro ?? '';
+    }
+
+
+    if (notaFiscal) {
+        notaFiscal.value =
+            item.notaFiscal ?? 0;
+    }
 
 
     itensComplexidades.forEach(
         (comp, index) => {
 
             comp.qtd =
-                (
-                    item.complexidades &&
-                    item.complexidades[index]
-                )
-                    ? item.complexidades[index]
-                    : 0;
-
+                Number(
+                    item.complexidades?.[index] ||
+                    0
+                );
         }
     );
 
 
     renderizarComplexidades();
-
     calcularOrcamento();
 
 
-    btnNovo.click();
-
+    btnNovo?.click();
 }
 
 
 // ============================================================
-// ESCAPAR HTML
+// OBTER ORÇAMENTO ATUAL
+// ============================================================
+
+function obterOrcamentoAtual() {
+
+    return {
+
+        numOrcamento:
+            document
+                .getElementById('numOrcamento')
+                ?.value
+                .trim() || '',
+
+
+        data:
+            document
+                .getElementById('dataOrcamento')
+                ?.value || '',
+
+
+        cliente:
+            document
+                .getElementById('cliente')
+                ?.value
+                .trim() ||
+            'Cliente não informado',
+
+
+        descricao:
+            document
+                .getElementById('descricaoObra')
+                ?.value
+                .trim() || '',
+
+
+        area:
+            document
+                .getElementById('areaConstruida')
+                ?.value || '',
+
+
+        precoMetro:
+            document
+                .getElementById('precoMetro')
+                ?.value || '',
+
+
+        notaFiscal:
+            document
+                .getElementById('notaFiscal')
+                ?.value || '',
+
+
+        complexidades:
+            itensComplexidades.map(
+                item => item.qtd
+            ),
+
+
+        valorTotal:
+            document
+                .getElementById('resPrecoFinal')
+                ?.textContent ||
+            'R$ 0,00'
+    };
+}
+
+
+// ============================================================
+// SALVAR ORÇAMENTO
+// ============================================================
+
+function salvarOrcamentoAtual() {
+
+    const orcamento =
+        obterOrcamentoAtual();
+
+
+    if (!orcamento.numOrcamento) {
+
+        alert(
+            'Informe o número do orçamento antes de salvar.'
+        );
+
+        return;
+    }
+
+
+    salvarNoHistorico(
+        orcamento
+    );
+
+
+    renderizarHistorico();
+
+
+    // Depois de salvar,
+    // abre automaticamente o Histórico.
+    btnHistorico?.click();
+}
+
+
+document
+    .getElementById('btnSalvarOrcamento')
+    ?.addEventListener(
+        'click',
+        salvarOrcamentoAtual
+    );
+
+
+// ============================================================
+// FUNÇÕES AUXILIARES
 // ============================================================
 
 function escaparHtml(valor) {
 
     return String(valor ?? '')
-
         .replace(
             /&/g,
             '&amp;'
         )
-
         .replace(
             /</g,
             '&lt;'
         )
-
         .replace(
             />/g,
             '&gt;'
         )
-
         .replace(
             /"/g,
             '&quot;'
         )
-
         .replace(
             /'/g,
             '&#039;'
         );
-
 }
 
-
-// ============================================================
-// NOME DO ARQUIVO
-// ============================================================
 
 function formatarNomeArquivo(valor) {
 
     return String(
         valor || 'Cliente'
     )
-
         .normalize('NFD')
-
         .replace(
             /[\u0300-\u036f]/g,
             ''
         )
-
         .replace(
             /[^a-zA-Z0-9]+/g,
             '_'
         )
-
         .replace(
             /^_+|_+$/g,
             ''
-        )
+        ) || 'Cliente';
+}
 
-        || 'Cliente';
 
+// ============================================================
+// ESPERAR IMAGENS
+// ============================================================
+
+async function esperarImagens(elemento) {
+
+    const imagens =
+        Array.from(
+            elemento.querySelectorAll('img')
+        );
+
+
+    await Promise.all(
+
+        imagens.map(img => {
+
+            if (
+                img.complete &&
+                img.naturalWidth > 0
+            ) {
+
+                return Promise.resolve();
+            }
+
+
+            return new Promise(
+                resolve => {
+
+                    img.addEventListener(
+                        'load',
+                        resolve,
+                        { once: true }
+                    );
+
+
+                    img.addEventListener(
+                        'error',
+                        resolve,
+                        { once: true }
+                    );
+
+                }
+            );
+        })
+
+    );
 }
 
 
@@ -1214,26 +1133,18 @@ function formatarNomeArquivo(valor) {
 
 async function gerarImagemA4Especifica(item) {
 
-    if (typeof html2canvas !== 'function') {
-
-        console.error(
-            'html2canvas não foi carregado.'
-        );
-
+    if (
+        typeof html2canvas !==
+        'function'
+    ) {
 
         alert(
-            'Não foi possível gerar o orçamento. Recarregue a página e tente novamente.'
+            'A ferramenta de geração da Imagem A4 não foi carregada. Recarregue a página.'
         );
 
-
         return;
-
     }
 
-
-    // ========================================================
-    // MONTAR FATORES
-    // ========================================================
 
     let itensHtml = '';
 
@@ -1242,12 +1153,10 @@ async function gerarImagemA4Especifica(item) {
         (comp, index) => {
 
             const qtd =
-                (
-                    item.complexidades &&
-                    item.complexidades[index]
-                )
-                    ? item.complexidades[index]
-                    : 0;
+                Number(
+                    item.complexidades?.[index] ||
+                    0
+                );
 
 
             if (qtd > 0) {
@@ -1259,8 +1168,7 @@ async function gerarImagemA4Especifica(item) {
                         <td
                             style="
                                 padding: 12px 16px;
-                                border-bottom:
-                                    1px solid #e2e8f0;
+                                border-bottom: 1px solid #e2e8f0;
                                 color: #334155;
                                 font-weight: 500;
                                 font-size: 14px;
@@ -1273,11 +1181,10 @@ async function gerarImagemA4Especifica(item) {
                         <td
                             style="
                                 padding: 12px 16px;
-                                border-bottom:
-                                    1px solid #e2e8f0;
+                                border-bottom: 1px solid #e2e8f0;
                                 text-align: center;
                                 color: #334155;
-                                font-weight: 700;
+                                font-weight: 600;
                                 font-size: 14px;
                             "
                         >
@@ -1288,11 +1195,10 @@ async function gerarImagemA4Especifica(item) {
                         <td
                             style="
                                 padding: 12px 16px;
-                                border-bottom:
-                                    1px solid #e2e8f0;
+                                border-bottom: 1px solid #e2e8f0;
                                 text-align: right;
                                 color: #0b192c;
-                                font-weight: 700;
+                                font-weight: bold;
                                 font-size: 14px;
                             "
                         >
@@ -1302,16 +1208,11 @@ async function gerarImagemA4Especifica(item) {
                     </tr>
 
                 `;
-
             }
 
         }
     );
 
-
-    // ========================================================
-    // ELEMENTO A4
-    // ========================================================
 
     const elemento =
         document.createElement('div');
@@ -1320,105 +1221,72 @@ async function gerarImagemA4Especifica(item) {
     Object.assign(
         elemento.style,
         {
-
             width: '794px',
-
             height: '1123px',
 
-            position: 'fixed',
+            position: 'absolute',
 
-            left: '-10000px',
-
+            left: '-99999px',
             top: '0',
-
-            zIndex: '-1',
-
-            background: '#ffffff',
-
-            color: '#0b192c',
 
             fontFamily:
                 'Inter, Arial, sans-serif',
 
             boxSizing: 'border-box',
 
-            overflow: 'hidden'
+            backgroundColor:
+                '#ffffff',
 
+            padding:
+                '55px 70px 35px',
+
+            display: 'flex',
+
+            flexDirection:
+                'column',
+
+            justifyContent:
+                'space-between'
         }
     );
 
 
-    // ========================================================
-    // CONTEÚDO A4
-    // ========================================================
-
     elemento.innerHTML = `
 
-        <div
-            style="
-                position: relative;
-                width: 100%;
-                height: 100%;
-                background: #ffffff;
-                box-sizing: border-box;
-            "
-        >
-
-
-            <!-- ==========================================
-                 LOGO CABEÇALHO
-            =========================================== -->
+        <div>
 
             <div
                 style="
-                    position: absolute;
-                    top: 48px;
-                    left: 70px;
-                    width: 654px;
-                    height: 116px;
+                    height: 135px;
                     display: flex;
                     align-items: flex-start;
+                    margin-bottom: 25px;
                 "
             >
 
                 <img
                     src="./logo-cabecalho.png"
-                    alt="Gabriel Vasconcelos - Projetos Estruturais"
-                    crossorigin="anonymous"
+                    alt="GVX Engenharia - Projetos Estruturais"
                     style="
-                        display: block;
-                        width: 330px;
-                        height: 117px;
+                        width: 360px;
+                        height: 135px;
                         object-fit: contain;
                         object-position: left top;
+                        display: block;
                     "
                 >
 
             </div>
 
 
-            <!-- ==========================================
-                 TÍTULO
-            =========================================== -->
-
             <div
                 style="
-                    position: absolute;
-                    top: 165px;
-                    left: 70px;
-                    width: 654px;
-                    height: 74px;
-
-                    border-bottom:
-                        2px solid #0b192c;
-
-                    box-sizing: border-box;
-
                     display: flex;
-                    align-items: flex-end;
                     justify-content: space-between;
-
-                    padding-bottom: 9px;
+                    align-items: flex-end;
+                    border-bottom: 2px solid #0b192c;
+                    padding-bottom: 7px;
+                    margin-bottom: 20px;
                 "
             >
 
@@ -1427,101 +1295,69 @@ async function gerarImagemA4Especifica(item) {
                         margin: 0;
                         color: #0b192c;
                         font-size: 16px;
-                        line-height: 20px;
                         font-weight: 800;
                         text-transform: uppercase;
-                        white-space: nowrap;
                     "
                 >
-                    ORÇAMENTO DE PROJETO ESTRUTURAL
+                    Orçamento de Projeto Estrutural
                 </h2>
 
 
                 <div
                     style="
                         text-align: right;
-                        color: #475569;
                         font-size: 13px;
-                        line-height: 20px;
+                        color: #475569;
+                        line-height: 1.35;
                         white-space: nowrap;
                     "
                 >
 
-                    <div>
+                    <strong>
+                        Orçamento Nº:
+                    </strong>
 
-                        <strong
-                            style="
-                                color: #334155;
-                            "
-                        >
-                            Orçamento Nº:
-                        </strong>
+                    ${escaparHtml(
+                        item.numOrcamento
+                    )}
 
-                        ${escaparHtml(
-                            item.numOrcamento || ''
-                        )}
+                    <br>
 
-                    </div>
+                    <strong>
+                        Data:
+                    </strong>
 
-
-                    <div>
-
-                        <strong
-                            style="
-                                color: #334155;
-                            "
-                        >
-                            Data:
-                        </strong>
-
-                        ${
-                            item.data
-                                ? item.data
-                                    .split('-')
-                                    .reverse()
-                                    .join('/')
-                                : ''
-                        }
-
-                    </div>
+                    ${
+                        item.data
+                            ? item.data
+                                .split('-')
+                                .reverse()
+                                .join('/')
+                            : ''
+                    }
 
                 </div>
 
             </div>
 
 
-            <!-- ==========================================
-                 DADOS DO CLIENTE
-            =========================================== -->
-
             <div
                 style="
-                    position: absolute;
-                    top: 263px;
-                    left: 70px;
-                    width: 654px;
-                    min-height: 78px;
-
                     background: #f8fafc;
-
-                    border:
-                        1px solid #e2e8f0;
-
+                    border: 1px solid #e2e8f0;
                     border-radius: 10px;
-
-                    padding: 15px 18px;
-
-                    box-sizing: border-box;
-
-                    color: #475569;
-
+                    padding: 14px 18px;
+                    margin-bottom: 20px;
                     font-size: 14px;
-
-                    line-height: 25px;
+                    color: #475569;
                 "
             >
 
-                <div>
+                <p
+                    style="
+                        margin: 0 0 7px 0;
+                    "
+                >
 
                     <strong
                         style="
@@ -1536,10 +1372,14 @@ async function gerarImagemA4Especifica(item) {
                         'Cliente não informado'
                     )}
 
-                </div>
+                </p>
 
 
-                <div>
+                <p
+                    style="
+                        margin: 0;
+                    "
+                >
 
                     <strong
                         style="
@@ -1554,311 +1394,178 @@ async function gerarImagemA4Especifica(item) {
                         'Sem descrição'
                     )}
 
-                </div>
+                </p>
 
             </div>
 
 
-            <!-- ==========================================
-                 TABELA DE COMPLEXIDADE
-            =========================================== -->
-
-            <div
+            <table
                 style="
-                    position: absolute;
-                    top: 363px;
-                    left: 70px;
-                    width: 654px;
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-bottom: 20px;
                 "
             >
 
-                <table
-                    style="
-                        width: 100%;
-                        border-collapse: collapse;
-                        table-layout: fixed;
-                    "
-                >
+                <thead>
 
-                    <thead>
+                    <tr
+                        style="
+                            background: #0b192c;
+                            color: white;
+                        "
+                    >
 
-                        <tr
+                        <th
                             style="
-                                background: #0b192c;
-                                color: #ffffff;
+                                padding: 12px 16px;
+                                text-align: left;
+                                font-size: 14px;
                             "
                         >
-
-                            <th
-                                style="
-                                    width: 66%;
-                                    padding: 12px 16px;
-                                    text-align: left;
-                                    font-size: 14px;
-                                    font-weight: 800;
-                                "
-                            >
-                                Fator de Complexidade
-                            </th>
+                            Fator de Complexidade
+                        </th>
 
 
-                            <th
-                                style="
-                                    width: 12%;
-                                    padding: 12px 8px;
-                                    text-align: center;
-                                    font-size: 14px;
-                                    font-weight: 800;
-                                "
-                            >
-                                Qtd
-                            </th>
+                        <th
+                            style="
+                                padding: 12px 16px;
+                                text-align: center;
+                                font-size: 14px;
+                            "
+                        >
+                            Qtd
+                        </th>
 
 
-                            <th
-                                style="
-                                    width: 22%;
-                                    padding: 12px 16px;
-                                    text-align: right;
-                                    font-size: 14px;
-                                    font-weight: 800;
-                                "
-                            >
-                                Acréscimo
-                            </th>
+                        <th
+                            style="
+                                padding: 12px 16px;
+                                text-align: right;
+                                font-size: 14px;
+                            "
+                        >
+                            Acréscimo
+                        </th>
 
-                        </tr>
+                    </tr>
 
-                    </thead>
+                </thead>
 
 
-                    <tbody>
+                <tbody>
 
-                        ${
-                            itensHtml ||
-                            `
-                                <tr>
+                    ${
+                        itensHtml ||
+                        `
+                            <tr>
 
-                                    <td
-                                        colspan="3"
-                                        style="
-                                            padding: 30px 12px;
-                                            text-align: center;
-                                            color: #64748b;
-                                            font-size: 14px;
-                                            border-bottom:
-                                                1px solid #e2e8f0;
-                                        "
-                                    >
-                                        Nenhum fator de complexidade adicional selecionado.
-                                    </td>
+                                <td
+                                    colspan="3"
+                                    style="
+                                        padding: 20px;
+                                        text-align: center;
+                                        color: #64748b;
+                                        font-size: 14px;
+                                    "
+                                >
+                                    Nenhum fator de complexidade adicional selecionado.
+                                </td>
 
-                                </tr>
-                            `
-                        }
+                            </tr>
+                        `
+                    }
 
-                    </tbody>
+                </tbody>
 
-                </table>
+            </table>
 
-            </div>
-
-
-            <!-- ==========================================
-                 VALOR TOTAL
-            =========================================== -->
 
             <div
                 style="
-                    position: absolute;
-                    top: 489px;
-                    left: 70px;
-                    width: 654px;
-                    height: 97px;
-
                     background: #f8fafc;
-
-                    border:
-                        2px solid #0b192c;
-
+                    border: 2px solid #0b192c;
+                    padding: 16px 24px;
                     border-radius: 12px;
-
-                    box-sizing: border-box;
-
-                    display: flex;
-                    flex-direction: column;
-
-                    align-items: flex-end;
-                    justify-content: center;
-
-                    padding: 14px 24px;
+                    text-align: right;
                 "
             >
 
-                <div
+                <p
                     style="
+                        margin: 0;
                         font-size: 14px;
-                        line-height: 20px;
                         color: #475569;
-                        font-weight: 700;
+                        font-weight: 600;
                         text-transform: uppercase;
                     "
                 >
-                    VALOR TOTAL DO PROJETO:
-                </div>
+                    Valor Total do Projeto:
+                </p>
 
 
-                <div
+                <p
                     style="
-                        margin-top: 3px;
+                        margin: 4px 0 0 0;
                         font-size: 26px;
-                        line-height: 31px;
                         color: #0b192c;
-                        font-weight: 900;
+                        font-weight: 800;
                     "
                 >
                     ${escaparHtml(
                         item.valorTotal ||
                         'R$ 0,00'
                     )}
-                </div>
+                </p>
 
             </div>
 
+        </div>
 
-            <!-- ==========================================
-                 RODAPÉ
-            =========================================== -->
 
-            <div
+        <div
+            style="
+                width: 100%;
+                height: 75px;
+                display: flex;
+                align-items: flex-end;
+                justify-content: center;
+            "
+        >
+
+            <img
+                src="./roda-pe.png"
+                alt="Rodapé GVX Engenharia"
                 style="
-                    position: absolute;
-                    left: 70px;
-                    bottom: 0;
-                    width: 654px;
-                    height: 145px;
-
-                    overflow: hidden;
-
-                    display: flex;
-                    align-items: flex-end;
-                    justify-content: center;
+                    width: 100%;
+                    height: 75px;
+                    object-fit: contain;
+                    object-position: center bottom;
+                    display: block;
                 "
             >
-
-                <img
-                    src="./roda-pe.png"
-                    alt="Rodapé GVX Engenharia"
-                    crossorigin="anonymous"
-                    style="
-                        display: block;
-                        width: 654px;
-                        height: 141px;
-                        object-fit: contain;
-                        object-position: center bottom;
-                    "
-                >
-
-            </div>
 
         </div>
 
     `;
 
 
-    document.body.appendChild(elemento);
-
-
-    // ========================================================
-    // AGUARDAR IMAGENS
-    // ========================================================
-
-    const imagens =
-        Array.from(
-            elemento.querySelectorAll('img')
-        );
-
-
-    const imagensCarregadas =
-        await Promise.all(
-
-            imagens.map(
-                img =>
-                    new Promise(resolve => {
-
-                        if (
-                            img.complete &&
-                            img.naturalWidth > 0
-                        ) {
-
-                            resolve(true);
-
-                            return;
-
-                        }
-
-
-                        img.onload = () =>
-                            resolve(true);
-
-
-                        img.onerror = () =>
-                            resolve(false);
-
-                    })
-            )
-
-        );
-
-
-    if (
-        imagensCarregadas.some(
-            carregou => !carregou
-        )
-    ) {
-
-        if (
-            document.body.contains(elemento)
-        ) {
-
-            document.body.removeChild(
-                elemento
-            );
-
-        }
-
-
-        alert(
-            'Não foi possível carregar logo-cabecalho.png ou roda-pe.png. Verifique se os dois arquivos estão na pasta principal do projeto.'
-        );
-
-
-        return;
-
-    }
-
-
-    // ========================================================
-    // AGUARDAR RENDERIZAÇÃO
-    // ========================================================
-
-    await new Promise(
-        resolve =>
-            setTimeout(resolve, 120)
+    document.body.appendChild(
+        elemento
     );
 
 
-    // ========================================================
-    // GERAR PNG
-    // ========================================================
-
     try {
+
+        await esperarImagens(
+            elemento
+        );
+
 
         const canvas =
             await html2canvas(
                 elemento,
                 {
-
                     scale: 4,
 
                     useCORS: true,
@@ -1870,27 +1577,19 @@ async function gerarImagemA4Especifica(item) {
                     backgroundColor:
                         '#ffffff',
 
-                    imageTimeout: 15000,
-
-                    width: 794,
-
-                    height: 1123,
-
-                    windowWidth: 794,
-
-                    windowHeight: 1123
-
+                    imageTimeout:
+                        15000
                 }
             );
 
 
-        document.body.removeChild(
-            elemento
-        );
+        elemento.remove();
 
 
         const link =
-            document.createElement('a');
+            document.createElement(
+                'a'
+            );
 
 
         link.download =
@@ -1910,182 +1609,30 @@ async function gerarImagemA4Especifica(item) {
     } catch (error) {
 
         console.error(
-            'Erro ao gerar imagem:',
+            'Erro ao gerar Imagem A4:',
             error
         );
 
 
-        if (
-            document.body.contains(elemento)
-        ) {
-
-            document.body.removeChild(
-                elemento
-            );
-
-        }
+        elemento.remove();
 
 
         alert(
-            'Não foi possível gerar a Imagem A4. Tente novamente.'
+            'Não foi possível gerar a Imagem A4. Verifique se logo-cabecalho.png e roda-pe.png estão na pasta principal do projeto.'
         );
-
     }
-
 }
 
 
 // ============================================================
-// OBTER ORÇAMENTO ATUAL
+// INICIALIZAÇÃO
 // ============================================================
 
-function obterOrcamentoAtual() {
+// Estas funções precisam ficar no final,
+// depois que todas as funções acima foram declaradas.
 
-    const cliente =
-        document.getElementById(
-            'cliente'
-        ).value.trim()
-        ||
-        'Cliente não informado';
-
-
-    const numOrcamento =
-        document.getElementById(
-            'numOrcamento'
-        ).value.trim();
-
-
-    const data =
-        document.getElementById(
-            'dataOrcamento'
-        ).value;
-
-
-    const descricao =
-        document.getElementById(
-            'descricaoObra'
-        ).value.trim();
-
-
-    const area =
-        document.getElementById(
-            'areaConstruida'
-        ).value;
-
-
-    const precoMetro =
-        document.getElementById(
-            'precoMetro'
-        ).value;
-
-
-    const notaFiscal =
-        document.getElementById(
-            'notaFiscal'
-        ).value;
-
-
-    const precoFinalEl =
-        document.getElementById(
-            'resPrecoFinal'
-        );
-
-
-    const precoFinal =
-        precoFinalEl
-            ? precoFinalEl.innerText
-            : 'R$ 0,00';
-
-
-    const qtdsArray =
-        itensComplexidades.map(
-            item => item.qtd
-        );
-
-
-    return {
-
-        numOrcamento,
-
-        data,
-
-        cliente,
-
-        descricao,
-
-        area,
-
-        precoMetro,
-
-        notaFiscal,
-
-        complexidades:
-            qtdsArray,
-
-        valorTotal:
-            precoFinal
-
-    };
-
-}
-
-
-// ============================================================
-// SALVAR ORÇAMENTO ATUAL
-// ============================================================
-
-function salvarOrcamentoAtual() {
-
-    const orcamento =
-        obterOrcamentoAtual();
-
-
-    if (!orcamento.numOrcamento) {
-
-        alert(
-            'Informe o número do orçamento antes de salvar.'
-        );
-
-        return;
-
-    }
-
-
-    salvarNoHistorico(
-        orcamento
-    );
-
-
-    alert(
-        `Orçamento Nº ${orcamento.numOrcamento} salvo com sucesso.`
-    );
-
-
-    btnHistorico.click();
-
-}
-
-
-// ============================================================
-// BOTÃO SALVAR
-// ============================================================
-
-document
-    .getElementById(
-        'btnSalvarOrcamento'
-    )
-    .addEventListener(
-        'click',
-        salvarOrcamentoAtual
-    );
-
-
-// ============================================================
-// INICIALIZAÇÃO DO SISTEMA
-// ============================================================
+inicializarExemplosHistorico();
 
 renderizarComplexidades();
 
 calcularOrcamento();
-
-inicializarExemplosHistorico();
