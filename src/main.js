@@ -1,4 +1,4 @@
-// --- VARIÁVEIS E DADOS GLOBAIS DE COMPLEXIDADE (Baseado na Planilha Oficial) ---
+// --- DADOS GLOBAIS DE COMPLEXIDADE (Oficiais da Planilha) ---
 let itensComplexidades = [
     { nome: "BALANÇO (2 à 4m)", qtd: 0, taxa: 0.10 },
     { nome: "BALANÇO (>4m)", qtd: 0, taxa: 0.20 },
@@ -16,7 +16,7 @@ let itensComplexidades = [
     { nome: "Detalhe a mais", qtd: 0, taxa: 0.10 }
 ];
 
-// --- FUNÇÃO DE CÁLCULO DO ORÇAMENTO ---
+// --- CÁLCULO DO ORÇAMENTO ---
 function calcularOrcamento() {
     const areaEl = document.getElementById('areaConstruida');
     const precoMetroEl = document.getElementById('precoMetro');
@@ -43,7 +43,7 @@ function calcularOrcamento() {
     resPrecoFinal.innerText = totalFinal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
-// --- RENDERIZAR COMPLEXIDADES NA TELA ---
+// --- RENDERIZAR COMPLEXIDADES ---
 function renderizarComplexidades() {
     const container = document.getElementById('listaComplexidades');
     if (!container) return;
@@ -92,19 +92,19 @@ function configurarToggleComplexidade() {
 
     if (btnToggle && containerComplexidades) {
         btnToggle.addEventListener('click', () => {
-            const estaVisivel = containerComplexidades.style.display === 'block';
-            if (estaVisivel) {
-                containerComplexidades.style.display = 'none';
-                if (iconeSeta) iconeSeta.innerText = '▼';
-            } else {
-                containerComplexidades.style.display = 'block';
+            const estaOculto = containerComplexidades.classList.contains('hidden');
+            if (estaOculto) {
+                containerComplexidades.classList.remove('hidden');
                 if (iconeSeta) iconeSeta.innerText = '▲';
+            } else {
+                containerComplexidades.classList.add('hidden');
+                if (iconeSeta) iconeSeta.innerText = '▼';
             }
         });
     }
 }
 
-// --- CONTROLE DE ABAS (NOVO <-> HISTÓRICO) ---
+// --- CONTROLE DE ABAS ---
 const tabNovo = document.getElementById('tabNovo');
 const tabHistorico = document.getElementById('tabHistorico');
 const secaoNovo = document.getElementById('secaoNovo');
@@ -130,7 +130,7 @@ function mudarAba(destino) {
 if (tabNovo) tabNovo.addEventListener('click', () => mudarAba('novo'));
 if (tabHistorico) tabHistorico.addEventListener('click', () => mudarAba('historico'));
 
-// --- TELA INICIAL (SPLASH) ---
+// --- TELA INICIAL ---
 const telaInicio = document.getElementById('telaInicio');
 const appContainer = document.getElementById('appContainer');
 const btnIrNovo = document.getElementById('btnIrNovo');
@@ -160,7 +160,7 @@ if (btnVoltarInicio) {
     });
 }
 
-// --- HISTÓRICO DE ORÇAMENTOS ---
+// --- HISTÓRICO ---
 function salvarNoHistorico(orcamento) {
     let historico = JSON.parse(localStorage.getItem('gvx_historico_orcamentos')) || [];
     historico.unshift(orcamento);
@@ -197,13 +197,13 @@ function renderizarHistoricoNaTela() {
 
     listaHistoricoEl.querySelectorAll('.btn-baixar-historico').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            const idx = e.target.getAttribute('data-index');
+            const idx = parseInt(e.target.getAttribute('data-index'), 10);
             gerarImagemA4(historico[idx]);
         });
     });
 }
 
-// --- GERADOR DE IMAGEM A4 (CANVAS) ---
+// --- GERADOR DE IMAGEM A4 (GARANTIDO) ---
 function gerarImagemA4(dados) {
     const canvas = document.getElementById('canvasOrcamento');
     if (!canvas) return;
@@ -223,7 +223,7 @@ function gerarImagemA4(dados) {
 
     ctx.fillStyle = '#ffffff';
     ctx.font = '20px sans-serif';
-    ctx.fillText('Projetos Estruturais e Cibil', 120, 190);
+    ctx.fillText('Projetos Estruturais e Construção Civil', 120, 190);
 
     ctx.textAlign = 'right';
     ctx.fillText(`Orçamento: ${dados.numOrcamento}`, canvas.width - 120, 150);
@@ -268,8 +268,7 @@ function gerarImagemA4(dados) {
 
     yPos += 30;
     
-    // Filtrar apenas complexidades com quantidade > 0 para o relatório ficar limpo
-    let complexidadesAtivas = dados.complexidades.filter(c => c.qtd > 0);
+    let complexidadesAtivas = (dados.complexidades || []).filter(c => c.qtd > 0);
     let alturaBoxComplex = Math.max(100, (complexidadesAtivas.length * 35) + 40);
     ctx.strokeRect(80, yPos, canvas.width - 160, alturaBoxComplex);
 
@@ -304,12 +303,17 @@ function gerarImagemA4(dados) {
 
     // Disparar Download Automático da Imagem A4
     const link = document.createElement('a');
-    link.download = `Orcamento_${dados.cliente.replace(/\s+/g, '_')}.png`;
+    const nomeLimpo = (dados.cliente || 'Orcamento').replace(/[^a-zA-Z0-9]/g, '_');
+    link.download = `Orcamento_${nomeLimpo}.png`;
     link.href = canvas.toDataURL('image/png');
+    
+    // Simula clique seguro para navegadores mobile e desktop
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
 }
 
-// --- EVENTOS DOS INPUTS (Cálculo em tempo real) ---
+// --- EVENTOS DOS INPUTS ---
 const areaInput = document.getElementById('areaConstruida');
 const precoMetroInput = document.getElementById('precoMetro');
 const notaFiscalInput = document.getElementById('notaFiscal');
@@ -318,7 +322,7 @@ if (areaInput) areaInput.addEventListener('input', calcularOrcamento);
 if (precoMetroInput) precoMetroInput.addEventListener('input', calcularOrcamento);
 if (notaFiscalInput) notaFiscalInput.addEventListener('input', calcularOrcamento);
 
-// --- BOTÃO PRINCIPAL: CONCLUIR ORÇAMENTO ---
+// --- BOTÃO CONCLUIR ORÇAMENTO ---
 const btnConcluirOrcamento = document.getElementById('btnConcluirOrcamento');
 
 if (btnConcluirOrcamento) {
@@ -334,7 +338,6 @@ if (btnConcluirOrcamento) {
         const precoFinalEl = document.getElementById('resPrecoFinal');
         const precoFinal = precoFinalEl ? precoFinalEl.innerText : 'R$ 0,00';
 
-        // Salva cópia estruturada com nome e taxa de cada complexidade ativa
         let complexidadesSalvas = itensComplexidades.map(item => ({
             nome: item.nome,
             qtd: item.qtd,
@@ -353,15 +356,12 @@ if (btnConcluirOrcamento) {
             valorTotal: precoFinal
         };
 
-        // 1. Salva no histórico local
         salvarNoHistorico(orcamentoSalvo);
-
-        // 2. Redireciona para a aba de histórico para visualizar o orçamento salvo
         mudarAba('historico');
     });
 }
 
-// --- INICIALIZAÇÃO GERAL ---
+// --- INICIALIZAÇÃO ---
 configurarToggleComplexidade();
 renderizarComplexidades();
 calcularOrcamento();
