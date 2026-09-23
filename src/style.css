@@ -12,7 +12,6 @@
 body {
   background-color: #f1f5f9;
   color: #1e293b;
-
   min-height: 100vh;
 
   display: flex;
@@ -28,13 +27,11 @@ body {
 }
 
 
-
-/* =========================================================
+/* =========================================
    TELA INICIAL
-   ========================================================= */
+========================================= */
 
 .home-screen {
-
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,24 +45,20 @@ body {
   padding: 20px;
 
   text-align: center;
-
 }
 
 
 .home-brand {
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 
   width: 100%;
-
 }
 
 
 .home-logo {
-
   width: 260px;
   max-width: 72vw;
 
@@ -74,26 +67,21 @@ body {
   display: block;
 
   object-fit: contain;
-
 }
 
 
 .home-buttons {
-
   display: flex;
   flex-direction: column;
 
   gap: 16px;
 
   width: 100%;
-
 }
 
 
 .home-card-btn {
-
   background: #0b192c;
-
   color: white;
 
   border: none;
@@ -116,25 +104,20 @@ body {
   transition:
     transform 0.2s,
     background 0.2s;
-
 }
 
 
 .home-card-btn:hover {
-
   background: #152945;
 
   transform: translateY(-2px);
-
 }
 
 
 .card-icon {
-
   font-size: 28px;
 
-  background:
-    rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
 
   width: 55px;
   height: 55px;
@@ -144,30 +127,24 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-
 }
 
 
 .home-card-btn span {
-
   font-size: 14px;
 
   font-weight: 800;
 
   letter-spacing: 1px;
-
 }
 
 
-
-/* =========================================================
-   APLICATIVO
-   ========================================================= */
+/* =========================================
+   APLICATIVO PRINCIPAL
+========================================= */
 
 .app-container {
-
   width: 100%;
-
   max-width: 600px;
 
   background: #ffffff;
@@ -183,17 +160,14 @@ body {
 
   display: flex;
   flex-direction: column;
-
 }
 
 
-
-/* =========================================================
+/* =========================================
    CABEÇALHO
-   ========================================================= */
+========================================= */
 
 .app-header {
-
   background-color: #0b192c;
 
   padding: 20px;
@@ -203,24 +177,19 @@ body {
   justify-content: space-between;
 
   color: white;
-
 }
 
 
 .brand-box {
-
   display: flex;
   align-items: center;
 
   gap: 12px;
-
 }
 
 
 .btn-back {
-
-  background:
-    rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.15);
 
   border: none;
 
@@ -238,20 +207,15 @@ body {
   justify-content: center;
 
   font-weight: bold;
-
 }
 
 
 .btn-back:hover {
-
-  background:
-    rgba(255, 255, 255, 0.25);
-
+  background: rgba(255, 255, 255, 0.25);
 }
 
 
 .brand-logo {
-
   background-color: #d4af37;
 
   color: #0f172a;
@@ -265,37 +229,30 @@ body {
   font-size: 12px;
 
   letter-spacing: 1px;
-
 }
 
 
 .brand-title {
-
   font-size: 14px;
 
   font-weight: bold;
 
   letter-spacing: 0.5px;
-
 }
 
 
 .brand-sub {
-
   font-size: 10px;
 
   color: #cbd5e1;
-
 }
 
 
-
-/* =========================================================
+/* =========================================
    ABAS
-   ========================================================= */
+========================================= */
 
 .tabs {
-
   display: flex;
 
   gap: 4px;
@@ -305,12 +262,10 @@ body {
   padding: 4px;
 
   border-radius: 8px;
-
 }
 
 
 .tab-btn {
-
   background: transparent;
 
   border: none;
@@ -328,73 +283,64 @@ body {
   cursor: pointer;
 
   transition: all 0.2s;
-
 }
 
 
 .tab-btn.active {
-
   background: white;
 
   color: #0b192c;
 
   box-shadow:
     0 1px 2px rgb(0 0 0 / 0.1);
-
 }
 
 
-
-/* =========================================================
-   SEÇÕES
-   ========================================================= */
+/* =========================================
+   CONTEÚDO
+========================================= */
 
 .section-content {
-
   padding: 20px;
 
   display: flex;
   flex-direction: column;
 
   gap: 16px;
-
 }
 
 
-.form-row {
+/* =========================================
+   FORMULÁRIOS
+========================================= */
 
+.form-row {
   display: grid;
 
   grid-template-columns: 1fr 1fr;
 
   gap: 12px;
-
 }
 
 
 .form-group {
-
   display: flex;
   flex-direction: column;
 
   gap: 6px;
-
 }
 
 
 .form-group label {
-
   font-size: 12px;
 
   font-weight: bold;
 
   color: #334155;
-
 }
 
 
 .form-input {
-
   width: 100%;
 
   font-size: 12px;
@@ -409,32 +355,25 @@ body {
 
   transition:
     border-color 0.2s;
-
 }
 
 
 .form-input:focus {
-
   border-color: #0b192c;
 
   box-shadow:
-    0 0 0 2px
-    rgba(11, 25, 44, 0.1);
-
+    0 0 0 2px rgba(11, 25, 44, 0.1);
 }
 
 
-
-/* =========================================================
+/* =========================================
    PARÂMETROS
-   ========================================================= */
+========================================= */
 
 .params-box {
-
   display: grid;
 
-  grid-template-columns:
-    repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
 
   gap: 8px;
 
@@ -445,19 +384,15 @@ body {
   border-radius: 10px;
 
   border: 1px solid #e2e8f0;
-
 }
 
 
-
-/* =========================================================
-   FATORES
-   ========================================================= */
+/* =========================================
+   COMPLEXIDADES
+========================================= */
 
 .complex-list {
-
   display: flex;
-
   flex-direction: column;
 
   gap: 8px;
@@ -467,12 +402,10 @@ body {
   overflow-y: auto;
 
   padding-right: 4px;
-
 }
 
 
 .complex-item {
-
   background: white;
 
   padding: 10px 12px;
@@ -482,47 +415,36 @@ body {
   border: 1px solid #e2e8f0;
 
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
-
 }
 
 
 .complex-item p:first-child {
-
   font-size: 11px;
 
   font-weight: bold;
 
   color: #1e293b;
-
 }
 
 
 .complex-item p:last-child {
-
   font-size: 10px;
 
   color: #64748b;
-
 }
 
 
 .counter-box {
-
   display: flex;
-
   align-items: center;
 
   gap: 8px;
-
 }
 
 
 .btn-cnt {
-
   width: 28px;
   height: 28px;
 
@@ -539,27 +461,21 @@ body {
   color: #334155;
 
   display: flex;
-
   align-items: center;
   justify-content: center;
-
 }
 
 
 .btn-cnt:hover {
-
   background: #e2e8f0;
-
 }
 
 
-
-/* =========================================================
+/* =========================================
    TOTAL
-   ========================================================= */
+========================================= */
 
 .total-box {
-
   background: #0f172a;
 
   color: white;
@@ -569,16 +485,12 @@ body {
   border-radius: 12px;
 
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
-
 }
 
 
 .total-box span {
-
   font-size: 10px;
 
   text-transform: uppercase;
@@ -588,21 +500,21 @@ body {
   color: #94a3b8;
 
   font-weight: bold;
-
 }
 
 
 .total-box h2 {
-
   font-size: 20px;
 
   font-weight: 900;
-
 }
 
 
-.btn-action {
+/* =========================================
+   BOTÃO SALVAR
+========================================= */
 
+.btn-action {
   background: #d4af37;
 
   color: #0f172a;
@@ -620,33 +532,26 @@ body {
   cursor: pointer;
 
   display: flex;
-
   align-items: center;
 
   gap: 8px;
 
   transition:
     background 0.2s;
-
 }
 
 
 .btn-action:hover {
-
   background: #c49f27;
-
 }
 
 
-
-/* =========================================================
+/* =========================================
    HISTÓRICO
-   ========================================================= */
+========================================= */
 
 .history-list {
-
   display: flex;
-
   flex-direction: column;
 
   gap: 8px;
@@ -654,12 +559,10 @@ body {
   max-height: 350px;
 
   overflow-y: auto;
-
 }
 
 
 .history-card {
-
   background: #f8fafc;
 
   border: 1px solid #e2e8f0;
@@ -669,34 +572,26 @@ body {
   border-radius: 10px;
 
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
 
   font-size: 12px;
-
 }
 
 
 .history-card p {
-
   color: #64748b;
 
   font-size: 11px;
-
 }
 
 
 .history-card b {
-
   color: #1e293b;
-
 }
 
 
 .btn-load {
-
   background: #eff6ff;
 
   color: #0b192c;
@@ -710,12 +605,54 @@ body {
   border-radius: 6px;
 
   cursor: pointer;
-
 }
 
 
 .btn-load:hover {
-
   background: #dbeafe;
+}
+
+
+/* =========================================
+   RESPONSIVIDADE
+========================================= */
+
+@media (max-width: 520px) {
+
+  body {
+    padding: 8px;
+  }
+
+  .app-header {
+    padding: 14px;
+  }
+
+  .section-content {
+    padding: 14px;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .params-box {
+    grid-template-columns: 1fr;
+  }
+
+  .total-box {
+    flex-direction: column;
+
+    align-items: stretch;
+
+    gap: 14px;
+  }
+
+  .btn-action {
+    justify-content: center;
+  }
+
+  .home-logo {
+    width: 240px;
+  }
 
 }
