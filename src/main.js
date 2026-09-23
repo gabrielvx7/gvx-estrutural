@@ -1,149 +1,46 @@
-// --- DADOS GLOBAIS DE COMPLEXIDADE (Oficiais da Planilha) ---
-let itensComplexidades = [
-    { nome: "BALANÇO (2 à 4m)", qtd: 0, taxa: 0.10 },
-    { nome: "BALANÇO (>4m)", qtd: 0, taxa: 0.20 },
-    { nome: "VIGA DE TRANSIÇÃO (2 - 4m)", qtd: 0, taxa: 0.10 },
-    { nome: "VIGA DE TRANSIÇÃO (4 - 6 m)", qtd: 0, taxa: 0.15 },
-    { nome: "VIGA DE TRANSIÇÃO (>6m)", qtd: 0, taxa: 0.20 },
-    { nome: "VIGA VÃO (6 - 9m)", qtd: 0, taxa: 0.10 },
-    { nome: "VIGA VÃO (>9m)", qtd: 0, taxa: 0.15 },
-    { nome: "ESCADA MODERNA", qtd: 0, taxa: 0.07 },
-    { nome: "TERRENO DESNÍVEL (3 - 6m)", qtd: 0, taxa: 0.10 },
-    { nome: "TERRENO DESNÍVEL (>6m)", qtd: 0, taxa: 0.15 },
-    { nome: "FUNDAÇÃO PROFUNDA", qtd: 0, taxa: 0.15 },
-    { nome: "FUNDAÇÃO EXCÊNTRICA", qtd: 0, taxa: 0.10 },
-    { nome: "PISCINA NA COBERTURA", qtd: 0, taxa: 0.20 },
-    { nome: "Detalhe a mais", qtd: 0, taxa: 0.10 }
+import './style.css';
+import html2canvas from 'html2canvas';
+
+// Inicializa a data atual se estiver vazia
+const inputData = document.getElementById('dataOrcamento');
+if (inputData && !inputData.value) {
+    inputData.valueAsDate = new Date();
+}
+
+const itensComplexidades = [
+    { id: 'balanco1', nome: 'BALANÇO (2 à 4m)', taxa: 0.10, qtd: 0 },
+    { id: 'balanco2', nome: 'BALANÇO (>4m)', taxa: 0.20, qtd: 0 },
+    { id: 'transicao1', nome: 'VIGA DE TRANSIÇÃO (2 - 4m)', taxa: 0.10, qtd: 0 },
+    { id: 'transicao2', nome: 'VIGA DE TRANSIÇÃO (4 - 6m)', taxa: 0.15, qtd: 0 },
+    { id: 'transicao3', nome: 'VIGA DE TRANSIÇÃO (>6m)', taxa: 0.20, qtd: 0 },
+    { id: 'vigaVao1', nome: 'VIGA VÃO (6 - 9m)', taxa: 0.10, qtd: 0 },
+    { id: 'vigaVao2', nome: 'VIGA VÃO (>9m)', taxa: 0.15, qtd: 0 },
+    { id: 'escada', nome: 'ESCADA MODERNA', taxa: 0.07, qtd: 0 },
+    { id: 'desnivel1', nome: 'TERRENO DESNÍVEL (3 - 6m)', taxa: 0.10, qtd: 0 },
+    { id: 'desnivel2', nome: 'TERRENO DESNÍVEL (>6m)', taxa: 0.15, qtd: 0 },
+    { id: 'fundProf', nome: 'FUNDAÇÃO PROFUNDA', taxa: 0.15, qtd: 0 },
+    { id: 'fundExc', nome: 'FUNDAÇÃO EXCENTRICA', taxa: 0.10, qtd: 0 },
+    { id: 'piscina', nome: 'PISCINA NA COBERTURA', taxa: 0.20, qtd: 0 },
+    { id: 'detalheExtra', nome: 'Detalhe a mais', taxa: 0.10, qtd: 0 }
 ];
 
-// --- CÁLCULO DO ORÇAMENTO EM TEMPO REAL ---
-function calcularOrcamento() {
-    const areaEl = document.getElementById('areaConstruida');
-    const precoMetroEl = document.getElementById('precoMetro');
-    const notaFiscalEl = document.getElementById('notaFiscal');
-    const resPrecoFinal = document.getElementById('resPrecoFinal');
-
-    if (!areaEl || !precoMetroEl || !resPrecoFinal) return;
-
-    const area = parseFloat(areaEl.value) || 0;
-    const precoMetro = parseFloat(precoMetroEl.value) || 0;
-    const notaFiscal = notaFiscalEl ? (parseFloat(notaFiscalEl.value) || 0) / 100 : 0;
-
-    let subtotal = area * precoMetro;
-    let adicionalComplexidade = 0;
-
-    itensComplexidades.forEach(item => {
-        adicionalComplexidade += subtotal * (item.taxa * item.qtd);
-    });
-
-    let totalComAcrecimo = subtotal + adicionalComplexidade;
-    let valorNotaFiscal = totalComAcrecimo * notaFiscal;
-    const totalFinal = totalComAcrecimo + valorNotaFiscal;
-
-    resPrecoFinal.innerText = totalFinal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-}
-
-// --- RENDERIZAR COMPLEXIDADES ---
-function renderizarComplexidades() {
-    const container = document.getElementById('listaComplexidades');
-    if (!container) return;
-
-    container.innerHTML = '';
-    itensComplexidades.forEach((item, index) => {
-        const div = document.createElement('div');
-        div.className = 'complex-item-row';
-        div.innerHTML = `
-            <span>${item.nome} (${(item.taxa * 100).toFixed(0)}%)</span>
-            <div style="display: flex; gap: 8px; align-items: center;">
-                <button type="button" class="btn-menos" data-index="${index}">-</button>
-                <span id="qtd-item-${index}" style="font-weight: bold; min-width: 20px; text-align: center; color: #0b192c;">${item.qtd}</span>
-                <button type="button" class="btn-mais" data-index="${index}">+</button>
-            </div>
-        `;
-        container.appendChild(div);
-    });
-
-    container.querySelectorAll('.btn-mais').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const idx = parseInt(e.target.getAttribute('data-index'), 10);
-            itensComplexidades[idx].qtd++;
-            renderizarComplexidades();
-            calcularOrcamento();
-        });
-    });
-
-    container.querySelectorAll('.btn-menos').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-            const idx = parseInt(e.target.getAttribute('data-index'), 10);
-            if (itensComplexidades[idx].qtd > 0) {
-                itensComplexidades[idx].qtd--;
-                renderizarComplexidades();
-                calcularOrcamento();
-            }
-        });
-    });
-}
-
-// --- TOGGLE / BOTÃO DE ATIVAR COMPLEXIDADE (GARANTIDO) ---
-function configurarToggleComplexidade() {
-    const btnToggle = document.getElementById('btnAtivarComplexidade');
-    const containerComplexidades = document.getElementById('containerComplexidades');
-    const iconeSeta = document.getElementById('iconeSetaComplexidade');
-
-    if (btnToggle && containerComplexidades) {
-        btnToggle.addEventListener('click', () => {
-            const estaOculto = containerComplexidades.classList.contains('complex-container-hidden');
-            if (estaOculto) {
-                containerComplexidades.classList.remove('complex-container-hidden');
-                containerComplexidades.classList.add('complex-container-visible');
-                if (iconeSeta) iconeSeta.innerText = '▲';
-            } else {
-                containerComplexidades.classList.remove('complex-container-visible');
-                containerComplexidades.classList.add('complex-container-hidden');
-                if (iconeSeta) iconeSeta.innerText = '▼';
-            }
-        });
-    }
-}
-
-// --- CONTROLE DE ABAS ---
-const tabNovo = document.getElementById('tabNovo');
-const tabHistorico = document.getElementById('tabHistorico');
-const secaoNovo = document.getElementById('secaoNovo');
-const secaoHistorico = document.getElementById('secaoHistorico');
-
-function mudarAba(destino) {
-    if (!tabNovo || !tabHistorico || !secaoNovo || !secaoHistorico) return;
-
-    if (destino === 'novo') {
-        tabNovo.classList.add('active');
-        tabHistorico.classList.remove('active');
-        secaoNovo.classList.remove('hidden');
-        secaoHistorico.classList.add('hidden');
-    } else if (destino === 'historico') {
-        tabHistorico.classList.add('active');
-        tabNovo.classList.remove('active');
-        secaoHistorico.classList.remove('hidden');
-        secaoNovo.classList.add('hidden');
-        renderizarHistoricoNaTela();
-    }
-}
-
-if (tabNovo) tabNovo.addEventListener('click', () => mudarAba('novo'));
-if (tabHistorico) tabHistorico.addEventListener('click', () => mudarAba('historico'));
-
-// --- TELA INICIAL ---
+// --- CONTROLE DE TELAS E ABAS ---
 const telaInicio = document.getElementById('telaInicio');
 const appContainer = document.getElementById('appContainer');
 const btnIrNovo = document.getElementById('btnIrNovo');
 const btnIrHistorico = document.getElementById('btnIrHistorico');
 const btnVoltarInicio = document.getElementById('btnVoltarInicio');
 
+const btnNovo = document.getElementById('tabNovo');
+const btnHistorico = document.getElementById('tabHistorico');
+const secaoNovo = document.getElementById('secaoNovo');
+const secaoHistorico = document.getElementById('secaoHistorico');
+
 if (btnIrNovo) {
     btnIrNovo.addEventListener('click', () => {
         telaInicio.classList.add('hidden');
         appContainer.classList.remove('hidden');
-        mudarAba('novo');
+        if (btnNovo) btnNovo.click();
     });
 }
 
@@ -151,7 +48,7 @@ if (btnIrHistorico) {
     btnIrHistorico.addEventListener('click', () => {
         telaInicio.classList.add('hidden');
         appContainer.classList.remove('hidden');
-        mudarAba('historico');
+        if (btnHistorico) btnHistorico.click();
     });
 }
 
@@ -162,175 +59,349 @@ if (btnVoltarInicio) {
     });
 }
 
-// --- HISTÓRICO ---
-function salvarNoHistorico(orcamento) {
+if (btnNovo) {
+    btnNovo.addEventListener('click', () => {
+        btnNovo.classList.add('active');
+        if (btnHistorico) btnHistorico.classList.remove('active');
+        if (secaoNovo) secaoNovo.classList.remove('hidden');
+        if (secaoHistorico) secaoHistorico.classList.add('hidden');
+    });
+}
+
+if (btnHistorico) {
+    btnHistorico.addEventListener('click', () => {
+        btnHistorico.classList.add('active');
+        if (btnNovo) btnNovo.classList.remove('active');
+        if (secaoHistorico) secaoHistorico.classList.remove('hidden');
+        if (secaoNovo) secaoNovo.classList.add('hidden');
+        renderizarHistorico();
+    });
+}
+
+function renderizarComplexidades() {
+    const container = document.getElementById('listaComplexidades');
+    if (!container) return;
+    container.innerHTML = '';
+
+    itensComplexidades.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = "complex-item";
+        div.innerHTML = `
+            <div>
+                <p>${item.nome}</p>
+                <p>Acréscimo: ${(item.taxa * 100).toFixed(0)}%</p>
+            </div>
+            <div class="counter-box">
+                <button type="button" data-index="${index}" data-delta="-1" class="btn-cnt btn-qtd">-</button>
+                <span id="qtd_${index}" style="width: 24px; text-align: center; font-size: 12px; font-weight: bold;">${item.qtd}</span>
+                <button type="button" data-index="${index}" data-delta="1" class="btn-cnt btn-qtd" style="color: #0b192c; background: #e0f2fe;">+</button>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+
+    document.querySelectorAll('.btn-qtd').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const idx = parseInt(e.currentTarget.getAttribute('data-index'));
+            const delta = parseInt(e.currentTarget.getAttribute('data-delta'));
+            alterarQtd(idx, delta);
+        });
+    });
+}
+
+function alterarQtd(index, delta) {
+    itensComplexidades[index].qtd += delta;
+    if (itensComplexidades[index].qtd < 0) itensComplexidades[index].qtd = 0;
+    const spanQtd = document.getElementById(`qtd_${index}`);
+    if (spanQtd) spanQtd.innerText = itensComplexidades[index].qtd;
+    calcularOrcamento();
+}
+
+function formatarMoeda(valor) {
+    return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
+function calcularOrcamento() {
+    const areaInput = document.getElementById('areaConstruida');
+    const precoM2Input = document.getElementById('precoMetro');
+    const notaFiscalInput = document.getElementById('notaFiscal');
+
+    const area = areaInput ? parseFloat(areaInput.value) || 0 : 0;
+    const precoM2 = precoM2Input ? parseFloat(precoM2Input.value) || 0 : 0;
+    const totalBase = area * precoM2;
+
+    let totalAcrescimoReais = 0;
+    itensComplexidades.forEach(item => {
+        if (item.qtd > 0) {
+            totalAcrescimoReais += totalBase * item.taxa * item.qtd;
+        }
+    });
+
+    const totalComAcrescimo = totalBase + totalAcrescimoReais;
+    const percNota = notaFiscalInput ? parseFloat(notaFiscalInput.value) || 0 : 0;
+    const valorNota = totalComAcrescimo * (percNota / 100);
+    const precoFinal = totalComAcrescimo + valorNota;
+
+    const elPrecoFinal = document.getElementById('resPrecoFinal');
+    if (elPrecoFinal) elPrecoFinal.innerText = formatarMoeda(precoFinal);
+
+    return precoFinal;
+}
+
+const areaInputElem = document.getElementById('areaConstruida');
+const precoMetroElem = document.getElementById('precoMetro');
+const notaFiscalElem = document.getElementById('notaFiscal');
+
+if (areaInputElem) areaInputElem.addEventListener('input', calcularOrcamento);
+if (precoMetroElem) precoMetroElem.addEventListener('input', calcularOrcamento);
+if (notaFiscalElem) notaFiscalElem.addEventListener('input', calcularOrcamento);
+
+function inicializarExemplosHistorico() {
     let historico = JSON.parse(localStorage.getItem('gvx_historico_orcamentos')) || [];
-    historico.unshift(orcamento);
+    if (historico.length === 0) {
+        historico = [
+            {
+                numOrcamento: "001/2026",
+                data: "2026-06-01",
+                cliente: "Francisco Carlos de Sousa",
+                descricao: "Residência Unifamiliar - 2 Pavimentos",
+                area: 180,
+                precoMetro: 25,
+                notaFiscal: 0,
+                complexidades: [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+                valorTotal: "R$ 5.062,50"
+            }
+        ];
+        localStorage.setItem('gvx_historico_orcamentos', JSON.stringify(historico));
+    }
+}
+
+function salvarNoHistorico(orcamentoObj) {
+    let historico = JSON.parse(localStorage.getItem('gvx_historico_orcamentos')) || [];
+    const indexExistente = historico.findIndex(item => item.numOrcamento === orcamentoObj.numOrcamento);
+    if (indexExistente >= 0) {
+        historico[indexExistente] = orcamentoObj;
+    } else {
+        historico.unshift(orcamentoObj);
+    }
     localStorage.setItem('gvx_historico_orcamentos', JSON.stringify(historico));
 }
 
-function renderizarHistoricoNaTela() {
-    const listaHistoricoEl = document.getElementById('listaHistorico');
-    if (!listaHistoricoEl) return;
-
+function renderizarHistorico() {
+    const container = document.getElementById('listaHistorico');
+    if (!container) return;
+    
     let historico = JSON.parse(localStorage.getItem('gvx_historico_orcamentos')) || [];
     
+    container.innerHTML = '';
     if (historico.length === 0) {
-        listaHistoricoEl.innerHTML = '<p style="font-size: 13px; color: #64748b; text-align: center; padding: 20px;">Nenhum orçamento emitido ainda.</p>';
+        container.innerHTML = '<p style="font-size: 12px; color: #64748b; text-align: center; padding: 20px;">Nenhum orçamento no histórico.</p>';
         return;
     }
 
-    listaHistoricoEl.innerHTML = '';
     historico.forEach((item, index) => {
         const div = document.createElement('div');
-        div.style.cssText = 'background: white; padding: 14px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);';
+        div.className = "history-card";
         div.innerHTML = `
-            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 14px; color: #0b192c; margin-bottom: 4px;">
-                <span>Orçamento: ${item.numOrcamento}</span>
-                <span style="color: #d4af37;">${item.valorTotal}</span>
+            <div>
+                <b>Nº ${item.numOrcamento} - ${item.cliente}</b>
+                <p>${item.descricao || 'Sem descrição'} • ${item.data ? item.data.split('-').reverse().join('/') : ''}</p>
+                <b style="color: #0b192c; display: block; margin-top: 4px;">${item.valorTotal}</b>
             </div>
-            <div style="font-size: 12px; color: #475569; margin-bottom: 2px;"><b>Cliente:</b> ${item.cliente}</div>
-            <div style="font-size: 12px; color: #475569; margin-bottom: 2px;"><b>Obra:</b> ${item.descricao || 'Não informada'}</div>
-            <div style="font-size: 11px; color: #94a3b8; margin-bottom: 8px;">Data: ${item.data || 'Não informada'}</div>
-            <button type="button" class="btn-baixar-historico" data-index="${index}" style="background: #0b192c; color: #d4af37; border: none; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;">📥 Baixar Orçamento (A4)</button>
+            <div style="display: flex; gap: 6px;">
+                <button type="button" data-index="${index}" class="btn-load btn-abrir">Abrir</button>
+                <button type="button" data-index="${index}" class="btn-load btn-baixar-hist" style="background: #d4af37; color: #0b192c;">Baixar</button>
+            </div>
         `;
-        listaHistoricoEl.appendChild(div);
+        container.appendChild(div);
     });
 
-    listaHistoricoEl.querySelectorAll('.btn-baixar-historico').forEach(btn => {
+    document.querySelectorAll('.btn-abrir').forEach(btn => {
         btn.addEventListener('click', (e) => {
-            const idx = parseInt(e.target.getAttribute('data-index'), 10);
-            gerarImagemA4(historico[idx]);
+            const idx = parseInt(e.currentTarget.getAttribute('data-index'));
+            abrirMenuOpcoes(historico[idx]);
+        });
+    });
+
+    document.querySelectorAll('.btn-baixar-hist').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const idx = parseInt(e.currentTarget.getAttribute('data-index'));
+            gerarImagemA4Especifica(historico[idx]);
         });
     });
 }
 
-// --- GERADOR DE IMAGEM A4 ---
-function gerarImagemA4(dados) {
-    const canvas = document.getElementById('canvasOrcamento');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+function abrirMenuOpcoes(item) {
+    const modal = document.createElement('div');
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100%';
+    modal.style.height = '100%';
+    modal.style.background = 'rgba(0, 0, 0, 0.5)';
+    modal.style.display = 'flex';
+    modal.style.alignItems = 'center';
+    modal.style.justifyContent = 'center';
+    modal.style.zIndex = '1000';
 
-    // Fundo Branco A4
-    ctx.fillStyle = '#ffffff';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    modal.innerHTML = `
+        <div style="background: white; padding: 24px; border-radius: 12px; width: 320px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: flex; flex-direction: column; gap: 12px;">
+            <h3 style="font-size: 14px; font-weight: bold; color: #0b192c; margin-bottom: 4px;">Orçamento Nº ${item.numOrcamento}</h3>
+            <p style="font-size: 12px; color: #64748b; margin-bottom: 12px;">Escolha a ação desejada para este orçamento:</p>
+            
+            <button type="button" id="btnAtualizar" style="background: #0b192c; color: white; border: none; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;">Carregar no Formulário</button>
+            <button type="button" id="btnGerarImg" style="background: #d4af37; color: #0f172a; border: none; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;">Gerar Imagem A4</button>
+            <button type="button" id="btnCancelar" style="background: #f1f5f9; color: #334155; border: none; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer; margin-top: 4px;">Cancelar</button>
+        </div>
+    `;
 
-    // Cabeçalho institucional
-    ctx.fillStyle = '#0b192c';
-    ctx.fillRect(80, 80, canvas.width - 160, 160);
+    document.body.appendChild(modal);
 
-    ctx.fillStyle = '#d4af37';
-    ctx.font = 'bold 36px sans-serif';
-    ctx.fillText('GVX ENGENHARIA', 120, 150);
+    document.getElementById('btnAtualizar').addEventListener('click', () => {
+        carregarOrcamento(item);
+        document.body.removeChild(modal);
+    });
 
-    ctx.fillStyle = '#ffffff';
-    ctx.font = '20px sans-serif';
-    ctx.fillText('Projetos Estruturais e Construção Civil', 120, 190);
+    document.getElementById('btnGerarImg').addEventListener('click', () => {
+        document.body.removeChild(modal);
+        gerarImagemA4Especifica(item);
+    });
 
-    ctx.textAlign = 'right';
-    ctx.fillText(`Orçamento: ${dados.numOrcamento}`, canvas.width - 120, 150);
-    ctx.fillText(`Data: ${dados.data}`, canvas.width - 120, 190);
-    ctx.textAlign = 'left';
-
-    // Informações do Cliente
-    let yPos = 300;
-    ctx.fillStyle = '#0b192c';
-    ctx.font = 'bold 22px sans-serif';
-    ctx.fillText('DADOS DO CLIENTE E DA OBRA', 80, yPos);
-
-    yPos += 30;
-    ctx.strokeStyle = '#cbd5e1';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(80, yPos, canvas.width - 160, 110);
-
-    ctx.font = '18px sans-serif';
-    ctx.fillStyle = '#334155';
-    ctx.fillText(`Cliente: ${dados.cliente}`, 110, yPos + 45);
-    ctx.fillText(`Obra: ${dados.descricao || 'Não informada'}`, 110, yPos + 80);
-
-    // Parâmetros da Obra
-    yPos += 150;
-    ctx.fillStyle = '#0b192c';
-    ctx.font = 'bold 22px sans-serif';
-    ctx.fillText('PARÂMETROS E VALORES', 80, yPos);
-
-    yPos += 30;
-    ctx.strokeRect(80, yPos, canvas.width - 160, 120);
-
-    ctx.font = '18px sans-serif';
-    ctx.fillStyle = '#334155';
-    ctx.fillText(`Área Construída: ${dados.area} m²`, 110, yPos + 45);
-    ctx.fillText(`Preço por m²: R$ ${dados.precoMetro} | Nota Fiscal: ${dados.notaFiscal}%`, 110, yPos + 85);
-
-    // Complexidades selecionadas
-    yPos += 160;
-    ctx.fillStyle = '#0b192c';
-    ctx.font = 'bold 22px sans-serif';
-    ctx.fillText('ITENS DE COMPLEXIDADE', 80, yPos);
-
-    yPos += 30;
-    
-    let complexidadesAtivas = (dados.complexidades || []).filter(c => c.qtd > 0);
-    let alturaBoxComplex = Math.max(100, (complexidadesAtivas.length * 35) + 40);
-    ctx.strokeRect(80, yPos, canvas.width - 160, alturaBoxComplex);
-
-    let posYItem = yPos + 40;
-    if (complexidadesAtivas.length > 0) {
-        complexidadesAtivas.forEach((item) => {
-            ctx.font = '16px sans-serif';
-            ctx.fillStyle = '#334155';
-            ctx.fillText(`• ${item.nome} (Qtd: ${item.qtd}) — Acréscimo: ${(item.taxa * 100)}% cada`, 110, posYItem);
-            posYItem += 35;
-        });
-    } else {
-        ctx.font = '16px italic sans-serif';
-        ctx.fillStyle = '#94a3b8';
-        ctx.fillText('Nenhum item de complexidade ativado.', 110, yPos + 50);
-    }
-
-    // Rodapé / Valor Total
-    yPos += alturaBoxComplex + 40;
-    ctx.fillStyle = '#0b192c';
-    ctx.fillRect(80, yPos, canvas.width - 160, 100);
-
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 22px sans-serif';
-    ctx.fillText('VALOR TOTAL DO PROJETO:', 120, yPos + 60);
-
-    ctx.fillStyle = '#d4af37';
-    ctx.font = 'bold 32px sans-serif';
-    ctx.textAlign = 'right';
-    ctx.fillText(dados.valorTotal, canvas.width - 120, yPos + 65);
-    ctx.textAlign = 'left';
-
-    // Disparar Download Automático da Imagem A4
-    const link = document.createElement('a');
-    const nomeLimpo = (dados.cliente || 'Orcamento').replace(/[^a-zA-Z0-9]/g, '_');
-    link.download = `Orcamento_${nomeLimpo}.png`;
-    link.href = canvas.toDataURL('image/png');
-    
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    document.getElementById('btnCancelar').addEventListener('click', () => {
+        document.body.removeChild(modal);
+    });
 }
 
-// --- EVENTOS DOS INPUTS ---
-const areaInput = document.getElementById('areaConstruida');
-const precoMetroInput = document.getElementById('precoMetro');
-const notaFiscalInput = document.getElementById('notaFiscal');
+function carregarOrcamento(item) {
+    document.getElementById('numOrcamento').value = item.numOrcamento;
+    document.getElementById('dataOrcamento').value = item.data;
+    document.getElementById('cliente').value = item.cliente;
+    document.getElementById('descricaoObra').value = item.descricao;
+    document.getElementById('areaConstruida').value = item.area;
+    document.getElementById('precoMetro').value = item.precoMetro;
+    document.getElementById('notaFiscal').value = item.notaFiscal;
 
-if (areaInput) areaInput.addEventListener('input', calcularOrcamento);
-if (precoMetroInput) precoMetroInput.addEventListener('input', calcularOrcamento);
-if (notaFiscalInput) notaFiscalInput.addEventListener('input', calcularOrcamento);
+    itensComplexidades.forEach((comp, i) => {
+        comp.qtd = (item.complexidades && item.complexidades[i]) ? item.complexidades[i] : 0;
+    });
 
-// --- BOTÃO CONCLUIR ORÇAMENTO ---
-const btnConcluirOrcamento = document.getElementById('btnConcluirOrcamento');
+    renderizarComplexidades();
+    calcularOrcamento();
+    if (btnNovo) btnNovo.click();
+}
 
-if (btnConcluirOrcamento) {
-    btnConcluirOrcamento.addEventListener('click', () => {
+async function gerarImagemA4Especifica(item) {
+    let itensHtml = '';
+    itensComplexidades.forEach((comp, i) => {
+        const qtd = (item.complexidades && item.complexidades[i]) ? item.complexidades[i] : 0;
+        if (qtd > 0) {
+            itensHtml += `
+                <tr>
+                    <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-weight: 500; font-size: 14px;">${comp.nome}</td>
+                    <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; text-align: center; color: #1e293b; font-weight: 600; font-size: 14px;">${qtd}</td>
+                    <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; text-align: right; color: #0b192c; font-weight: bold; font-size: 14px;">${(comp.taxa * 100).toFixed(0)}%</td>
+                </tr>
+            `;
+        }
+    });
+
+    const elemento = document.createElement('div');
+    elemento.style.width = '794px';
+    elemento.style.height = '1123px';
+    elemento.style.position = 'absolute';
+    elemento.style.left = '-9999px';
+    elemento.style.top = '0';
+    elemento.style.fontFamily = 'Inter, sans-serif';
+    elemento.style.boxSizing = 'border-box';
+    elemento.style.backgroundColor = '#ffffff';
+    elemento.style.padding = '60px 70px';
+    elemento.style.display = 'flex';
+    elemento.style.flexDirection = 'column';
+    elemento.style.justifyContent = 'space-between';
+
+    elemento.innerHTML = `
+        <div>
+            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px; border-bottom: 3px solid #0b192c; padding-bottom: 15px;">
+                <div style="width: 55px; height: 45px; background: #0b192c; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #d4af37; font-weight: 900; font-size: 18px;">
+                    GVX
+                </div>
+                <div>
+                    <h1 style="margin: 0; font-size: 22px; font-weight: 900; color: #0b192c; letter-spacing: 0.5px; line-height: 1.1;">GVX ENGENHARIA</h1>
+                    <p style="margin: 3px 0 0 0; font-size: 10px; font-weight: 700; color: #64748b; letter-spacing: 2px; text-transform: uppercase;">Projetos Estruturais</p>
+                </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #0b192c; padding-bottom: 8px; margin-bottom: 20px;">
+                <h2 style="margin: 0; color: #0b192c; font-size: 16px; font-weight: 800; text-transform: uppercase;">Orçamento de Projeto Estrutural</h2>
+                <div style="text-align: right; font-size: 13px; color: #334155; line-height: 1.4;">
+                    <strong>Orçamento Nº:</strong> ${item.numOrcamento}<br>
+                    <strong>Data:</strong> ${item.data ? item.data.split('-').reverse().join('/') : ''}
+                </div>
+            </div>
+            
+            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 18px; margin-bottom: 20px; font-size: 14px; color: #334155;">
+                <p style="margin: 0 0 6px 0;"><strong>Cliente:</strong> ${item.cliente}</p>
+                <p style="margin: 0;"><strong>Descrição da Obra:</strong> ${item.descricao || 'Não informada'}</p>
+            </div>
+            
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                <thead>
+                    <tr style="background: #0b192c; color: white;">
+                        <th style="padding: 12px 16px; text-align: left; font-size: 14px; border-top-left-radius: 8px; border-bottom-left-radius: 8px;">Fator de Complexidade</th>
+                        <th style="padding: 12px 16px; text-align: center; font-size: 14px;">Qtd</th>
+                        <th style="padding: 12px 16px; text-align: right; font-size: 14px; border-top-right-radius: 8px; border-bottom-right-radius: 8px;">Acréscimo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${itensHtml || '<tr><td colspan="3" style="padding: 20px; text-align: center; color: #64748b; font-size: 14px;">Nenhum fator de complexidade adicional selecionado.</td></tr>'}
+                </tbody>
+            </table>
+
+            <div style="background: #f8fafc; border: 2px solid #0b192c; padding: 16px 24px; border-radius: 12px; text-align: right;">
+                <p style="margin: 0; font-size: 14px; color: #475569; font-weight: 600; text-transform: uppercase;">Valor Total do Projeto:</p>
+                <p style="margin: 4px 0 0 0; font-size: 26px; color: #0b192c; font-weight: 800;">${item.valorTotal}</p>
+            </div>
+        </div>
+
+        <div style="width: 100%; border-top: 2px solid #e2e8f0; padding-top: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #64748b;">
+            <span>📞 (85) 9 9818-7532</span>
+            <span>📷 @eng.gvx</span>
+            <span>✉️ eng.gvx@gmail.com</span>
+        </div>
+    `;
+
+    document.body.appendChild(elemento);
+
+    try {
+        const canvas = await html2canvas(elemento, {
+            scale: 3,
+            useCORS: true,
+            logging: false,
+            backgroundColor: '#ffffff'
+        });
+
+        document.body.removeChild(elemento);
+
+        const link = document.createElement('a');
+        const nomeCliente = (item.cliente || 'Cliente').replace(/[^a-zA-Z0-9]/g, '_');
+        link.download = `Orcamento_${nomeCliente}.png`;
+        link.href = canvas.toDataURL('image/png', 1.0);
+        link.click();
+
+    } catch (error) {
+        console.error('Erro ao gerar imagem:', error);
+        if (document.body.contains(elemento)) {
+            document.body.removeChild(elemento);
+        }
+    }
+}
+
+const btnGerarPdf = document.getElementById('btnGerarPdf');
+if (btnGerarPdf) {
+    btnGerarPdf.addEventListener('click', async () => {
         const cliente = document.getElementById('cliente').value || 'Cliente não informado';
         const numOrcamento = document.getElementById('numOrcamento').value || '001/2026';
-        const data = document.getElementById('dataOrcamento').value || new Date().toISOString().split('T')[0];
+        const data = document.getElementById('dataOrcamento').value || '';
         const descricao = document.getElementById('descricaoObra').value || '';
         const area = document.getElementById('areaConstruida').value || '0';
         const precoMetro = document.getElementById('precoMetro').value || '0';
@@ -339,13 +410,23 @@ if (btnConcluirOrcamento) {
         const precoFinalEl = document.getElementById('resPrecoFinal');
         const precoFinal = precoFinalEl ? precoFinalEl.innerText : 'R$ 0,00';
 
-        let complexidadesSalvas = itensComplexidades.map(item => ({
-            nome: item.nome,
-            qtd: item.qtd,
-            taxa: item.taxa
-        }));
+        let itensHtml = '';
+        let qtdsArray = [];
+        itensComplexidades.forEach(item => {
+            qtdsArray.push(item.qtd);
+            if (item.qtd > 0) {
+                itensHtml += `
+                    <tr>
+                        <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-weight: 500; font-size: 14px;">${item.nome}</td>
+                        <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; text-align: center; color: #1e293b; font-weight: 600; font-size: 14px;">${item.qtd}</td>
+                        <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; text-align: right; color: #0b192c; font-weight: bold; font-size: 14px;">${(item.taxa * 100).toFixed(0)}%</td>
+                    </tr>
+                `;
+            }
+        });
 
-        const orcamentoSalvo = {
+        // Salva automaticamente no Histórico ao clicar em Baixar Orçamento
+        salvarNoHistorico({
             numOrcamento,
             data,
             cliente,
@@ -353,30 +434,102 @@ if (btnConcluirOrcamento) {
             area,
             precoMetro,
             notaFiscal,
-            complexidades: complexidadesSalvas,
+            complexidades: qtdsArray,
             valorTotal: precoFinal
-        };
+        });
 
-        salvarNoHistorico(orcamentoSalvo);
-        mudarAba('historico');
+        const elemento = document.createElement('div');
+        elemento.style.width = '794px';
+        elemento.style.height = '1123px';
+        elemento.style.position = 'absolute';
+        elemento.style.left = '-9999px';
+        elemento.style.top = '0';
+        elemento.style.fontFamily = 'Inter, sans-serif';
+        elemento.style.boxSizing = 'border-box';
+        elemento.style.backgroundColor = '#ffffff';
+        elemento.style.padding = '60px 70px';
+        elemento.style.display = 'flex';
+        elemento.style.flexDirection = 'column';
+        elemento.style.justifyContent = 'space-between';
+
+        elemento.innerHTML = `
+            <div>
+                <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px; border-bottom: 3px solid #0b192c; padding-bottom: 15px;">
+                    <div style="width: 55px; height: 45px; background: #0b192c; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #d4af37; font-weight: 900; font-size: 18px;">
+                        GVX
+                    </div>
+                    <div>
+                        <h1 style="margin: 0; font-size: 22px; font-weight: 900; color: #0b192c; letter-spacing: 0.5px; line-height: 1.1;">GVX ENGENHARIA</h1>
+                        <p style="margin: 3px 0 0 0; font-size: 10px; font-weight: 700; color: #64748b; letter-spacing: 2px; text-transform: uppercase;">Projetos Estruturais</p>
+                    </div>
+                </div>
+
+                <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #0b192c; padding-bottom: 8px; margin-bottom: 20px;">
+                    <h2 style="margin: 0; color: #0b192c; font-size: 16px; font-weight: 800; text-transform: uppercase;">Orçamento de Projeto Estrutural</h2>
+                    <div style="text-align: right; font-size: 13px; color: #334155; line-height: 1.4;">
+                        <strong>Orçamento Nº:</strong> ${numOrcamento}<br>
+                        <strong>Data:</strong> ${data ? data.split('-').reverse().join('/') : ''}
+                    </div>
+                </div>
+                
+                <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 18px; margin-bottom: 20px; font-size: 14px; color: #334155;">
+                    <p style="margin: 0 0 6px 0;"><strong>Cliente:</strong> ${cliente}</p>
+                    <p style="margin: 0;"><strong>Descrição da Obra:</strong> ${descricao}</p>
+                </div>
+                
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                    <thead>
+                        <tr style="background: #0b192c; color: white;">
+                            <th style="padding: 12px 16px; text-align: left; font-size: 14px; border-top-left-radius: 8px; border-bottom-left-radius: 8px;">Fator de Complexidade</th>
+                            <th style="padding: 12px 16px; text-align: center; font-size: 14px;">Qtd</th>
+                            <th style="padding: 12px 16px; text-align: right; font-size: 14px; border-top-right-radius: 8px; border-bottom-right-radius: 8px;">Acréscimo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${itensHtml || '<tr><td colspan="3" style="padding: 20px; text-align: center; color: #64748b; font-size: 14px;">Nenhum fator de complexidade adicional selecionado.</td></tr>'}
+                    </tbody>
+                </table>
+
+                <div style="background: #f8fafc; border: 2px solid #0b192c; padding: 16px 24px; border-radius: 12px; text-align: right;">
+                    <p style="margin: 0; font-size: 14px; color: #475569; font-weight: 600; text-transform: uppercase;">Valor Total do Projeto:</p>
+                    <p style="margin: 4px 0 0 0; font-size: 26px; color: #0b192c; font-weight: 800;">${precoFinal}</p>
+                </div>
+            </div>
+
+            <div style="width: 100%; border-top: 2px solid #e2e8f0; padding-top: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #64748b;">
+                <span>📞 (85) 9 9818-7532</span>
+                <span>📷 @eng.gvx</span>
+                <span>✉️ eng.gvx@gmail.com</span>
+            </div>
+        `;
+
+        document.body.appendChild(elemento);
+
+        try {
+            const canvas = await html2canvas(elemento, {
+                scale: 3,
+                useCORS: true,
+                logging: false,
+                backgroundColor: '#ffffff'
+            });
+
+            document.body.removeChild(elemento);
+
+            const link = document.createElement('a');
+            const nomeCliente = cliente.replace(/[^a-zA-Z0-9]/g, '_');
+            link.download = `Orcamento_${nomeCliente}.png`;
+            link.href = canvas.toDataURL('image/png', 1.0);
+            link.click();
+
+        } catch (error) {
+            console.error('Erro ao gerar imagem:', error);
+            if (document.body.contains(elemento)) {
+                document.body.removeChild(elemento);
+            }
+        }
     });
 }
 
-// --- INICIALIZAÇÃO ---
-configurarToggleComplexidade();
+inicializarExemplosHistorico();
 renderizarComplexidades();
 calcularOrcamento();
-
-const inputData = document.getElementById('dataOrcamento');
-if (inputData && !inputData.value) {
-    inputData.value = new Date().toISOString().split('T')[0];
-}
-
-// --- SERVICE WORKER ---
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('./sw.js')
-            .then(() => console.log('Service Worker registado com sucesso!'))
-            .catch(err => console.log('Erro ao registar Service Worker:', err));
-    });
-}
