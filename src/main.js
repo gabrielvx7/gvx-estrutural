@@ -287,6 +287,7 @@ function renderizarComplexidades() {
         );
 
         return;
+
     }
 
 
@@ -411,6 +412,7 @@ function alterarQtd(
     if (!itensComplexidades[index]) {
 
         return;
+
     }
 
 
@@ -425,6 +427,7 @@ function alterarQtd(
 
         itensComplexidades[index].qtd =
             0;
+
     }
 
 
@@ -438,6 +441,7 @@ function alterarQtd(
 
         spanQtd.textContent =
             itensComplexidades[index].qtd;
+
     }
 
 
@@ -497,14 +501,10 @@ function calcularOrcamento() {
         ) || 0;
 
 
-    // Valor base
-
     const totalBase =
         area *
         precoM2;
 
-
-    // Acréscimos
 
     let totalAcrescimoReais =
         0;
@@ -526,14 +526,10 @@ function calcularOrcamento() {
     );
 
 
-    // Total com acréscimos
-
     const totalComAcrescimo =
         totalBase +
         totalAcrescimoReais;
 
-
-    // Nota fiscal
 
     const valorNota =
         totalComAcrescimo *
@@ -541,8 +537,6 @@ function calcularOrcamento() {
             percNota / 100
         );
 
-
-    // Valor final
 
     const precoFinal =
         totalComAcrescimo +
@@ -571,7 +565,7 @@ function calcularOrcamento() {
 
 
 // ============================================================
-// ATUALIZAÇÃO AUTOMÁTICA DO CÁLCULO
+// ATUALIZAÇÃO AUTOMÁTICA
 // ============================================================
 
 document
@@ -619,6 +613,7 @@ function lerHistorico() {
     if (!dados) {
 
         return [];
+
     }
 
 
@@ -686,6 +681,7 @@ function inicializarExemplosHistorico() {
     ) {
 
         return;
+
     }
 
 
@@ -852,6 +848,7 @@ function renderizarHistorico() {
     if (!container) {
 
         return;
+
     }
 
 
@@ -879,6 +876,7 @@ function renderizarHistorico() {
         `;
 
         return;
+
     }
 
 
@@ -1114,8 +1112,6 @@ function abrirMenuOpcoes(
     );
 
 
-    // ATUALIZAR
-
     modal
         .querySelector(
             '#btnAtualizar'
@@ -1133,8 +1129,6 @@ function abrirMenuOpcoes(
             }
         );
 
-
-    // BAIXAR IMAGEM A4
 
     modal
         .querySelector(
@@ -1154,8 +1148,6 @@ function abrirMenuOpcoes(
         );
 
 
-    // EXCLUIR
-
     modal
         .querySelector(
             '#btnExcluir'
@@ -1174,8 +1166,6 @@ function abrirMenuOpcoes(
         );
 
 
-    // CANCELAR
-
     modal
         .querySelector(
             '#btnCancelar'
@@ -1189,8 +1179,6 @@ function abrirMenuOpcoes(
             }
         );
 
-
-    // CLIQUE FORA
 
     modal.addEventListener(
         'click',
@@ -1230,6 +1218,7 @@ function excluirOrcamento(
     if (!confirmou) {
 
         return;
+
     }
 
 
@@ -1515,6 +1504,7 @@ function salvarOrcamentoAtual() {
         );
 
         return;
+
     }
 
 
@@ -1689,6 +1679,7 @@ async function gerarImagemA4Especifica(
         );
 
         return;
+
     }
 
 
@@ -1832,12 +1823,18 @@ async function gerarImagemA4Especifica(
 
         <div>
 
+
+            <!-- ==========================================
+                 CABEÇALHO DA A4
+            =========================================== -->
+
             <div
                 style="
                     height: 135px;
                     display: flex;
                     align-items: flex-start;
                     margin-bottom: 25px;
+                    overflow: hidden;
                 "
             >
 
@@ -1845,16 +1842,22 @@ async function gerarImagemA4Especifica(
                     src="./logo-cabecalho.png"
                     alt="GVX Engenharia - Projetos Estruturais"
                     style="
-                        width: 360px;
+                        display: block;
                         height: 135px;
+                        width: auto;
+                        max-width: 100%;
                         object-fit: contain;
                         object-position: left top;
-                        display: block;
                     "
                 >
 
             </div>
 
+
+
+            <!-- ==========================================
+                 TÍTULO
+            =========================================== -->
 
             <div
                 style="
@@ -1920,6 +1923,11 @@ async function gerarImagemA4Especifica(
             </div>
 
 
+
+            <!-- ==========================================
+                 CLIENTE
+            =========================================== -->
+
             <div
                 style="
                     background: #f8fafc;
@@ -1943,7 +1951,9 @@ async function gerarImagemA4Especifica(
                             color: #334155;
                         "
                     >
+
                         Cliente:
+
                     </strong>
 
                     ${escaparHtml(
@@ -1965,7 +1975,9 @@ async function gerarImagemA4Especifica(
                             color: #334155;
                         "
                     >
+
                         Descrição da Obra:
+
                     </strong>
 
                     ${escaparHtml(
@@ -1977,6 +1989,11 @@ async function gerarImagemA4Especifica(
 
             </div>
 
+
+
+            <!-- ==========================================
+                 COMPLEXIDADES
+            =========================================== -->
 
             <table
                 style="
@@ -2002,7 +2019,9 @@ async function gerarImagemA4Especifica(
                                 font-size: 14px;
                             "
                         >
+
                             Fator de Complexidade
+
                         </th>
 
 
@@ -2013,7 +2032,9 @@ async function gerarImagemA4Especifica(
                                 font-size: 14px;
                             "
                         >
+
                             Qtd
+
                         </th>
 
 
@@ -2024,7 +2045,9 @@ async function gerarImagemA4Especifica(
                                 font-size: 14px;
                             "
                         >
+
                             Acréscimo
+
                         </th>
 
                     </tr>
@@ -2063,6 +2086,11 @@ async function gerarImagemA4Especifica(
 
             </table>
 
+
+
+            <!-- ==========================================
+                 TOTAL
+            =========================================== -->
 
             <div
                 style="
@@ -2107,8 +2135,14 @@ async function gerarImagemA4Especifica(
 
             </div>
 
+
         </div>
 
+
+
+        <!-- ==============================================
+             RODAPÉ
+        =============================================== -->
 
         <div
             style="
