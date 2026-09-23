@@ -11,9 +11,11 @@ body {
   background-color: #f1f5f9;
   color: #1e293b;
   min-height: 100vh;
+
   display: flex;
   justify-content: center;
   align-items: center;
+
   padding: 16px;
 }
 
@@ -21,356 +23,576 @@ body {
   display: none !important;
 }
 
-/* --- TELA INICIAL --- */
+
+/* =========================================================
+   TELA INICIAL
+   ========================================================= */
+
 .home-screen {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   gap: 40px;
+
   width: 100%;
   max-width: 450px;
+
   padding: 20px;
+
   text-align: center;
 }
+
 
 .home-brand {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   width: 100%;
 }
+
 
 .home-logo {
   width: 260px;
   max-width: 72vw;
+
   height: auto;
+
   display: block;
+
   object-fit: contain;
 }
+
 
 .home-buttons {
   display: flex;
   flex-direction: column;
+
   gap: 16px;
+
   width: 100%;
 }
+
 
 .home-card-btn {
   background: #0b192c;
   color: white;
+
   border: none;
+
   padding: 20px;
+
   border-radius: 16px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
+
   gap: 10px;
+
   cursor: pointer;
+
   box-shadow: 0 10px 20px rgba(11, 25, 44, 0.15);
-  transition: transform 0.2s, background 0.2s;
+
+  transition:
+    transform 0.2s,
+    background 0.2s;
 }
+
 
 .home-card-btn:hover {
   background: #152945;
+
   transform: translateY(-2px);
 }
 
+
 .card-icon {
   font-size: 28px;
+
   background: rgba(255, 255, 255, 0.1);
+
   width: 55px;
   height: 55px;
+
   border-radius: 12px;
+
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+
 .home-card-btn span {
   font-size: 14px;
+
   font-weight: 800;
+
   letter-spacing: 1px;
 }
 
 
-/* --- APLICATIVO PRINCIPAL --- */
+/* =========================================================
+   APLICATIVO PRINCIPAL
+   ========================================================= */
+
 .app-container {
   width: 100%;
   max-width: 600px;
+
   background: #ffffff;
-  box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+
+  box-shadow:
+    0 20px 25px -5px rgb(0 0 0 / 0.1);
+
   border-radius: 16px;
+
   overflow: hidden;
+
   border: 1px solid #e2e8f0;
+
   display: flex;
   flex-direction: column;
 }
 
+
+/* =========================================================
+   CABEÇALHO
+   ========================================================= */
+
 .app-header {
   background-color: #0b192c;
+
   padding: 20px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   color: white;
 }
+
 
 .brand-box {
   display: flex;
   align-items: center;
+
   gap: 12px;
 }
 
+
 .btn-back {
   background: rgba(255, 255, 255, 0.15);
+
   border: none;
+
   color: white;
+
   width: 32px;
   height: 32px;
+
   border-radius: 8px;
+
   cursor: pointer;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   font-weight: bold;
 }
+
 
 .btn-back:hover {
   background: rgba(255, 255, 255, 0.25);
 }
 
+
 .brand-logo {
   background-color: #d4af37;
+
   color: #0f172a;
+
   font-weight: 900;
+
   padding: 6px 10px;
+
   border-radius: 6px;
+
   font-size: 12px;
+
   letter-spacing: 1px;
 }
 
+
 .brand-title {
   font-size: 14px;
+
   font-weight: bold;
+
   letter-spacing: 0.5px;
 }
 
+
 .brand-sub {
   font-size: 10px;
+
   color: #cbd5e1;
 }
+
+
+/* =========================================================
+   ABAS
+   ========================================================= */
 
 .tabs {
   display: flex;
+
   gap: 4px;
+
   background: #1e3e62;
+
   padding: 4px;
+
   border-radius: 8px;
 }
 
+
 .tab-btn {
   background: transparent;
+
   border: none;
+
   color: #cbd5e1;
+
   padding: 6px 12px;
+
   font-size: 12px;
+
   font-weight: 600;
+
   border-radius: 6px;
+
   cursor: pointer;
+
   transition: all 0.2s;
 }
 
+
 .tab-btn.active {
   background: white;
+
   color: #0b192c;
-  box-shadow: 0 1px 2px rgb(0 0 0 / 0.1);
+
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.1);
 }
+
+
+/* =========================================================
+   SEÇÕES
+   ========================================================= */
 
 .section-content {
   padding: 20px;
+
   display: flex;
   flex-direction: column;
+
   gap: 16px;
 }
 
+
 .form-row {
   display: grid;
+
   grid-template-columns: 1fr 1fr;
+
   gap: 12px;
 }
+
 
 .form-group {
   display: flex;
   flex-direction: column;
+
   gap: 6px;
 }
 
+
 .form-group label {
   font-size: 12px;
+
   font-weight: bold;
+
   color: #334155;
 }
 
+
 .form-input {
   width: 100%;
+
   font-size: 12px;
+
   padding: 10px;
+
   border: 1px solid #cbd5e1;
+
   border-radius: 8px;
+
   outline: none;
+
   transition: border-color 0.2s;
 }
 
+
 .form-input:focus {
   border-color: #0b192c;
-  box-shadow: 0 0 0 2px rgba(11, 25, 44, 0.1);
+
+  box-shadow:
+    0 0 0 2px rgba(11, 25, 44, 0.1);
 }
+
+
+/* =========================================================
+   PARÂMETROS
+   ========================================================= */
 
 .params-box {
   display: grid;
+
   grid-template-columns: repeat(3, 1fr);
+
   gap: 8px;
+
   background: #f8fafc;
+
   padding: 12px;
+
   border-radius: 10px;
+
   border: 1px solid #e2e8f0;
 }
+
+
+/* =========================================================
+   COMPLEXIDADES
+   ========================================================= */
 
 .complex-list {
   display: flex;
   flex-direction: column;
+
   gap: 8px;
+
   max-height: 200px;
+
   overflow-y: auto;
+
   padding-right: 4px;
 }
 
+
 .complex-item {
   background: white;
+
   padding: 10px 12px;
+
   border-radius: 10px;
+
   border: 1px solid #e2e8f0;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+
 .complex-item p:first-child {
   font-size: 11px;
+
   font-weight: bold;
+
   color: #1e293b;
 }
 
+
 .complex-item p:last-child {
   font-size: 10px;
+
   color: #64748b;
 }
+
 
 .counter-box {
   display: flex;
   align-items: center;
+
   gap: 8px;
 }
+
 
 .btn-cnt {
   width: 28px;
   height: 28px;
+
   background: #f1f5f9;
+
   border: none;
+
   font-weight: bold;
+
   border-radius: 6px;
+
   cursor: pointer;
+
   color: #334155;
+
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+
 .btn-cnt:hover {
   background: #e2e8f0;
 }
 
+
+/* =========================================================
+   TOTAL
+   ========================================================= */
+
 .total-box {
   background: #0f172a;
+
   color: white;
+
   padding: 16px;
+
   border-radius: 12px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
+
 .total-box span {
   font-size: 10px;
+
   text-transform: uppercase;
+
   letter-spacing: 1px;
+
   color: #94a3b8;
+
   font-weight: bold;
 }
+
 
 .total-box h2 {
   font-size: 20px;
+
   font-weight: 900;
 }
 
+
 .btn-action {
   background: #d4af37;
+
   color: #0f172a;
+
   font-weight: bold;
+
   border: none;
+
   padding: 10px 16px;
+
   border-radius: 10px;
+
   font-size: 12px;
+
   cursor: pointer;
+
   display: flex;
   align-items: center;
+
   gap: 8px;
+
   transition: background 0.2s;
 }
+
 
 .btn-action:hover {
   background: #c49f27;
 }
 
+
+/* =========================================================
+   HISTÓRICO
+   ========================================================= */
+
 .history-list {
   display: flex;
   flex-direction: column;
+
   gap: 8px;
+
   max-height: 350px;
+
   overflow-y: auto;
 }
 
+
 .history-card {
   background: #f8fafc;
+
   border: 1px solid #e2e8f0;
+
   padding: 12px;
+
   border-radius: 10px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   font-size: 12px;
 }
 
+
 .history-card p {
   color: #64748b;
+
   font-size: 11px;
 }
+
 
 .history-card b {
   color: #1e293b;
 }
 
+
 .btn-load {
   background: #eff6ff;
+
   color: #0b192c;
+
   border: none;
+
   font-weight: bold;
+
   padding: 6px 12px;
+
   border-radius: 6px;
+
   cursor: pointer;
 }
+
 
 .btn-load:hover {
   background: #dbeafe;
