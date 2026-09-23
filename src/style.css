@@ -80,23 +80,14 @@ button {
 /* LOGO OFICIAL DA TELA INICIAL */
 
 .home-logo {
-
   display: block;
-
-  width: 260px;
-
-  max-width: 70%;
-
-  max-height: 140px;
-
+  width: 220px;
+  max-width: 50%;
+  max-height: 120px;
   height: auto;
-
   object-fit: contain;
-
   object-position: center;
-
   margin-bottom: 8px;
-
 }
 
 
