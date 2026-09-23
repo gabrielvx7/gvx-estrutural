@@ -369,34 +369,21 @@ async function gerarImagemA4Especifica(item) {
     }
 }
 
-document.getElementById('btnGerarPdf').addEventListener('click', async () => {
-    const cliente = document.getElementById('cliente').value || 'Cliente não informado';
-    const numOrcamento = document.getElementById('numOrcamento').value;
+function obterOrcamentoAtual() {
+    const cliente = document.getElementById('cliente').value.trim() || 'Cliente não informado';
+    const numOrcamento = document.getElementById('numOrcamento').value.trim();
     const data = document.getElementById('dataOrcamento').value;
-    const descricao = document.getElementById('descricaoObra').value;
+    const descricao = document.getElementById('descricaoObra').value.trim();
     const area = document.getElementById('areaConstruida').value;
     const precoMetro = document.getElementById('precoMetro').value;
     const notaFiscal = document.getElementById('notaFiscal').value;
-    
+
     const precoFinalEl = document.getElementById('resPrecoFinal');
     const precoFinal = precoFinalEl ? precoFinalEl.innerText : 'R$ 0,00';
 
-    let itensHtml = '';
-    let qtdsArray = [];
-    itensComplexidades.forEach(item => {
-        qtdsArray.push(item.qtd);
-        if (item.qtd > 0) {
-            itensHtml += `
-                <tr>
-                    <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; color: #1e293b; font-weight: 500; font-size: 14px;">${item.nome}</td>
-                    <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; text-align: center; color: #1e293b; font-weight: 600; font-size: 14px;">${item.qtd}</td>
-                    <td style="padding: 12px 16px; border-bottom: 1px solid #e2e8f0; text-align: right; color: #0b192c; font-weight: bold; font-size: 14px;">${(item.taxa * 100).toFixed(0)}%</td>
-                </tr>
-            `;
-        }
-    });
+    const qtdsArray = itensComplexidades.map(item => item.qtd);
 
-    salvarNoHistorico({
+    return {
         numOrcamento,
         data,
         cliente,
@@ -406,97 +393,20 @@ document.getElementById('btnGerarPdf').addEventListener('click', async () => {
         notaFiscal,
         complexidades: qtdsArray,
         valorTotal: precoFinal
-    });
+    };
+}
 
-    const elemento = document.createElement('div');
-    elemento.style.width = '794px';
-    elemento.style.height = '1123px';
-    elemento.style.position = 'absolute';
-    elemento.style.left = '-9999px';
-    elemento.style.top = '0';
-    elemento.style.fontFamily = 'Inter, sans-serif';
-    elemento.style.boxSizing = 'border-box';
-    elemento.style.backgroundColor = '#ffffff';
-    elemento.style.padding = '60px 70px';
-    elemento.style.display = 'flex';
-    elemento.style.flexDirection = 'column';
-    elemento.style.justifyContent = 'space-between';
+function salvarOrcamentoAtual() {
+    const orcamento = obterOrcamentoAtual();
 
-    elemento.innerHTML = `
-        <div>
-            <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 25px; border-bottom: 3px solid #0b192c; padding-bottom: 15px;">
-                <div style="width: 55px; height: 45px; background: #0b192c; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #d4af37; font-weight: 900; font-size: 18px;">
-                    GVX
-                </div>
-                <div>
-                    <h1 style="margin: 0; font-size: 22px; font-weight: 900; color: #0b192c; letter-spacing: 0.5px; line-height: 1.1;">GVX ENGENHARIA</h1>
-                    <p style="margin: 3px 0 0 0; font-size: 10px; font-weight: 700; color: #64748b; letter-spacing: 2px; text-transform: uppercase;">Projetos Estruturais</p>
-                </div>
-            </div>
+    salvarNoHistorico(orcamento);
+    renderizarHistorico();
 
-            <div style="display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 2px solid #0b192c; padding-bottom: 8px; margin-bottom: 20px;">
-                <h2 style="margin: 0; color: #0b192c; font-size: 16px; font-weight: 800; text-transform: uppercase;">Orçamento de Projeto Estrutural</h2>
-                <div style="text-align: right; font-size: 13px; color: #334155; line-height: 1.4;">
-                    <strong>Orçamento Nº:</strong> ${numOrcamento}<br>
-                    <strong>Data:</strong> ${data ? data.split('-').reverse().join('/') : ''}
-                </div>
-            </div>
-            
-            <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 14px 18px; margin-bottom: 20px; font-size: 14px; color: #334155;">
-                <p style="margin: 0 0 6px 0;"><strong>Cliente:</strong> ${cliente}</p>
-                <p style="margin: 0;"><strong>Descrição da Obra:</strong> ${descricao}</p>
-            </div>
-            
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
-                <thead>
-                    <tr style="background: #0b192c; color: white;">
-                        <th style="padding: 12px 16px; text-align: left; font-size: 14px; border-top-left-radius: 8px; border-bottom-left-radius: 8px;">Fator de Complexidade</th>
-                        <th style="padding: 12px 16px; text-align: center; font-size: 14px;">Qtd</th>
-                        <th style="padding: 12px 16px; text-align: right; font-size: 14px; border-top-right-radius: 8px; border-bottom-right-radius: 8px;">Acréscimo</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    ${itensHtml || '<tr><td colspan="3" style="padding: 20px; text-align: center; color: #64748b; font-size: 14px;">Nenhum fator de complexidade adicional selecionado.</td></tr>'}
-                </tbody>
-            </table>
+    // Depois de salvar, o usuário é levado diretamente para o Histórico.
+    btnHistorico.click();
+}
 
-            <div style="background: #f8fafc; border: 2px solid #0b192c; padding: 16px 24px; border-radius: 12px; text-align: right;">
-                <p style="margin: 0; font-size: 14px; color: #475569; font-weight: 600; text-transform: uppercase;">Valor Total do Projeto:</p>
-                <p style="margin: 4px 0 0 0; font-size: 26px; color: #0b192c; font-weight: 800;">${precoFinal}</p>
-            </div>
-        </div>
-
-        <div style="width: 100%; border-top: 2px solid #e2e8f0; padding-top: 15px; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #64748b;">
-            <span>📞 (85) 9 9818-7532</span>
-            <span>📷 @eng.gvx</span>
-            <span>✉️ eng.gvx@gmail.com</span>
-        </div>
-    `;
-
-    document.body.appendChild(elemento);
-
-    try {
-        const canvas = await html2canvas(elemento, {
-            scale: 4,
-            useCORS: true,
-            logging: false,
-            backgroundColor: '#ffffff'
-        });
-
-        document.body.removeChild(elemento);
-
-        const link = document.createElement('a');
-        link.download = `Orcamento_${cliente.replace(/\s+/g, '_')}.png`;
-        link.href = canvas.toDataURL('image/png', 1.0);
-        link.click();
-
-    } catch (error) {
-        console.error('Erro ao gerar imagem:', error);
-        if (document.body.contains(elemento)) {
-            document.body.removeChild(elemento);
-        }
-    }
-});
+document.getElementById('btnSalvarOrcamento').addEventListener('click', salvarOrcamentoAtual);
 
 inicializarExemplosHistorico();
 renderizarComplexidades();
