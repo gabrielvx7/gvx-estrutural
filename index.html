@@ -4,26 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GVX Engenharia - Orçamentos</title>
-    <link rel="icon" href="./logo-oficial.png">
     <link rel="stylesheet" href="./src/style.css">
   </head>
 
   <body>
 
-    <!-- =========================================================
-         TELA INICIAL
-    ========================================================== -->
+    <!-- TELA INICIAL -->
     <div id="telaInicio" class="home-screen">
 
       <div class="home-brand">
-
-        <!-- LOGO OFICIAL -->
         <img
           src="./logo-oficial.png"
-          alt="GVX Projetos Estruturais"
+          alt="Gabriel Vasconcelos - Projetos Estruturais"
           class="home-logo"
         >
-
       </div>
 
       <div class="home-buttons">
@@ -43,11 +37,10 @@
     </div>
 
 
-    <!-- =========================================================
-         APLICATIVO PRINCIPAL
-    ========================================================== -->
+    <!-- APLICATIVO PRINCIPAL -->
     <div id="appContainer" class="app-container hidden">
 
+      <!-- CABEÇALHO -->
       <div class="app-header">
 
         <div class="brand-box">
@@ -77,6 +70,7 @@
         </div>
 
 
+        <!-- ABAS -->
         <div class="tabs">
 
           <button
@@ -98,10 +92,11 @@
       </div>
 
 
-      <!-- =======================================================
-           NOVO ORÇAMENTO
-      ======================================================== -->
-      <div id="secaoNovo" class="section-content">
+      <!-- NOVO ORÇAMENTO -->
+      <div
+        id="secaoNovo"
+        class="section-content"
+      >
 
         <div class="form-row">
 
@@ -170,6 +165,7 @@
         </div>
 
 
+        <!-- PARÂMETROS -->
         <div class="params-box">
 
           <div class="form-group">
@@ -222,7 +218,7 @@
         </div>
 
 
-        <!-- FATORES DE COMPLEXIDADE -->
+        <!-- FATORES -->
         <div>
 
           <label
@@ -274,9 +270,7 @@
       </div>
 
 
-      <!-- =======================================================
-           HISTÓRICO
-      ======================================================== -->
+      <!-- HISTÓRICO -->
       <div
         id="secaoHistorico"
         class="section-content hidden"
@@ -303,14 +297,10 @@
     </div>
 
 
-    <!-- =========================================================
-         HTML2CANVAS
-    ========================================================== -->
+    <!-- HTML2CANVAS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-    <!-- =========================================================
-         JAVASCRIPT PRINCIPAL
-    ========================================================== -->
+    <!-- JAVASCRIPT -->
     <script
       type="module"
       src="./src/main.js"
