@@ -1,21 +1,31 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
 
 
+/* ==========================================================
+   RESET
+========================================================== */
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+
   font-family: 'Inter', sans-serif;
 }
 
 
 body {
+
   background-color: #f1f5f9;
+
   color: #1e293b;
+
   min-height: 100vh;
 
   display: flex;
+
   justify-content: center;
+
   align-items: center;
 
   padding: 16px;
@@ -38,19 +48,24 @@ button {
 }
 
 
-/* =========================================================
+/* ==========================================================
    TELA INICIAL
-========================================================= */
+========================================================== */
 
 .home-screen {
+
   display: flex;
+
   flex-direction: column;
+
   align-items: center;
+
   justify-content: center;
 
   gap: 40px;
 
   width: 100%;
+
   max-width: 450px;
 
   padding: 20px;
@@ -60,51 +75,49 @@ button {
 
 
 .home-brand {
+
   display: flex;
+
   flex-direction: column;
+
   align-items: center;
 
   gap: 12px;
+
+  width: 100%;
 }
 
 
-.logo-graphic {
-  width: 120px;
-  height: 90px;
+/* ==========================================================
+   LOGO OFICIAL DA TELA INICIAL
+========================================================== */
 
-  display: flex;
-  flex-direction: column;
+.home-logo {
 
-  justify-content: center;
+  display: block;
+
+  width: min(360px, 88vw);
+
+  max-height: 180px;
+
+  height: auto;
+
+  object-fit: contain;
+
+  object-position: center;
 
   margin-bottom: 8px;
 }
 
 
-.home-brand h1 {
-  font-size: 22px;
-  font-weight: 900;
-
-  color: #0b192c;
-
-  letter-spacing: 1px;
-}
-
-
-.home-brand p {
-  font-size: 11px;
-  font-weight: 700;
-
-  color: #64748b;
-
-  letter-spacing: 3px;
-
-  text-transform: uppercase;
-}
-
+/* ==========================================================
+   BOTÕES DA TELA INICIAL
+========================================================== */
 
 .home-buttons {
+
   display: flex;
+
   flex-direction: column;
 
   gap: 16px;
@@ -114,7 +127,9 @@ button {
 
 
 .home-card-btn {
+
   background: #0b192c;
+
   color: white;
 
   border: none;
@@ -124,6 +139,7 @@ button {
   border-radius: 16px;
 
   display: flex;
+
   flex-direction: column;
 
   align-items: center;
@@ -133,7 +149,8 @@ button {
   cursor: pointer;
 
   box-shadow:
-    0 10px 20px rgba(11, 25, 44, 0.15);
+    0 10px 20px
+    rgba(11, 25, 44, 0.15);
 
   transition:
     transform 0.2s,
@@ -142,6 +159,7 @@ button {
 
 
 .home-card-btn:hover {
+
   background: #152945;
 
   transform: translateY(-2px);
@@ -149,41 +167,51 @@ button {
 
 
 .card-icon {
+
   font-size: 28px;
 
-  background: rgba(255, 255, 255, 0.1);
+  background:
+    rgba(255, 255, 255, 0.1);
 
   width: 55px;
+
   height: 55px;
 
   border-radius: 12px;
 
   display: flex;
+
   align-items: center;
+
   justify-content: center;
 }
 
 
 .home-card-btn span {
+
   font-size: 14px;
+
   font-weight: 800;
 
   letter-spacing: 1px;
 }
 
 
-/* =========================================================
-   APLICATIVO
-========================================================= */
+/* ==========================================================
+   APLICATIVO PRINCIPAL
+========================================================== */
 
 .app-container {
+
   width: 100%;
+
   max-width: 600px;
 
   background: #ffffff;
 
   box-shadow:
-    0 20px 25px -5px rgb(0 0 0 / 0.1);
+    0 20px 25px -5px
+    rgb(0 0 0 / 0.1);
 
   border-radius: 16px;
 
@@ -192,15 +220,17 @@ button {
   border: 1px solid #e2e8f0;
 
   display: flex;
+
   flex-direction: column;
 }
 
 
-/* =========================================================
+/* ==========================================================
    CABEÇALHO
-========================================================= */
+========================================================== */
 
 .app-header {
+
   background-color: #0b192c;
 
   padding: 20px;
@@ -216,6 +246,7 @@ button {
 
 
 .brand-box {
+
   display: flex;
 
   align-items: center;
@@ -225,13 +256,16 @@ button {
 
 
 .btn-back {
-  background: rgba(255, 255, 255, 0.15);
+
+  background:
+    rgba(255, 255, 255, 0.15);
 
   border: none;
 
   color: white;
 
   width: 32px;
+
   height: 32px;
 
   border-radius: 8px;
@@ -241,6 +275,7 @@ button {
   display: flex;
 
   align-items: center;
+
   justify-content: center;
 
   font-weight: bold;
@@ -248,11 +283,14 @@ button {
 
 
 .btn-back:hover {
-  background: rgba(255, 255, 255, 0.25);
+
+  background:
+    rgba(255, 255, 255, 0.25);
 }
 
 
 .brand-logo {
+
   background-color: #d4af37;
 
   color: #0f172a;
@@ -270,6 +308,7 @@ button {
 
 
 .brand-title {
+
   font-size: 14px;
 
   font-weight: bold;
@@ -279,17 +318,19 @@ button {
 
 
 .brand-sub {
+
   font-size: 10px;
 
   color: #cbd5e1;
 }
 
 
-/* =========================================================
+/* ==========================================================
    ABAS
-========================================================= */
+========================================================== */
 
 .tabs {
+
   display: flex;
 
   gap: 4px;
@@ -303,6 +344,7 @@ button {
 
 
 .tab-btn {
+
   background: transparent;
 
   border: none;
@@ -324,23 +366,27 @@ button {
 
 
 .tab-btn.active {
+
   background: white;
 
   color: #0b192c;
 
   box-shadow:
-    0 1px 2px rgb(0 0 0 / 0.1);
+    0 1px 2px
+    rgb(0 0 0 / 0.1);
 }
 
 
-/* =========================================================
+/* ==========================================================
    CONTEÚDO
-========================================================= */
+========================================================== */
 
 .section-content {
+
   padding: 20px;
 
   display: flex;
+
   flex-direction: column;
 
   gap: 16px;
@@ -348,6 +394,7 @@ button {
 
 
 .section-label {
+
   font-size: 12px;
 
   font-weight: bold;
@@ -357,14 +404,17 @@ button {
   display: block;
 
   text-transform: uppercase;
+
+  margin-bottom: 0;
 }
 
 
-/* =========================================================
+/* ==========================================================
    FORMULÁRIOS
-========================================================= */
+========================================================== */
 
 .form-row {
+
   display: grid;
 
   grid-template-columns: 1fr 1fr;
@@ -374,6 +424,7 @@ button {
 
 
 .form-group {
+
   display: flex;
 
   flex-direction: column;
@@ -383,6 +434,7 @@ button {
 
 
 .form-group label {
+
   font-size: 12px;
 
   font-weight: bold;
@@ -392,40 +444,47 @@ button {
 
 
 .form-input {
+
   width: 100%;
 
   font-size: 12px;
 
   padding: 10px;
 
-  border: 1px solid #cbd5e1;
+  border:
+    1px solid #cbd5e1;
 
   border-radius: 8px;
 
   outline: none;
 
-  transition: border-color 0.2s;
+  transition:
+    border-color 0.2s;
 
   background: #ffffff;
 }
 
 
 .form-input:focus {
+
   border-color: #0b192c;
 
   box-shadow:
-    0 0 0 2px rgba(11, 25, 44, 0.1);
+    0 0 0 2px
+    rgba(11, 25, 44, 0.1);
 }
 
 
-/* =========================================================
+/* ==========================================================
    PARÂMETROS
-========================================================= */
+========================================================== */
 
 .params-box {
+
   display: grid;
 
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns:
+    repeat(3, 1fr);
 
   gap: 8px;
 
@@ -435,15 +494,17 @@ button {
 
   border-radius: 10px;
 
-  border: 1px solid #e2e8f0;
+  border:
+    1px solid #e2e8f0;
 }
 
 
-/* =========================================================
-   FATORES DE COMPLEXIDADE
-========================================================= */
+/* ==========================================================
+   COMPLEXIDADES
+========================================================== */
 
 .complex-list {
+
   display: flex;
 
   flex-direction: column;
@@ -459,13 +520,15 @@ button {
 
 
 .complex-item {
+
   background: white;
 
   padding: 10px 12px;
 
   border-radius: 10px;
 
-  border: 1px solid #e2e8f0;
+  border:
+    1px solid #e2e8f0;
 
   display: flex;
 
@@ -478,6 +541,7 @@ button {
 
 
 .complex-info {
+
   min-width: 0;
 
   padding-right: 10px;
@@ -485,6 +549,7 @@ button {
 
 
 .complex-info p {
+
   font-size: 11px;
 
   font-weight: bold;
@@ -494,6 +559,7 @@ button {
 
 
 .complex-info span {
+
   display: block;
 
   margin-top: 3px;
@@ -505,6 +571,7 @@ button {
 
 
 .counter-box {
+
   display: flex;
 
   align-items: center;
@@ -516,7 +583,9 @@ button {
 
 
 .btn-cnt {
+
   width: 28px;
+
   height: 28px;
 
   background: #f1f5f9;
@@ -534,6 +603,7 @@ button {
   display: flex;
 
   align-items: center;
+
   justify-content: center;
 
   font-size: 16px;
@@ -543,16 +613,19 @@ button {
 
 
 .btn-cnt:hover {
+
   background: #e2e8f0;
 }
 
 
 .btn-cnt:active {
+
   transform: scale(0.96);
 }
 
 
 .btn-plus {
+
   color: #0b192c;
 
   background: #e0f2fe;
@@ -560,6 +633,7 @@ button {
 
 
 .qtd-value {
+
   width: 24px;
 
   text-align: center;
@@ -572,11 +646,12 @@ button {
 }
 
 
-/* =========================================================
+/* ==========================================================
    TOTAL
-========================================================= */
+========================================================== */
 
 .total-box {
+
   background: #0f172a;
 
   color: white;
@@ -596,6 +671,7 @@ button {
 
 
 .total-box span {
+
   font-size: 10px;
 
   text-transform: uppercase;
@@ -609,17 +685,15 @@ button {
 
 
 .total-box h2 {
+
   font-size: 20px;
 
   font-weight: 900;
 }
 
 
-/* =========================================================
-   BOTÃO SALVAR
-========================================================= */
-
 .btn-action {
+
   background: #d4af37;
 
   color: #0f172a;
@@ -642,22 +716,25 @@ button {
 
   gap: 8px;
 
-  transition: background 0.2s;
+  transition:
+    background 0.2s;
 
   white-space: nowrap;
 }
 
 
 .btn-action:hover {
+
   background: #c49f27;
 }
 
 
-/* =========================================================
+/* ==========================================================
    HISTÓRICO
-========================================================= */
+========================================================== */
 
 .history-list {
+
   display: flex;
 
   flex-direction: column;
@@ -673,9 +750,11 @@ button {
 
 
 .history-card {
+
   background: #f8fafc;
 
-  border: 1px solid #e2e8f0;
+  border:
+    1px solid #e2e8f0;
 
   padding: 12px;
 
@@ -694,16 +773,19 @@ button {
 
 
 .history-info {
+
   min-width: 0;
 }
 
 
 .history-info b {
+
   color: #1e293b;
 }
 
 
 .history-info p {
+
   color: #64748b;
 
   font-size: 11px;
@@ -719,6 +801,7 @@ button {
 
 
 .history-info strong {
+
   color: #0b192c;
 
   display: block;
@@ -728,6 +811,7 @@ button {
 
 
 .btn-load {
+
   background: #eff6ff;
 
   color: #0b192c;
@@ -747,12 +831,15 @@ button {
 
 
 .btn-load:hover {
+
   background: #dbeafe;
 }
 
 
 .history-empty {
-  border: 1px dashed #cbd5e1;
+
+  border:
+    1px dashed #cbd5e1;
 
   border-radius: 10px;
 
@@ -766,18 +853,20 @@ button {
 }
 
 
-/* =========================================================
+/* ==========================================================
    MODAL DO HISTÓRICO
-========================================================= */
+========================================================== */
 
 .modal-overlay {
+
   position: fixed;
 
   inset: 0;
 
   z-index: 1000;
 
-  background: rgba(0, 0, 0, 0.5);
+  background:
+    rgba(0, 0, 0, 0.5);
 
   display: flex;
 
@@ -790,6 +879,7 @@ button {
 
 
 .modal-card {
+
   width: min(360px, 100%);
 
   background: #ffffff;
@@ -799,7 +889,8 @@ button {
   border-radius: 14px;
 
   box-shadow:
-    0 20px 40px rgba(0, 0, 0, 0.2);
+    0 20px 40px
+    rgba(0, 0, 0, 0.2);
 
   display: flex;
 
@@ -810,6 +901,7 @@ button {
 
 
 .modal-card h3 {
+
   font-size: 16px;
 
   font-weight: 800;
@@ -821,6 +913,7 @@ button {
 
 
 .modal-card > p {
+
   font-size: 12px;
 
   color: #64748b;
@@ -830,6 +923,7 @@ button {
 
 
 .modal-btn {
+
   width: 100%;
 
   border: none;
@@ -847,6 +941,7 @@ button {
 
 
 .modal-primary {
+
   background: #0b192c;
 
   color: #ffffff;
@@ -854,11 +949,13 @@ button {
 
 
 .modal-primary:hover {
+
   background: #152945;
 }
 
 
 .modal-gold {
+
   background: #d4af37;
 
   color: #0f172a;
@@ -866,11 +963,13 @@ button {
 
 
 .modal-gold:hover {
+
   background: #c49f27;
 }
 
 
 .modal-danger {
+
   background: #fee2e2;
 
   color: #991b1b;
@@ -878,11 +977,13 @@ button {
 
 
 .modal-danger:hover {
+
   background: #fecaca;
 }
 
 
 .modal-cancel {
+
   background: #f1f5f9;
 
   color: #334155;
@@ -892,22 +993,33 @@ button {
 
 
 .modal-cancel:hover {
+
   background: #e2e8f0;
 }
 
 
-/* =========================================================
+/* ==========================================================
    RESPONSIVIDADE
-========================================================= */
+========================================================== */
 
 @media (max-width: 520px) {
 
   body {
+
     padding: 10px;
   }
 
 
+  .home-logo {
+
+    width: min(330px, 92vw);
+
+    max-height: 160px;
+  }
+
+
   .app-header {
+
     padding: 14px;
 
     gap: 10px;
@@ -915,37 +1027,44 @@ button {
 
 
   .brand-title {
+
     font-size: 12px;
   }
 
 
   .brand-sub {
+
     font-size: 9px;
   }
 
 
   .tabs {
+
     flex-shrink: 0;
   }
 
 
   .tab-btn {
+
     padding: 6px 9px;
   }
 
 
   .section-content {
+
     padding: 16px;
   }
 
 
   .form-row,
   .params-box {
+
     grid-template-columns: 1fr;
   }
 
 
   .total-box {
+
     flex-direction: column;
 
     align-items: stretch;
@@ -953,17 +1072,14 @@ button {
 
 
   .btn-action {
+
     justify-content: center;
   }
 
 
   .history-card {
+
     align-items: center;
   }
 
 }
-"""
-open('/mnt/data/style_fixed.css','w',encoding='utf-8').write(style)
-print(len(style))
-print(style[-300:])
-%timeout
