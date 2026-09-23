@@ -1,56 +1,164 @@
-// GVX ENGENHARIA - Sistema de Orçamentos
-// A lógica abaixo usa localStorage para o histórico e html2canvas via CDN.
-// A Imagem A4 é gerada somente a partir do Histórico.
+// ============================================================
+// GVX ENGENHARIA - SISTEMA DE ORÇAMENTOS
+// ============================================================
+// Histórico salvo em localStorage.
+// Imagem A4 gerada com html2canvas.
+// ============================================================
+
 
 const html2canvas = window.html2canvas;
-const CHAVE_HISTORICO = 'gvx_historico_orcamentos';
+
+const CHAVE_HISTORICO =
+    'gvx_historico_orcamentos';
+
+
+// ============================================================
+// FATORES DE COMPLEXIDADE
+// ============================================================
 
 const itensComplexidades = [
-    { id: 'balanco1', nome: 'BALANÇO (2 à 4m)', taxa: 0.10, qtd: 0 },
-    { id: 'balanco2', nome: 'BALANÇO (>4m)', taxa: 0.20, qtd: 0 },
 
-    { id: 'transicao1', nome: 'VIGA DE TRANSIÇÃO (2 - 4m)', taxa: 0.10, qtd: 0 },
-    { id: 'transicao2', nome: 'VIGA DE TRANSIÇÃO (4 - 6m)', taxa: 0.15, qtd: 0 },
-    { id: 'transicao3', nome: 'VIGA DE TRANSIÇÃO (>6m)', taxa: 0.20, qtd: 0 },
+    {
+        id: 'balanco1',
+        nome: 'BALANÇO (2 à 4m)',
+        taxa: 0.10,
+        qtd: 0
+    },
 
-    { id: 'vigaVao1', nome: 'VIGA VÃO (6 - 9m)', taxa: 0.10, qtd: 0 },
-    { id: 'vigaVao2', nome: 'VIGA VÃO (>9m)', taxa: 0.15, qtd: 0 },
+    {
+        id: 'balanco2',
+        nome: 'BALANÇO (>4m)',
+        taxa: 0.20,
+        qtd: 0
+    },
 
-    { id: 'escada', nome: 'ESCADA MODERNA', taxa: 0.07, qtd: 0 },
+    {
+        id: 'transicao1',
+        nome: 'VIGA DE TRANSIÇÃO (2 - 4m)',
+        taxa: 0.10,
+        qtd: 0
+    },
 
-    { id: 'desnivel1', nome: 'TERRENO DESNÍVEL (3 - 6m)', taxa: 0.10, qtd: 0 },
-    { id: 'desnivel2', nome: 'TERRENO DESNÍVEL (>6m)', taxa: 0.15, qtd: 0 },
+    {
+        id: 'transicao2',
+        nome: 'VIGA DE TRANSIÇÃO (4 - 6m)',
+        taxa: 0.15,
+        qtd: 0
+    },
 
-    { id: 'fundProf', nome: 'FUNDAÇÃO PROFUNDA', taxa: 0.15, qtd: 0 },
-    { id: 'fundExc', nome: 'FUNDAÇÃO EXCENTRICA', taxa: 0.10, qtd: 0 },
+    {
+        id: 'transicao3',
+        nome: 'VIGA DE TRANSIÇÃO (>6m)',
+        taxa: 0.20,
+        qtd: 0
+    },
 
-    { id: 'piscina', nome: 'PISCINA NA COBERTURA', taxa: 0.20, qtd: 0 },
+    {
+        id: 'vigaVao1',
+        nome: 'VIGA VÃO (6 - 9m)',
+        taxa: 0.10,
+        qtd: 0
+    },
 
-    { id: 'detalheExtra', nome: 'Detalhe a mais', taxa: 0.10, qtd: 0 }
+    {
+        id: 'vigaVao2',
+        nome: 'VIGA VÃO (>9m)',
+        taxa: 0.15,
+        qtd: 0
+    },
+
+    {
+        id: 'escada',
+        nome: 'ESCADA MODERNA',
+        taxa: 0.07,
+        qtd: 0
+    },
+
+    {
+        id: 'desnivel1',
+        nome: 'TERRENO DESNÍVEL (3 - 6m)',
+        taxa: 0.10,
+        qtd: 0
+    },
+
+    {
+        id: 'desnivel2',
+        nome: 'TERRENO DESNÍVEL (>6m)',
+        taxa: 0.15,
+        qtd: 0
+    },
+
+    {
+        id: 'fundProf',
+        nome: 'FUNDAÇÃO PROFUNDA',
+        taxa: 0.15,
+        qtd: 0
+    },
+
+    {
+        id: 'fundExc',
+        nome: 'FUNDAÇÃO EXCENTRICA',
+        taxa: 0.10,
+        qtd: 0
+    },
+
+    {
+        id: 'piscina',
+        nome: 'PISCINA NA COBERTURA',
+        taxa: 0.20,
+        qtd: 0
+    },
+
+    {
+        id: 'detalheExtra',
+        nome: 'Detalhe a mais',
+        taxa: 0.10,
+        qtd: 0
+    }
+
 ];
 
 
 // ============================================================
-// ELEMENTOS DA INTERFACE
+// ELEMENTOS
 // ============================================================
 
-const telaInicio = document.getElementById('telaInicio');
-const appContainer = document.getElementById('appContainer');
+const telaInicio =
+    document.getElementById('telaInicio');
 
-const btnIrNovo = document.getElementById('btnIrNovo');
-const btnIrHistorico = document.getElementById('btnIrHistorico');
-const btnVoltarInicio = document.getElementById('btnVoltarInicio');
+const appContainer =
+    document.getElementById('appContainer');
 
-const btnNovo = document.getElementById('tabNovo');
-const btnHistorico = document.getElementById('tabHistorico');
+const btnIrNovo =
+    document.getElementById('btnIrNovo');
 
-const secaoNovo = document.getElementById('secaoNovo');
-const secaoHistorico = document.getElementById('secaoHistorico');
+const btnIrHistorico =
+    document.getElementById('btnIrHistorico');
 
-const campoData = document.getElementById('dataOrcamento');
+const btnVoltarInicio =
+    document.getElementById('btnVoltarInicio');
+
+const btnNovo =
+    document.getElementById('tabNovo');
+
+const btnHistorico =
+    document.getElementById('tabHistorico');
+
+const secaoNovo =
+    document.getElementById('secaoNovo');
+
+const secaoHistorico =
+    document.getElementById('secaoHistorico');
+
+const campoData =
+    document.getElementById('dataOrcamento');
+
 
 if (campoData) {
-    campoData.valueAsDate = new Date();
+
+    campoData.valueAsDate =
+        new Date();
+
 }
 
 
@@ -58,253 +166,418 @@ if (campoData) {
 // NAVEGAÇÃO
 // ============================================================
 
-btnIrNovo?.addEventListener('click', () => {
-    telaInicio.classList.add('hidden');
-    appContainer.classList.remove('hidden');
+btnIrNovo?.addEventListener(
+    'click',
+    () => {
 
-    btnNovo?.click();
-});
+        telaInicio.classList.add(
+            'hidden'
+        );
 
+        appContainer.classList.remove(
+            'hidden'
+        );
 
-btnIrHistorico?.addEventListener('click', () => {
-    telaInicio.classList.add('hidden');
-    appContainer.classList.remove('hidden');
+        btnNovo?.click();
 
-    btnHistorico?.click();
-});
-
-
-btnVoltarInicio?.addEventListener('click', () => {
-    appContainer.classList.add('hidden');
-    telaInicio.classList.remove('hidden');
-});
+    }
+);
 
 
-btnNovo?.addEventListener('click', () => {
-    btnNovo.classList.add('active');
-    btnHistorico.classList.remove('active');
+btnIrHistorico?.addEventListener(
+    'click',
+    () => {
 
-    secaoNovo.classList.remove('hidden');
-    secaoHistorico.classList.add('hidden');
-});
+        telaInicio.classList.add(
+            'hidden'
+        );
+
+        appContainer.classList.remove(
+            'hidden'
+        );
+
+        btnHistorico?.click();
+
+    }
+);
 
 
-btnHistorico?.addEventListener('click', () => {
-    btnHistorico.classList.add('active');
-    btnNovo.classList.remove('active');
+btnVoltarInicio?.addEventListener(
+    'click',
+    () => {
 
-    secaoHistorico.classList.remove('hidden');
-    secaoNovo.classList.add('hidden');
+        appContainer.classList.add(
+            'hidden'
+        );
 
-    renderizarHistorico();
-});
+        telaInicio.classList.remove(
+            'hidden'
+        );
+
+    }
+);
+
+
+btnNovo?.addEventListener(
+    'click',
+    () => {
+
+        btnNovo.classList.add(
+            'active'
+        );
+
+        btnHistorico.classList.remove(
+            'active'
+        );
+
+        secaoNovo.classList.remove(
+            'hidden'
+        );
+
+        secaoHistorico.classList.add(
+            'hidden'
+        );
+
+    }
+);
+
+
+btnHistorico?.addEventListener(
+    'click',
+    () => {
+
+        btnHistorico.classList.add(
+            'active'
+        );
+
+        btnNovo.classList.remove(
+            'active'
+        );
+
+        secaoHistorico.classList.remove(
+            'hidden'
+        );
+
+        secaoNovo.classList.add(
+            'hidden'
+        );
+
+        renderizarHistorico();
+
+    }
+);
 
 
 // ============================================================
-// FATORES DE COMPLEXIDADE
+// RENDERIZAR COMPLEXIDADES
 // ============================================================
 
 function renderizarComplexidades() {
 
-    const container = document.getElementById('listaComplexidades');
+    const container =
+        document.getElementById(
+            'listaComplexidades'
+        );
+
 
     if (!container) {
-        console.warn('Elemento #listaComplexidades não encontrado.');
+
+        console.warn(
+            'Elemento #listaComplexidades não encontrado.'
+        );
+
         return;
     }
 
+
     container.innerHTML = '';
 
-    itensComplexidades.forEach((item, index) => {
 
-        const div = document.createElement('div');
+    itensComplexidades.forEach(
+        (item, index) => {
 
-        div.className = 'complex-item';
+            const div =
+                document.createElement(
+                    'div'
+                );
 
-        div.innerHTML = `
-            <div class="complex-info">
 
-                <p>
-                    ${escaparHtml(item.nome)}
-                </p>
+            div.className =
+                'complex-item';
 
-                <span>
-                    Acréscimo: ${(item.taxa * 100).toFixed(0)}%
-                </span>
 
-            </div>
+            div.innerHTML = `
 
-            <div class="counter-box">
+                <div class="complex-info">
 
-                <button
-                    type="button"
-                    data-index="${index}"
-                    data-delta="-1"
-                    class="btn-cnt btn-qtd"
-                    aria-label="Diminuir quantidade"
-                >
-                    −
-                </button>
+                    <p>
+                        ${escaparHtml(item.nome)}
+                    </p>
 
-                <span
-                    id="qtd_${index}"
-                    class="qtd-value"
-                >
-                    ${item.qtd}
-                </span>
+                    <span>
+                        Acréscimo:
+                        ${(item.taxa * 100).toFixed(0)}%
+                    </span>
 
-                <button
-                    type="button"
-                    data-index="${index}"
-                    data-delta="1"
-                    class="btn-cnt btn-qtd btn-plus"
-                    aria-label="Aumentar quantidade"
-                >
-                    +
-                </button>
+                </div>
 
-            </div>
-        `;
 
-        container.appendChild(div);
-    });
+                <div class="counter-box">
+
+                    <button
+                        type="button"
+                        data-index="${index}"
+                        data-delta="-1"
+                        class="btn-cnt btn-qtd"
+                        aria-label="Diminuir quantidade"
+                    >
+                        −
+                    </button>
+
+
+                    <span
+                        id="qtd_${index}"
+                        class="qtd-value"
+                    >
+                        ${item.qtd}
+                    </span>
+
+
+                    <button
+                        type="button"
+                        data-index="${index}"
+                        data-delta="1"
+                        class="btn-cnt btn-qtd btn-plus"
+                        aria-label="Aumentar quantidade"
+                    >
+                        +
+                    </button>
+
+                </div>
+
+            `;
+
+
+            container.appendChild(
+                div
+            );
+
+        }
+    );
 
 
     container
         .querySelectorAll('.btn-qtd')
-        .forEach(button => {
+        .forEach(
+            button => {
 
-            button.addEventListener('click', () => {
+                button.addEventListener(
+                    'click',
+                    () => {
 
-                const index = Number(button.dataset.index);
-                const delta = Number(button.dataset.delta);
+                        const index =
+                            Number(
+                                button.dataset.index
+                            );
 
-                alterarQtd(index, delta);
-            });
+                        const delta =
+                            Number(
+                                button.dataset.delta
+                            );
 
-        });
+                        alterarQtd(
+                            index,
+                            delta
+                        );
+
+                    }
+                );
+
+            }
+        );
+
 }
 
 
-function alterarQtd(index, delta) {
+// ============================================================
+// ALTERAR QUANTIDADE
+// ============================================================
+
+function alterarQtd(
+    index,
+    delta
+) {
 
     if (!itensComplexidades[index]) {
+
         return;
     }
 
-    itensComplexidades[index].qtd += delta;
+
+    itensComplexidades[index].qtd +=
+        delta;
 
 
-    if (itensComplexidades[index].qtd < 0) {
-        itensComplexidades[index].qtd = 0;
+    if (
+        itensComplexidades[index].qtd <
+        0
+    ) {
+
+        itensComplexidades[index].qtd =
+            0;
     }
 
 
-    const spanQtd = document.getElementById(`qtd_${index}`);
+    const spanQtd =
+        document.getElementById(
+            `qtd_${index}`
+        );
+
 
     if (spanQtd) {
-        spanQtd.textContent = itensComplexidades[index].qtd;
+
+        spanQtd.textContent =
+            itensComplexidades[index].qtd;
     }
 
 
     calcularOrcamento();
+
 }
 
 
 // ============================================================
-// CÁLCULO DO ORÇAMENTO
+// FORMATAÇÃO DE MOEDA
 // ============================================================
 
-function formatarMoeda(valor) {
+function formatarMoeda(
+    valor
+) {
 
-    return Number(valor || 0).toLocaleString(
+    return Number(
+        valor || 0
+    ).toLocaleString(
         'pt-BR',
         {
             style: 'currency',
             currency: 'BRL'
         }
     );
+
 }
 
+
+// ============================================================
+// CÁLCULO
+// ============================================================
 
 function calcularOrcamento() {
 
     const area =
         parseFloat(
-            document.getElementById('areaConstruida')?.value
+            document.getElementById(
+                'areaConstruida'
+            )?.value
         ) || 0;
 
 
     const precoM2 =
         parseFloat(
-            document.getElementById('precoMetro')?.value
+            document.getElementById(
+                'precoMetro'
+            )?.value
         ) || 0;
 
 
     const percNota =
         parseFloat(
-            document.getElementById('notaFiscal')?.value
+            document.getElementById(
+                'notaFiscal'
+            )?.value
         ) || 0;
 
 
     // Valor base
-    const totalBase = area * precoM2;
+
+    const totalBase =
+        area *
+        precoM2;
 
 
-    // Acréscimos dos fatores
-    let totalAcrescimoReais = 0;
+    // Acréscimos
+
+    let totalAcrescimoReais =
+        0;
 
 
-    itensComplexidades.forEach(item => {
+    itensComplexidades.forEach(
+        item => {
 
-        if (item.qtd > 0) {
+            if (item.qtd > 0) {
 
-            totalAcrescimoReais +=
-                totalBase *
-                item.taxa *
-                item.qtd;
+                totalAcrescimoReais +=
+                    totalBase *
+                    item.taxa *
+                    item.qtd;
+
+            }
+
         }
+    );
 
-    });
 
+    // Total com acréscimos
 
-    // Total após complexidades
     const totalComAcrescimo =
         totalBase +
         totalAcrescimoReais;
 
 
     // Nota fiscal
+
     const valorNota =
         totalComAcrescimo *
-        (percNota / 100);
+        (
+            percNota / 100
+        );
 
 
-    // Preço final
+    // Valor final
+
     const precoFinal =
         totalComAcrescimo +
         valorNota;
 
 
     const resultado =
-        document.getElementById('resPrecoFinal');
+        document.getElementById(
+            'resPrecoFinal'
+        );
 
 
     if (resultado) {
 
         resultado.textContent =
-            formatarMoeda(precoFinal);
+            formatarMoeda(
+                precoFinal
+            );
+
     }
 
 
     return precoFinal;
+
 }
 
 
-// Atualização automática do cálculo
+// ============================================================
+// ATUALIZAÇÃO AUTOMÁTICA DO CÁLCULO
+// ============================================================
 
 document
-    .getElementById('areaConstruida')
+    .getElementById(
+        'areaConstruida'
+    )
     ?.addEventListener(
         'input',
         calcularOrcamento
@@ -312,7 +585,9 @@ document
 
 
 document
-    .getElementById('precoMetro')
+    .getElementById(
+        'precoMetro'
+    )
     ?.addEventListener(
         'input',
         calcularOrcamento
@@ -320,7 +595,9 @@ document
 
 
 document
-    .getElementById('notaFiscal')
+    .getElementById(
+        'notaFiscal'
+    )
     ?.addEventListener(
         'input',
         calcularOrcamento
@@ -340,6 +617,7 @@ function lerHistorico() {
 
 
     if (!dados) {
+
         return [];
     }
 
@@ -347,9 +625,14 @@ function lerHistorico() {
     try {
 
         const historico =
-            JSON.parse(dados);
+            JSON.parse(
+                dados
+            );
 
-        return Array.isArray(historico)
+
+        return Array.isArray(
+            historico
+        )
             ? historico
             : [];
 
@@ -360,31 +643,48 @@ function lerHistorico() {
             error
         );
 
+
         localStorage.removeItem(
             CHAVE_HISTORICO
         );
 
+
         return [];
+
     }
-}
 
-
-function salvarHistorico(historico) {
-
-    localStorage.setItem(
-        CHAVE_HISTORICO,
-        JSON.stringify(historico)
-    );
 }
 
 
 // ============================================================
-// EXEMPLOS INICIAIS
+// SALVAR HISTÓRICO
+// ============================================================
+
+function salvarHistorico(
+    historico
+) {
+
+    localStorage.setItem(
+        CHAVE_HISTORICO,
+        JSON.stringify(
+            historico
+        )
+    );
+
+}
+
+
+// ============================================================
+// EXEMPLOS
 // ============================================================
 
 function inicializarExemplosHistorico() {
 
-    if (lerHistorico().length > 0) {
+    if (
+        lerHistorico().length >
+        0
+    ) {
+
         return;
     }
 
@@ -392,13 +692,27 @@ function inicializarExemplosHistorico() {
     const exemplos = [
 
         {
-            numOrcamento: '001/2026',
-            data: '2026-06-01',
-            cliente: 'Francisco Carlos de Sousa',
-            descricao: 'Residência Unifamiliar - 2 Pavimentos',
-            area: 180,
-            precoMetro: 25,
-            notaFiscal: 0,
+
+            numOrcamento:
+                '001/2026',
+
+            data:
+                '2026-06-01',
+
+            cliente:
+                'Francisco Carlos de Sousa',
+
+            descricao:
+                'Residência Unifamiliar - 2 Pavimentos',
+
+            area:
+                180,
+
+            precoMetro:
+                25,
+
+            notaFiscal:
+                0,
 
             complexidades: [
                 1,
@@ -417,18 +731,34 @@ function inicializarExemplosHistorico() {
                 0
             ],
 
-            valorTotal: 'R$ 5.062,50'
+            valorTotal:
+                'R$ 5.062,50'
+
         },
 
 
         {
-            numOrcamento: '002/2026',
-            data: '2026-06-15',
-            cliente: 'Maria das Graças Ximenes',
-            descricao: 'Edifício Comercial - 3 Pavimentos',
-            area: 320,
-            precoMetro: 30,
-            notaFiscal: 5,
+
+            numOrcamento:
+                '002/2026',
+
+            data:
+                '2026-06-15',
+
+            cliente:
+                'Maria das Graças Ximenes',
+
+            descricao:
+                'Edifício Comercial - 3 Pavimentos',
+
+            area:
+                320,
+
+            precoMetro:
+                30,
+
+            notaFiscal:
+                5,
 
             complexidades: [
                 0,
@@ -447,13 +777,18 @@ function inicializarExemplosHistorico() {
                 0
             ],
 
-            valorTotal: 'R$ 13.345,20'
+            valorTotal:
+                'R$ 13.345,20'
+
         }
 
     ];
 
 
-    salvarHistorico(exemplos);
+    salvarHistorico(
+        exemplos
+    );
+
 }
 
 
@@ -461,7 +796,9 @@ function inicializarExemplosHistorico() {
 // SALVAR NO HISTÓRICO
 // ============================================================
 
-function salvarNoHistorico(orcamentoObj) {
+function salvarNoHistorico(
+    orcamentoObj
+) {
 
     const historico =
         lerHistorico();
@@ -475,9 +812,13 @@ function salvarNoHistorico(orcamentoObj) {
         );
 
 
-    if (indexExistente >= 0) {
+    if (
+        indexExistente >= 0
+    ) {
 
-        historico[indexExistente] =
+        historico[
+            indexExistente
+        ] =
             orcamentoObj;
 
     } else {
@@ -485,10 +826,14 @@ function salvarNoHistorico(orcamentoObj) {
         historico.unshift(
             orcamentoObj
         );
+
     }
 
 
-    salvarHistorico(historico);
+    salvarHistorico(
+        historico
+    );
+
 }
 
 
@@ -505,6 +850,7 @@ function renderizarHistorico() {
 
 
     if (!container) {
+
         return;
     }
 
@@ -513,15 +859,23 @@ function renderizarHistorico() {
         lerHistorico();
 
 
-    container.innerHTML = '';
+    container.innerHTML =
+        '';
 
 
-    if (historico.length === 0) {
+    if (
+        historico.length ===
+        0
+    ) {
 
         container.innerHTML = `
+
             <div class="history-empty">
+
                 Nenhum orçamento salvo.
+
             </div>
+
         `;
 
         return;
@@ -529,7 +883,10 @@ function renderizarHistorico() {
 
 
     historico.forEach(
-        (item, index) => {
+        (
+            item,
+            index
+        ) => {
 
             const div =
                 document.createElement(
@@ -546,12 +903,23 @@ function renderizarHistorico() {
                 <div class="history-info">
 
                     <b>
-                        Nº ${escaparHtml(item.numOrcamento)}
+
+                        Nº
+                        ${escaparHtml(
+                            item.numOrcamento
+                        )}
+
                         -
-                        ${escaparHtml(item.cliente)}
+
+                        ${escaparHtml(
+                            item.cliente
+                        )}
+
                     </b>
 
+
                     <p>
+
                         ${escaparHtml(
                             item.descricao ||
                             'Sem descrição'
@@ -567,13 +935,17 @@ function renderizarHistorico() {
                                     .join('/')
                                 : ''
                         }
+
                     </p>
 
+
                     <strong>
+
                         ${escaparHtml(
                             item.valorTotal ||
                             'R$ 0,00'
                         )}
+
                     </strong>
 
                 </div>
@@ -584,59 +956,78 @@ function renderizarHistorico() {
                     data-index="${index}"
                     class="btn-load btn-abrir"
                 >
+
                     Abrir
+
                 </button>
 
             `;
 
 
-            container.appendChild(div);
+            container.appendChild(
+                div
+            );
+
         }
     );
 
 
     container
-        .querySelectorAll('.btn-abrir')
-        .forEach(button => {
+        .querySelectorAll(
+            '.btn-abrir'
+        )
+        .forEach(
+            button => {
 
-            button.addEventListener(
-                'click',
-                () => {
+                button.addEventListener(
+                    'click',
+                    () => {
 
-                    const index =
-                        Number(
-                            button.dataset.index
-                        );
-
-
-                    const historicoAtual =
-                        lerHistorico();
-
-
-                    const item =
-                        historicoAtual[index];
+                        const index =
+                            Number(
+                                button.dataset.index
+                            );
 
 
-                    if (item) {
+                        const historicoAtual =
+                            lerHistorico();
 
-                        abrirMenuOpcoes(item);
+
+                        const item =
+                            historicoAtual[
+                                index
+                            ];
+
+
+                        if (item) {
+
+                            abrirMenuOpcoes(
+                                item
+                            );
+
+                        }
+
                     }
+                );
 
-                }
-            );
+            }
+        );
 
-        });
 }
 
 
 // ============================================================
-// MENU DE AÇÕES DO HISTÓRICO
+// MENU DE AÇÕES
 // ============================================================
 
-function abrirMenuOpcoes(item) {
+function abrirMenuOpcoes(
+    item
+) {
 
     const modal =
-        document.createElement('div');
+        document.createElement(
+            'div'
+        );
 
 
     modal.className =
@@ -653,13 +1044,20 @@ function abrirMenuOpcoes(item) {
         >
 
             <h3 id="modalTitulo">
+
                 Orçamento Nº
-                ${escaparHtml(item.numOrcamento)}
+                ${escaparHtml(
+                    item.numOrcamento
+                )}
+
             </h3>
 
 
             <p>
-                Escolha a ação desejada para este orçamento:
+
+                Escolha a ação desejada
+                para este orçamento:
+
             </p>
 
 
@@ -668,7 +1066,9 @@ function abrirMenuOpcoes(item) {
                 id="btnAtualizar"
                 class="modal-btn modal-primary"
             >
+
                 Atualizar Orçamento
+
             </button>
 
 
@@ -677,7 +1077,9 @@ function abrirMenuOpcoes(item) {
                 id="btnBaixar"
                 class="modal-btn modal-gold"
             >
+
                 Baixar Orçamento
+
             </button>
 
 
@@ -686,7 +1088,9 @@ function abrirMenuOpcoes(item) {
                 id="btnExcluir"
                 class="modal-btn modal-danger"
             >
+
                 Excluir Orçamento
+
             </button>
 
 
@@ -695,7 +1099,9 @@ function abrirMenuOpcoes(item) {
                 id="btnCancelar"
                 class="modal-btn modal-cancel"
             >
+
                 Cancelar
+
             </button>
 
         </div>
@@ -703,74 +1109,105 @@ function abrirMenuOpcoes(item) {
     `;
 
 
-    document.body.appendChild(modal);
+    document.body.appendChild(
+        modal
+    );
 
 
-    // Atualizar
+    // ATUALIZAR
+
     modal
-        .querySelector('#btnAtualizar')
+        .querySelector(
+            '#btnAtualizar'
+        )
         .addEventListener(
             'click',
             () => {
 
-                carregarOrcamento(item);
+                carregarOrcamento(
+                    item
+                );
 
                 modal.remove();
+
             }
         );
 
 
-    // Baixar Imagem A4
+    // BAIXAR IMAGEM A4
+
     modal
-        .querySelector('#btnBaixar')
+        .querySelector(
+            '#btnBaixar'
+        )
         .addEventListener(
             'click',
             async () => {
 
                 modal.remove();
 
-                await gerarImagemA4Especifica(item);
+                await gerarImagemA4Especifica(
+                    item
+                );
+
             }
         );
 
 
-    // Excluir
+    // EXCLUIR
+
     modal
-        .querySelector('#btnExcluir')
+        .querySelector(
+            '#btnExcluir'
+        )
         .addEventListener(
             'click',
             () => {
 
-                excluirOrcamento(item);
+                excluirOrcamento(
+                    item
+                );
 
                 modal.remove();
+
             }
         );
 
 
-    // Cancelar
+    // CANCELAR
+
     modal
-        .querySelector('#btnCancelar')
+        .querySelector(
+            '#btnCancelar'
+        )
         .addEventListener(
             'click',
             () => {
 
                 modal.remove();
+
             }
         );
 
 
-    // Clicar fora do modal
+    // CLIQUE FORA
+
     modal.addEventListener(
         'click',
         event => {
 
-            if (event.target === modal) {
+            if (
+                event.target ===
+                modal
+            ) {
+
                 modal.remove();
+
             }
 
         }
     );
+
 }
 
 
@@ -778,15 +1215,20 @@ function abrirMenuOpcoes(item) {
 // EXCLUIR ORÇAMENTO
 // ============================================================
 
-function excluirOrcamento(item) {
+function excluirOrcamento(
+    item
+) {
 
     const confirmou =
         window.confirm(
+
             `Excluir o orçamento Nº ${item.numOrcamento}?\n\nEsta ação não poderá ser desfeita.`
+
         );
 
 
     if (!confirmou) {
+
         return;
     }
 
@@ -799,10 +1241,13 @@ function excluirOrcamento(item) {
         );
 
 
-    salvarHistorico(historico);
+    salvarHistorico(
+        historico
+    );
 
 
     renderizarHistorico();
+
 }
 
 
@@ -810,7 +1255,9 @@ function excluirOrcamento(item) {
 // CARREGAR ORÇAMENTO
 // ============================================================
 
-function carregarOrcamento(item) {
+function carregarOrcamento(
+    item
+) {
 
     const numOrcamento =
         document.getElementById(
@@ -855,64 +1302,94 @@ function carregarOrcamento(item) {
 
 
     if (numOrcamento) {
+
         numOrcamento.value =
-            item.numOrcamento || '';
+            item.numOrcamento ||
+            '';
+
     }
 
 
     if (dataOrcamento) {
+
         dataOrcamento.value =
-            item.data || '';
+            item.data ||
+            '';
+
     }
 
 
     if (cliente) {
+
         cliente.value =
-            item.cliente || '';
+            item.cliente ||
+            '';
+
     }
 
 
     if (descricaoObra) {
+
         descricaoObra.value =
-            item.descricao || '';
+            item.descricao ||
+            '';
+
     }
 
 
     if (areaConstruida) {
+
         areaConstruida.value =
-            item.area ?? '';
+            item.area ??
+            '';
+
     }
 
 
     if (precoMetro) {
+
         precoMetro.value =
-            item.precoMetro ?? '';
+            item.precoMetro ??
+            '';
+
     }
 
 
     if (notaFiscal) {
+
         notaFiscal.value =
-            item.notaFiscal ?? 0;
+            item.notaFiscal ??
+            0;
+
     }
 
 
     itensComplexidades.forEach(
-        (comp, index) => {
+        (
+            comp,
+            index
+        ) => {
 
             comp.qtd =
                 Number(
-                    item.complexidades?.[index] ||
+                    item
+                        .complexidades?.[
+                            index
+                        ] ||
                     0
                 );
+
         }
     );
 
 
     renderizarComplexidades();
+
     calcularOrcamento();
 
 
     btnNovo?.click();
+
 }
 
 
@@ -925,63 +1402,97 @@ function obterOrcamentoAtual() {
     return {
 
         numOrcamento:
+
             document
-                .getElementById('numOrcamento')
+                .getElementById(
+                    'numOrcamento'
+                )
                 ?.value
-                .trim() || '',
+                .trim() ||
+            '',
 
 
         data:
+
             document
-                .getElementById('dataOrcamento')
-                ?.value || '',
+                .getElementById(
+                    'dataOrcamento'
+                )
+                ?.value ||
+            '',
 
 
         cliente:
+
             document
-                .getElementById('cliente')
+                .getElementById(
+                    'cliente'
+                )
                 ?.value
                 .trim() ||
             'Cliente não informado',
 
 
         descricao:
+
             document
-                .getElementById('descricaoObra')
+                .getElementById(
+                    'descricaoObra'
+                )
                 ?.value
-                .trim() || '',
+                .trim() ||
+            '',
 
 
         area:
+
             document
-                .getElementById('areaConstruida')
-                ?.value || '',
+                .getElementById(
+                    'areaConstruida'
+                )
+                ?.value ||
+            '',
 
 
         precoMetro:
+
             document
-                .getElementById('precoMetro')
-                ?.value || '',
+                .getElementById(
+                    'precoMetro'
+                )
+                ?.value ||
+            '',
 
 
         notaFiscal:
+
             document
-                .getElementById('notaFiscal')
-                ?.value || '',
+                .getElementById(
+                    'notaFiscal'
+                )
+                ?.value ||
+            '',
 
 
         complexidades:
+
             itensComplexidades.map(
-                item => item.qtd
+                item =>
+                    item.qtd
             ),
 
 
         valorTotal:
+
             document
-                .getElementById('resPrecoFinal')
+                .getElementById(
+                    'resPrecoFinal'
+                )
                 ?.textContent ||
             'R$ 0,00'
+
     };
+
 }
 
 
@@ -995,7 +1506,9 @@ function salvarOrcamentoAtual() {
         obterOrcamentoAtual();
 
 
-    if (!orcamento.numOrcamento) {
+    if (
+        !orcamento.numOrcamento
+    ) {
 
         alert(
             'Informe o número do orçamento antes de salvar.'
@@ -1013,14 +1526,15 @@ function salvarOrcamentoAtual() {
     renderizarHistorico();
 
 
-    // Depois de salvar,
-    // abre automaticamente o Histórico.
     btnHistorico?.click();
+
 }
 
 
 document
-    .getElementById('btnSalvarOrcamento')
+    .getElementById(
+        'btnSalvarOrcamento'
+    )
     ?.addEventListener(
         'click',
         salvarOrcamentoAtual
@@ -1028,12 +1542,16 @@ document
 
 
 // ============================================================
-// FUNÇÕES AUXILIARES
+// ESCAPAR HTML
 // ============================================================
 
-function escaparHtml(valor) {
+function escaparHtml(
+    valor
+) {
 
-    return String(valor ?? '')
+    return String(
+        valor ?? ''
+    )
         .replace(
             /&/g,
             '&amp;'
@@ -1054,15 +1572,25 @@ function escaparHtml(valor) {
             /'/g,
             '&#039;'
         );
+
 }
 
 
-function formatarNomeArquivo(valor) {
+// ============================================================
+// NOME DO ARQUIVO
+// ============================================================
+
+function formatarNomeArquivo(
+    valor
+) {
 
     return String(
-        valor || 'Cliente'
+        valor ||
+        'Cliente'
     )
-        .normalize('NFD')
+        .normalize(
+            'NFD'
+        )
         .replace(
             /[\u0300-\u036f]/g,
             ''
@@ -1074,7 +1602,9 @@ function formatarNomeArquivo(valor) {
         .replace(
             /^_+|_+$/g,
             ''
-        ) || 'Cliente';
+        ) ||
+        'Cliente';
+
 }
 
 
@@ -1082,48 +1612,62 @@ function formatarNomeArquivo(valor) {
 // ESPERAR IMAGENS
 // ============================================================
 
-async function esperarImagens(elemento) {
+async function esperarImagens(
+    elemento
+) {
 
     const imagens =
         Array.from(
-            elemento.querySelectorAll('img')
+            elemento.querySelectorAll(
+                'img'
+            )
         );
 
 
     await Promise.all(
 
-        imagens.map(img => {
+        imagens.map(
+            img => {
 
-            if (
-                img.complete &&
-                img.naturalWidth > 0
-            ) {
+                if (
+                    img.complete &&
+                    img.naturalWidth >
+                        0
+                ) {
 
-                return Promise.resolve();
-            }
-
-
-            return new Promise(
-                resolve => {
-
-                    img.addEventListener(
-                        'load',
-                        resolve,
-                        { once: true }
-                    );
-
-
-                    img.addEventListener(
-                        'error',
-                        resolve,
-                        { once: true }
-                    );
+                    return Promise.resolve();
 
                 }
-            );
-        })
+
+
+                return new Promise(
+                    resolve => {
+
+                        img.addEventListener(
+                            'load',
+                            resolve,
+                            {
+                                once: true
+                            }
+                        );
+
+
+                        img.addEventListener(
+                            'error',
+                            resolve,
+                            {
+                                once: true
+                            }
+                        );
+
+                    }
+                );
+
+            }
+        )
 
     );
+
 }
 
 
@@ -1131,7 +1675,9 @@ async function esperarImagens(elemento) {
 // GERAR IMAGEM A4
 // ============================================================
 
-async function gerarImagemA4Especifica(item) {
+async function gerarImagemA4Especifica(
+    item
+) {
 
     if (
         typeof html2canvas !==
@@ -1146,20 +1692,29 @@ async function gerarImagemA4Especifica(item) {
     }
 
 
-    let itensHtml = '';
+    let itensHtml =
+        '';
 
 
     itensComplexidades.forEach(
-        (comp, index) => {
+        (
+            comp,
+            index
+        ) => {
 
             const qtd =
                 Number(
-                    item.complexidades?.[index] ||
+                    item
+                        .complexidades?.[
+                            index
+                        ] ||
                     0
                 );
 
 
-            if (qtd > 0) {
+            if (
+                qtd > 0
+            ) {
 
                 itensHtml += `
 
@@ -1174,7 +1729,11 @@ async function gerarImagemA4Especifica(item) {
                                 font-size: 14px;
                             "
                         >
-                            ${escaparHtml(comp.nome)}
+
+                            ${escaparHtml(
+                                comp.nome
+                            )}
+
                         </td>
 
 
@@ -1188,7 +1747,9 @@ async function gerarImagemA4Especifica(item) {
                                 font-size: 14px;
                             "
                         >
+
                             ${qtd}
+
                         </td>
 
 
@@ -1202,12 +1763,15 @@ async function gerarImagemA4Especifica(item) {
                                 font-size: 14px;
                             "
                         >
+
                             ${(comp.taxa * 100).toFixed(0)}%
+
                         </td>
 
                     </tr>
 
                 `;
+
             }
 
         }
@@ -1215,24 +1779,35 @@ async function gerarImagemA4Especifica(item) {
 
 
     const elemento =
-        document.createElement('div');
+        document.createElement(
+            'div'
+        );
 
 
     Object.assign(
         elemento.style,
         {
-            width: '794px',
-            height: '1123px',
 
-            position: 'absolute',
+            width:
+                '794px',
 
-            left: '-99999px',
-            top: '0',
+            height:
+                '1123px',
+
+            position:
+                'absolute',
+
+            left:
+                '-99999px',
+
+            top:
+                '0',
 
             fontFamily:
                 'Inter, Arial, sans-serif',
 
-            boxSizing: 'border-box',
+            boxSizing:
+                'border-box',
 
             backgroundColor:
                 '#ffffff',
@@ -1240,13 +1815,15 @@ async function gerarImagemA4Especifica(item) {
             padding:
                 '55px 70px 35px',
 
-            display: 'flex',
+            display:
+                'flex',
 
             flexDirection:
                 'column',
 
             justifyContent:
                 'space-between'
+
         }
     );
 
@@ -1299,7 +1876,9 @@ async function gerarImagemA4Especifica(item) {
                         text-transform: uppercase;
                     "
                 >
+
                     Orçamento de Projeto Estrutural
+
                 </h2>
 
 
@@ -1458,6 +2037,7 @@ async function gerarImagemA4Especifica(item) {
                     ${
                         itensHtml ||
                         `
+
                             <tr>
 
                                 <td
@@ -1469,10 +2049,13 @@ async function gerarImagemA4Especifica(item) {
                                         font-size: 14px;
                                     "
                                 >
+
                                     Nenhum fator de complexidade adicional selecionado.
+
                                 </td>
 
                             </tr>
+
                         `
                     }
 
@@ -1500,7 +2083,9 @@ async function gerarImagemA4Especifica(item) {
                         text-transform: uppercase;
                     "
                 >
+
                     Valor Total do Projeto:
+
                 </p>
 
 
@@ -1512,10 +2097,12 @@ async function gerarImagemA4Especifica(item) {
                         font-weight: 800;
                     "
                 >
+
                     ${escaparHtml(
                         item.valorTotal ||
                         'R$ 0,00'
                     )}
+
                 </p>
 
             </div>
@@ -1566,6 +2153,7 @@ async function gerarImagemA4Especifica(item) {
             await html2canvas(
                 elemento,
                 {
+
                     scale: 4,
 
                     useCORS: true,
@@ -1579,6 +2167,7 @@ async function gerarImagemA4Especifica(item) {
 
                     imageTimeout:
                         15000
+
                 }
             );
 
@@ -1593,7 +2182,9 @@ async function gerarImagemA4Especifica(item) {
 
 
         link.download =
-            `Orcamento_${formatarNomeArquivo(item.cliente)}.png`;
+            `Orcamento_${formatarNomeArquivo(
+                item.cliente
+            )}.png`;
 
 
         link.href =
@@ -1620,16 +2211,15 @@ async function gerarImagemA4Especifica(item) {
         alert(
             'Não foi possível gerar a Imagem A4. Verifique se logo-cabecalho.png e roda-pe.png estão na pasta principal do projeto.'
         );
+
     }
+
 }
 
 
 // ============================================================
 // INICIALIZAÇÃO
 // ============================================================
-
-// Estas funções precisam ficar no final,
-// depois que todas as funções acima foram declaradas.
 
 inicializarExemplosHistorico();
 
