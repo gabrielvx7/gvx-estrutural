@@ -49,7 +49,6 @@ function renderizarComplexidades() {
         container.appendChild(div);
     });
 
-    // Eventos dos botões de + e -
     container.querySelectorAll('.btn-mais').forEach(btn => {
         btn.addEventListener('click', (e) => {
             const idx = e.target.getAttribute('data-index');
@@ -72,76 +71,146 @@ function renderizarComplexidades() {
 }
 
 // --- TOGGLE / BOTÃO DE ATIVAR COMPLEXIDADE ---
-function criarToggleComplexidade() {
+function configurarToggleComplexidade() {
     const btnToggle = document.getElementById('btnAtivarComplexidade');
     const containerComplexidades = document.getElementById('containerComplexidades');
+    const iconeSeta = document.getElementById('iconeSetaComplexidade');
 
     if (btnToggle && containerComplexidades) {
-        // Garante que o container comece oculto
-        containerComplexidades.style.display = 'none';
-
         const novoBtnToggle = btnToggle.cloneNode(true);
         btnToggle.parentNode.replaceChild(novoBtnToggle, btnToggle);
 
         document.getElementById('btnAtivarComplexidade').addEventListener('click', () => {
-            const estaVisivel = containerComplexidades.style.display === 'block';
+            const containerAtual = document.getElementById('containerComplexidades');
+            const setaAtual = document.getElementById('iconeSetaComplexidade');
+            const estaVisivel = containerAtual.style.display === 'block';
             
             if (estaVisivel) {
-                containerComplexidades.style.display = 'none';
-                document.getElementById('btnAtivarComplexidade').innerText = "Ativar Complexidade";
+                containerAtual.style.display = 'none';
+                if (setaAtual) setaAtual.innerText = '▼';
             } else {
-                containerComplexidades.style.display = 'block';
-                document.getElementById('btnAtivarComplexidade').innerText = "Ocultar Complexidade";
+                containerAtual.style.display = 'block';
+                if (setaAtual) setaAtual.innerText = '▲';
             }
         });
     }
 }
 
+// --- CONTROLE DE ABAS (NOVO <-> HISTÓRICO) ---
+const tabNovo = document.getElementById('tabNovo');
+const tabHistorico = document.getElementById('tabHistorico');
+const secaoNovo = document.getElementById('secaoNovo');
+const secaoHistorico = document.getElementById('secaoHistorico');
+
+function mudarAba(destino) {
+    if (!tabNovo || !tabHistorico || !secaoNovo || !secaoHistorico) return;
+
+    if (destino === 'novo') {
+        tabNovo.classList.add('active');
+        tabHistorico.classList.remove('active');
+        secaoNovo.classList.remove('hidden');
+        secaoHistorico.classList.add('hidden');
+    } else if (destino === 'historico') {
+        tabHistorico.classList.add('active');
+        tabNovo.classList.remove('active');
+        secaoHistorico.classList.remove('hidden');
+        secaoNovo.classList.add('hidden');
+        renderizarHistoricoNaTela();
+    }
+}
+
+if (tabNovo) tabNovo.addEventListener('click', () => mudarAba('novo'));
+if (tabHistorico) tabHistorico.addEventListener('click', () => mudarAba('historico'));
+
+// --- TELA INICIAL (SPLASH) ---
+const telaInicio = document.getElementById('telaInicio');
+const appContainer = document.getElementById('appContainer');
+const btnIrNovo = document.getElementById('btnIrNovo');
+const btnIrHistorico = document.getElementById('btnIrHistorico');
+const btnVoltarInicio = document.getElementById('btnVoltarInicio');
+
+if (btnIrNovo) {
+    btnIrNovo.addEventListener('click', () => {
+        telaInicio.classList.add('hidden');
+        appContainer.classList.remove('hidden');
+        mudarAba('novo');
+    });
+}
+
+if (btnIrHistorico) {
+    btnIrHistorico.addEventListener('click', () => {
+        telaInicio.classList.add('hidden');
+        appContainer.classList.remove('hidden');
+        mudarAba('historico');
+    });
+}
+
+if (btnVoltarInicio) {
+    btnVoltarInicio.addEventListener('click', () => {
+        appContainer.classList.add('hidden');
+        telaInicio.classList.remove('hidden');
+    });
+}
+
 // --- HISTÓRICO DE ORÇAMENTOS ---
 function salvarNoHistorico(orcamento) {
     let historico = JSON.parse(localStorage.getItem('gvx_historico_orcamentos')) || [];
-    historico.unshift(orcamento); // Adiciona no início
+    historico.unshift(orcamento);
     localStorage.setItem('gvx_historico_orcamentos', JSON.stringify(historico));
 }
 
-function inicializarExemplosHistorico() {
-    // Espaço reservado caso queira inicializar dados estáticos no histórico
+function renderizarHistoricoNaTela() {
+    const listaHistoricoEl = document.getElementById('listaHistorico');
+    if (!listaHistoricoEl) return;
+
+    let historico = JSON.parse(localStorage.getItem('gvx_historico_orcamentos')) || [];
+    
+    if (historico.length === 0) {
+        listaHistoricoEl.innerHTML = '<p style="font-size: 13px; color: #64748b; text-align: center; padding: 20px;">Nenhum orçamento emitido ainda.</p>';
+        return;
+    }
+
+    listaHistoricoEl.innerHTML = '';
+    historico.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.style.cssText = 'background: white; padding: 14px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);';
+        div.innerHTML = `
+            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 14px; color: #0b192c; margin-bottom: 4px;">
+                <span>Orçamento: ${item.numOrcamento}</span>
+                <span style="color: #d4af37;">${item.valorTotal}</span>
+            </div>
+            <div style="font-size: 12px; color: #475569; margin-bottom: 2px;"><b>Cliente:</b> ${item.cliente}</div>
+            <div style="font-size: 12px; color: #475569; margin-bottom: 2px;"><b>Obra:</b> ${item.descricao || 'Não informada'}</div>
+            <div style="font-size: 11px; color: #94a3b8;">Data: ${item.data || 'Não informada'}</div>
+        `;
+        listaHistoricoEl.appendChild(div);
+    });
 }
 
-// --- FUNÇÃO DE GERAR IMAGEM A4 ---
-async function gerarImagemA4Especifica(orcamento) {
-    // Substitua ou ajuste conforme a sua lógica existente de geração de imagem/PDF
-    console.log("Gerando imagem A4 para o orçamento:", orcamento);
-    // Exemplo simulado de exportação/download
-    alert("Baixando imagem A4 do orçamento de " + orcamento.cliente + "...");
-}
-
-// --- EVENT LISTENERS DOS INPUTS DE CÁLCULO ---
+// --- EVENTOS DOS INPUTS ---
 const areaInput = document.getElementById('areaConstruida');
 const precoMetroInput = document.getElementById('precoMetro');
 
 if (areaInput) areaInput.addEventListener('input', calcularOrcamento);
-if (precoMetroInput) precoMetroInput.addEventListener('input', calcularOrcamento);
+if (precoMetroInput) precoMetroInput.getElementById = precoMetroInput.addEventListener('input', calcularOrcamento);
 
-// --- BOTÃO PRINCIPAL: CONCLUIR ORÇAMENTO ---
+// --- BOTÃO PRINCIPAL: CONCLUIR ORÇAMENTO (ENVIAR PARA HISTÓRICO) ---
 const btnAcaoPrincipal = document.getElementById('btnGerarPdf');
-const btnHistorico = document.getElementById('btnHistorico') || { click: () => {} }; // Referência de fallback para aba de histórico
 
 if (btnAcaoPrincipal) {
     btnAcaoPrincipal.innerText = "Concluir Orçamento";
     
-    // Limpa ouvintes anteriores para evitar duplicidade ou ações diretas indesejadas
     const novoBtnAcao = btnAcaoPrincipal.cloneNode(true);
     btnAcaoPrincipal.parentNode.replaceChild(novoBtnAcao, btnAcaoPrincipal);
 
     document.getElementById('btnGerarPdf').addEventListener('click', () => {
         const cliente = document.getElementById('cliente').value || 'Cliente não informado';
-        const numOrcamento = document.getElementById('numOrcamento').value || '';
-        const data = document.getElementById('dataOrcamento').value || '';
+        const numOrcamento = document.getElementById('numOrcamento').value || '001/2026';
+        const data = document.getElementById('dataOrcamento').value || new Date().toISOString().split('T')[0];
         const descricao = document.getElementById('descricaoObra').value || '';
-        const area = document.getElementById('areaConstruida').value || '';
-        const precoMetro = document.getElementById('precoMetro').value || '';
-        const notaFiscal = document.getElementById('notaFiscal').value || '';
+        const area = document.getElementById('areaConstruida').value || '0';
+        const precoMetro = document.getElementById('precoMetro').value || '0';
+        const notaFiscal = document.getElementById('notaFiscal').value || '0';
         
         const precoFinalEl = document.getElementById('resPrecoFinal');
         const precoFinal = precoFinalEl ? precoFinalEl.innerText : 'R$ 0,00';
@@ -163,42 +232,22 @@ if (btnAcaoPrincipal) {
             valorTotal: precoFinal
         };
 
-        // 1. SALVA NO HISTÓRICO PRIMEIRO
+        // Salva no histórico e muda para a aba de histórico imediatamente
         salvarNoHistorico(orcamentoSalvo);
-
-        // 2. ABRE O MODAL PERGUNTANDO SE QUER BAIXAR OU IR PARA O HISTÓRICO
-        const modalDownload = document.createElement('div');
-        modalDownload.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;';
-        modalDownload.innerHTML = `
-            <div style="background: white; padding: 24px; border-radius: 12px; width: 320px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); display: flex; flex-direction: column; gap: 12px; text-align: center;">
-                <h3 style="font-size: 15px; font-weight: bold; color: #0b192c; margin: 0;">Orçamento Concluído!</h3>
-                <p style="font-size: 13px; color: #64748b; margin: 0;">Salvo no histórico. Deseja efetuar o download da imagem A4 agora?</p>
-                <button id="btnSimDownload" style="background: #d4af37; color: #0f172a; border: none; padding: 10px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;">Sim, Baixar</button>
-                <button id="btnNaoDownload" style="background: #f1f5f9; color: #334155; border: none; padding: 8px; border-radius: 8px; font-size: 12px; font-weight: bold; cursor: pointer;">Não, ir para Histórico</button>
-            </div>
-        `;
-        document.body.appendChild(modalDownload);
-
-        // Ação do botão "Sim, Baixar"
-        document.getElementById('btnSimDownload').addEventListener('click', async () => {
-            document.body.removeChild(modalDownload);
-            await gerarImagemA4Especifica(orcamentoSalvo);
-            btnHistorico.click(); 
-        });
-
-        // Ação do botão "Não, ir para Histórico"
-        document.getElementById('btnNaoDownload').addEventListener('click', () => {
-            document.body.removeChild(modalDownload);
-            btnHistorico.click(); 
-        });
+        mudarAba('historico');
     });
 }
 
 // --- INICIALIZAÇÃO GERAL ---
-criarToggleComplexidade();
-inicializarExemplosHistorico();
+configurarToggleComplexidade();
 renderizarComplexidades();
 calcularOrcamento();
+
+// Definir data de hoje por padrão no input de data se estiver vazio
+const inputData = document.getElementById('dataOrcamento');
+if (inputData && !inputData.value) {
+    inputData.value = new Date().toISOString().split('T')[0];
+}
 
 // --- SERVICE WORKER ---
 if ('serviceWorker' in navigator) {
