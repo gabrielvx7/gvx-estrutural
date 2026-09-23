@@ -26,12 +26,12 @@
       </div>
 
       <div class="home-buttons">
-        <button id="btnIrNovo" class="home-card-btn">
+        <button id="btnIrNovo" class="home-card-btn" type="button">
           <div class="card-icon">🏛️</div>
           <span>NOVO ORÇAMENTO</span>
         </button>
 
-        <button id="btnIrHistorico" class="home-card-btn">
+        <button id="btnIrHistorico" class="home-card-btn" type="button">
           <div class="card-icon">📋</div>
           <span>HISTÓRICO</span>
         </button>
@@ -44,7 +44,7 @@
       <!-- CABEÇALHO DO APP -->
       <div class="app-header">
         <div class="brand-box">
-          <button id="btnVoltarInicio" class="btn-back" title="Voltar ao Início">⬅</button>
+          <button id="btnVoltarInicio" class="btn-back" type="button" title="Voltar ao Início">⬅</button>
           <div class="brand-logo">GVX</div>
           <div>
             <h2 class="brand-title">GVX ENGENHARIA</h2>
@@ -52,8 +52,8 @@
           </div>
         </div>
         <div class="tabs">
-          <button id="tabNovo" class="tab-btn active">Novo</button>
-          <button id="tabHistorico" class="tab-btn">Histórico</button>
+          <button id="tabNovo" class="tab-btn active" type="button">Novo</button>
+          <button id="tabHistorico" class="tab-btn" type="button">Histórico</button>
         </div>
       </div>
 
@@ -61,48 +61,48 @@
       <div id="secaoNovo" class="section-content">
         <div class="form-row">
           <div class="form-group">
-            <label>Número do Orçamento</label>
+            <label for="numOrcamento">Número do Orçamento</label>
             <input type="text" id="numOrcamento" value="001/2026" class="form-input" />
           </div>
           <div class="form-group">
-            <label>Data</label>
+            <label for="dataOrcamento">Data</label>
             <input type="date" id="dataOrcamento" class="form-input" />
           </div>
         </div>
 
         <div class="form-group">
-          <label>Nome do Cliente</label>
+          <label for="cliente">Nome do Cliente</label>
           <input type="text" id="cliente" placeholder="Ex: João da Silva" class="form-input" />
         </div>
 
         <div class="form-group">
-          <label>Descrição da Obra</label>
+          <label for="descricaoObra">Descrição da Obra</label>
           <input type="text" id="descricaoObra" placeholder="Ex: Residência Unifamiliar - 2 Pavimentos" class="form-input" />
         </div>
 
         <div class="params-box">
           <div class="form-group">
-            <label>Área (m²)</label>
+            <label for="areaConstruida">Área (m²)</label>
             <input type="number" id="areaConstruida" value="100" class="form-input" />
           </div>
           <div class="form-group">
-            <label>Preço/m² (R$)</label>
+            <label for="precoMetro">Preço/m² (R$)</label>
             <input type="number" id="precoMetro" value="35" class="form-input" />
           </div>
           <div class="form-group">
-            <label>Nota Fiscal (%)</label>
+            <label for="notaFiscal">Nota Fiscal (%)</label>
             <input type="number" id="notaFiscal" value="0" class="form-input" />
           </div>
         </div>
 
-        <!-- SEÇÃO DE COMPLEXIDADE COM ID EXATO CORRIGIDO -->
+        <!-- SEÇÃO DE COMPLEXIDADE -->
         <div style="margin-bottom: 16px;">
-          <button type="button" id="btnAtivarComplexidade" style="background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 10px 12px; border-radius: 8px; font-size: 13px; font-weight: bold; cursor: pointer; width: 100%; margin-bottom: 8px; text-align: left; display: flex; justify-content: space-between; align-items: center;">
+          <button type="button" id="btnAtivarComplexidade" class="btn-toggle-complex">
             <span>⚙️ Ativar Complexidades de Projeto</span>
             <span id="iconeSetaComplexidade">▼</span>
           </button>
           
-          <div id="containerComplexidades" class="hidden" style="background: #f8fafc; padding: 12px; border-radius: 8px; border: 1px solid #e2e8f0; max-height: 250px; overflow-y: auto;">
+          <div id="containerComplexidades" class="complex-container-hidden">
             <div id="listaComplexidades" class="complex-list"></div>
           </div>
         </div>
