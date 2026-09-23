@@ -171,7 +171,7 @@ function renderizarHistoricoNaTela() {
     }
 
     listaHistoricoEl.innerHTML = '';
-    historico.forEach((item, index) => {
+    historico.forEach((item) => {
         const div = document.createElement('div');
         div.style.cssText = 'background: white; padding: 14px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.05);';
         div.innerHTML = `
@@ -192,14 +192,15 @@ const areaInput = document.getElementById('areaConstruida');
 const precoMetroInput = document.getElementById('precoMetro');
 
 if (areaInput) areaInput.addEventListener('input', calcularOrcamento);
-if (precoMetroInput) precoMetroInput.getElementById = precoMetroInput.addEventListener('input', calcularOrcamento);
+if (precoMetroInput) precoMetroInput.addEventListener('input', calcularOrcamento);
 
-// --- BOTÃO PRINCIPAL: CONCLUIR ORÇAMENTO (ENVIAR PARA HISTÓRICO) ---
+// --- BOTÃO PRINCIPAL: CONCLUIR ORÇAMENTO (APENAS SALVA E VAI PARA O HISTÓRICO) ---
 const btnAcaoPrincipal = document.getElementById('btnGerarPdf');
 
 if (btnAcaoPrincipal) {
     btnAcaoPrincipal.innerText = "Concluir Orçamento";
     
+    // Substitui o botão por um clone para apagar qualquer evento antigo de download de imagem
     const novoBtnAcao = btnAcaoPrincipal.cloneNode(true);
     btnAcaoPrincipal.parentNode.replaceChild(novoBtnAcao, btnAcaoPrincipal);
 
@@ -232,8 +233,10 @@ if (btnAcaoPrincipal) {
             valorTotal: precoFinal
         };
 
-        // Salva no histórico e muda para a aba de histórico imediatamente
+        // 1. Salva no armazenamento local (localStorage)
         salvarNoHistorico(orcamentoSalvo);
+
+        // 2. Redireciona imediatamente para a aba de histórico
         mudarAba('historico');
     });
 }
@@ -243,7 +246,7 @@ configurarToggleComplexidade();
 renderizarComplexidades();
 calcularOrcamento();
 
-// Definir data de hoje por padrão no input de data se estiver vazio
+// Define data de hoje por padrão no input de data se estiver vazio
 const inputData = document.getElementById('dataOrcamento');
 if (inputData && !inputData.value) {
     inputData.value = new Date().toISOString().split('T')[0];
