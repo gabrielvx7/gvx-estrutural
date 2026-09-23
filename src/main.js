@@ -70,27 +70,21 @@ function renderizarComplexidades() {
     });
 }
 
-// --- TOGGLE / BOTÃO DE ATIVAR COMPLEXIDADE ---
+// --- TOGGLE / BOTÃO DE ATIVAR COMPLEXIDADE (CORRIGIDO) ---
 function configurarToggleComplexidade() {
     const btnToggle = document.getElementById('btnAtivarComplexidade');
     const containerComplexidades = document.getElementById('containerComplexidades');
     const iconeSeta = document.getElementById('iconeSetaComplexidade');
 
     if (btnToggle && containerComplexidades) {
-        const novoBtnToggle = btnToggle.cloneNode(true);
-        btnToggle.parentNode.replaceChild(novoBtnToggle, btnToggle);
-
-        document.getElementById('btnAtivarComplexidade').addEventListener('click', () => {
-            const containerAtual = document.getElementById('containerComplexidades');
-            const setaAtual = document.getElementById('iconeSetaComplexidade');
-            const estaVisivel = containerAtual.style.display === 'block';
-            
+        btnToggle.addEventListener('click', () => {
+            const estaVisivel = containerComplexidades.style.display === 'block';
             if (estaVisivel) {
-                containerAtual.style.display = 'none';
-                if (setaAtual) setaAtual.innerText = '▼';
+                containerComplexidades.style.display = 'none';
+                if (iconeSeta) iconeSeta.innerText = '▼';
             } else {
-                containerAtual.style.display = 'block';
-                if (setaAtual) setaAtual.innerText = '▲';
+                containerComplexidades.style.display = 'block';
+                if (iconeSeta) iconeSeta.innerText = '▲';
             }
         });
     }
@@ -194,16 +188,11 @@ const precoMetroInput = document.getElementById('precoMetro');
 if (areaInput) areaInput.addEventListener('input', calcularOrcamento);
 if (precoMetroInput) precoMetroInput.addEventListener('input', calcularOrcamento);
 
-// --- BOTÃO PRINCIPAL: CONCLUIR ORÇAMENTO (ENVIA DIRETAMENTE PARA O HISTÓRICO) ---
-const btnAcaoPrincipal = document.getElementById('btnGerarPdf');
+// --- BOTÃO PRINCIPAL: CONCLUIR ORÇAMENTO (ENVIA APENAS PARA O HISTÓRICO) ---
+const btnConcluirOrcamento = document.getElementById('btnConcluirOrcamento');
 
-if (btnAcaoPrincipal) {
-    btnAcaoPrincipal.innerText = "Concluir Orçamento";
-    
-    const novoBtnAcao = btnAcaoPrincipal.cloneNode(true);
-    btnAcaoPrincipal.parentNode.replaceChild(novoBtnAcao, btnAcaoPrincipal);
-
-    document.getElementById('btnGerarPdf').addEventListener('click', () => {
+if (btnConcluirOrcamento) {
+    btnConcluirOrcamento.addEventListener('click', () => {
         const cliente = document.getElementById('cliente').value || 'Cliente não informado';
         const numOrcamento = document.getElementById('numOrcamento').value || '001/2026';
         const data = document.getElementById('dataOrcamento').value || new Date().toISOString().split('T')[0];
@@ -235,7 +224,7 @@ if (btnAcaoPrincipal) {
         // 1. Salva no histórico local
         salvarNoHistorico(orcamentoSalvo);
 
-        // 2. Redireciona imediatamente para a aba de histórico
+        // 2. Vai direto para a aba de histórico
         mudarAba('historico');
     });
 }
