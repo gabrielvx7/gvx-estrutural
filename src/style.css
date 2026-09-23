@@ -78,15 +78,11 @@ body {
 ========================================================= */
 
 .home-logo {
-  width: 150px;
-  max-width: 80vw;
-
+  width: 210px;
+  max-width: 65vw;
   height: auto;
-
   display: block;
-
   object-fit: contain;
-
   margin-bottom: 2px;
 }
 
