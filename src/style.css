@@ -495,7 +495,9 @@ button {
 }
 
 
-/* CABEÇALHO DO PAINEL */
+/* =========================================================
+   CABEÇALHO DO PAINEL
+   ========================================================= */
 
 .complexity-summary {
 
@@ -506,10 +508,6 @@ button {
   display: flex;
 
   align-items: center;
-
-  justify-content: space-between;
-
-  gap: 12px;
 
   width: 100%;
 
@@ -529,21 +527,45 @@ button {
 }
 
 
-/* Remove o triângulo padrão do Chrome */
+/* Remove o marcador padrão do navegador */
 
 .complexity-summary::-webkit-details-marker {
-
   display: none;
 }
 
 
-.complexity-summary:hover {
+/* =========================================================
+   SETA DO PAINEL
+   ========================================================= */
 
-  background: #f1f5f9;
+.complexity-summary::before {
 
-  border-color: #cbd5e1;
+  content: '▶';
+
+  font-size: 12px;
+
+  margin-right: 8px;
+
+  color: #0b192c;
+
+  flex-shrink: 0;
 }
 
+
+.complexity-panel[open]
+.complexity-summary::before {
+
+  content: '🔽';
+
+  font-size: 12px;
+
+  margin-right: 8px;
+}
+
+
+/* =========================================================
+   TÍTULO
+   ========================================================= */
 
 .complexity-summary-title {
 
@@ -559,53 +581,21 @@ button {
 }
 
 
+/* =========================================================
+   REMOVE OS TEXTOS:
+   "Ocultar fatores"
+   "Adicionar fatores"
+   ========================================================= */
+
 .complexity-summary-action {
 
-  font-size: 11px;
-
-  font-weight: 700;
-
-  color: #0b192c;
-
-  white-space: nowrap;
+  display: none;
 }
 
 
 /* =========================================================
-   TEXTO DINÂMICO
+   CABEÇALHO QUANDO ABERTO
    ========================================================= */
-
-/* Fechado */
-
-.complexity-open-text {
-
-  display: none;
-}
-
-
-.complexity-closed-text {
-
-  display: inline;
-}
-
-
-/* Aberto */
-
-.complexity-panel[open]
-.complexity-open-text {
-
-  display: inline;
-}
-
-
-.complexity-panel[open]
-.complexity-closed-text {
-
-  display: none;
-}
-
-
-/* Quando aberto */
 
 .complexity-panel[open]
 .complexity-summary {
@@ -1193,12 +1183,6 @@ button {
     padding: 11px 12px;
   }
 
-
-  .complexity-summary-action {
-
-    font-size: 10px;
-  }
-
 }
 
 
@@ -1214,11 +1198,7 @@ button {
 
   .complexity-summary {
 
-    flex-direction: column;
-
-    align-items: flex-start;
-
-    gap: 5px;
+    padding: 10px 11px;
   }
 
 }
