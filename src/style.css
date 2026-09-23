@@ -22,14 +22,25 @@ body {
 }
 
 
+button,
+input {
+  font: inherit;
+}
+
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+
 .hidden {
   display: none !important;
 }
 
 
-/* =========================================
+/* =========================================================
    TELA INICIAL
-========================================= */
+========================================================= */
 
 .home-screen {
   display: flex;
@@ -52,21 +63,43 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
 
-  width: 100%;
+  gap: 12px;
 }
 
 
-.home-logo {
-  width: 260px;
-  max-width: 72vw;
+.logo-graphic {
+  width: 120px;
+  height: 90px;
 
-  height: auto;
+  display: flex;
+  flex-direction: column;
 
-  display: block;
+  justify-content: center;
 
-  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+
+.home-brand h1 {
+  font-size: 22px;
+  font-weight: 900;
+
+  color: #0b192c;
+
+  letter-spacing: 1px;
+}
+
+
+.home-brand p {
+  font-size: 11px;
+  font-weight: 700;
+
+  color: #64748b;
+
+  letter-spacing: 3px;
+
+  text-transform: uppercase;
 }
 
 
@@ -92,6 +125,7 @@ body {
 
   display: flex;
   flex-direction: column;
+
   align-items: center;
 
   gap: 10px;
@@ -132,16 +166,15 @@ body {
 
 .home-card-btn span {
   font-size: 14px;
-
   font-weight: 800;
 
   letter-spacing: 1px;
 }
 
 
-/* =========================================
-   APLICATIVO PRINCIPAL
-========================================= */
+/* =========================================================
+   APLICATIVO
+========================================================= */
 
 .app-container {
   width: 100%;
@@ -163,9 +196,9 @@ body {
 }
 
 
-/* =========================================
+/* =========================================================
    CABEÇALHO
-========================================= */
+========================================================= */
 
 .app-header {
   background-color: #0b192c;
@@ -173,7 +206,9 @@ body {
   padding: 20px;
 
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
 
   color: white;
@@ -182,6 +217,7 @@ body {
 
 .brand-box {
   display: flex;
+
   align-items: center;
 
   gap: 12px;
@@ -203,6 +239,7 @@ body {
   cursor: pointer;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
 
@@ -248,9 +285,9 @@ body {
 }
 
 
-/* =========================================
+/* =========================================================
    ABAS
-========================================= */
+========================================================= */
 
 .tabs {
   display: flex;
@@ -296,9 +333,9 @@ body {
 }
 
 
-/* =========================================
+/* =========================================================
    CONTEÚDO
-========================================= */
+========================================================= */
 
 .section-content {
   padding: 20px;
@@ -310,9 +347,22 @@ body {
 }
 
 
-/* =========================================
+.section-label {
+  font-size: 12px;
+
+  font-weight: bold;
+
+  color: #334155;
+
+  display: block;
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
    FORMULÁRIOS
-========================================= */
+========================================================= */
 
 .form-row {
   display: grid;
@@ -325,6 +375,7 @@ body {
 
 .form-group {
   display: flex;
+
   flex-direction: column;
 
   gap: 6px;
@@ -353,8 +404,9 @@ body {
 
   outline: none;
 
-  transition:
-    border-color 0.2s;
+  transition: border-color 0.2s;
+
+  background: #ffffff;
 }
 
 
@@ -366,9 +418,9 @@ body {
 }
 
 
-/* =========================================
+/* =========================================================
    PARÂMETROS
-========================================= */
+========================================================= */
 
 .params-box {
   display: grid;
@@ -387,17 +439,18 @@ body {
 }
 
 
-/* =========================================
-   COMPLEXIDADES
-========================================= */
+/* =========================================================
+   FATORES DE COMPLEXIDADE
+========================================================= */
 
 .complex-list {
   display: flex;
+
   flex-direction: column;
 
   gap: 8px;
 
-  max-height: 200px;
+  max-height: 250px;
 
   overflow-y: auto;
 
@@ -415,12 +468,23 @@ body {
   border: 1px solid #e2e8f0;
 
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
+
+  min-height: 52px;
 }
 
 
-.complex-item p:first-child {
+.complex-info {
+  min-width: 0;
+
+  padding-right: 10px;
+}
+
+
+.complex-info p {
   font-size: 11px;
 
   font-weight: bold;
@@ -429,7 +493,11 @@ body {
 }
 
 
-.complex-item p:last-child {
+.complex-info span {
+  display: block;
+
+  margin-top: 3px;
+
   font-size: 10px;
 
   color: #64748b;
@@ -438,9 +506,12 @@ body {
 
 .counter-box {
   display: flex;
+
   align-items: center;
 
   gap: 8px;
+
+  flex-shrink: 0;
 }
 
 
@@ -461,8 +532,13 @@ body {
   color: #334155;
 
   display: flex;
+
   align-items: center;
   justify-content: center;
+
+  font-size: 16px;
+
+  line-height: 1;
 }
 
 
@@ -471,9 +547,34 @@ body {
 }
 
 
-/* =========================================
+.btn-cnt:active {
+  transform: scale(0.96);
+}
+
+
+.btn-plus {
+  color: #0b192c;
+
+  background: #e0f2fe;
+}
+
+
+.qtd-value {
+  width: 24px;
+
+  text-align: center;
+
+  font-size: 12px;
+
+  font-weight: bold;
+
+  color: #0f172a;
+}
+
+
+/* =========================================================
    TOTAL
-========================================= */
+========================================================= */
 
 .total-box {
   background: #0f172a;
@@ -485,8 +586,12 @@ body {
   border-radius: 12px;
 
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
+
+  gap: 12px;
 }
 
 
@@ -510,9 +615,9 @@ body {
 }
 
 
-/* =========================================
+/* =========================================================
    BOTÃO SALVAR
-========================================= */
+========================================================= */
 
 .btn-action {
   background: #d4af37;
@@ -532,12 +637,14 @@ body {
   cursor: pointer;
 
   display: flex;
+
   align-items: center;
 
   gap: 8px;
 
-  transition:
-    background 0.2s;
+  transition: background 0.2s;
+
+  white-space: nowrap;
 }
 
 
@@ -546,12 +653,13 @@ body {
 }
 
 
-/* =========================================
+/* =========================================================
    HISTÓRICO
-========================================= */
+========================================================= */
 
 .history-list {
   display: flex;
+
   flex-direction: column;
 
   gap: 8px;
@@ -559,6 +667,8 @@ body {
   max-height: 350px;
 
   overflow-y: auto;
+
+  padding-right: 2px;
 }
 
 
@@ -572,22 +682,48 @@ body {
   border-radius: 10px;
 
   display: flex;
+
   align-items: center;
+
   justify-content: space-between;
+
+  gap: 12px;
 
   font-size: 12px;
 }
 
 
-.history-card p {
-  color: #64748b;
-
-  font-size: 11px;
+.history-info {
+  min-width: 0;
 }
 
 
-.history-card b {
+.history-info b {
   color: #1e293b;
+}
+
+
+.history-info p {
+  color: #64748b;
+
+  font-size: 11px;
+
+  margin-top: 3px;
+
+  white-space: nowrap;
+
+  overflow: hidden;
+
+  text-overflow: ellipsis;
+}
+
+
+.history-info strong {
+  color: #0b192c;
+
+  display: block;
+
+  margin-top: 4px;
 }
 
 
@@ -600,11 +736,13 @@ body {
 
   font-weight: bold;
 
-  padding: 6px 12px;
+  padding: 8px 12px;
 
   border-radius: 6px;
 
   cursor: pointer;
+
+  flex-shrink: 0;
 }
 
 
@@ -613,46 +751,219 @@ body {
 }
 
 
-/* =========================================
+.history-empty {
+  border: 1px dashed #cbd5e1;
+
+  border-radius: 10px;
+
+  padding: 24px;
+
+  text-align: center;
+
+  color: #64748b;
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   MODAL DO HISTÓRICO
+========================================================= */
+
+.modal-overlay {
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 1000;
+
+  background: rgba(0, 0, 0, 0.5);
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 16px;
+}
+
+
+.modal-card {
+  width: min(360px, 100%);
+
+  background: #ffffff;
+
+  padding: 24px;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 20px 40px rgba(0, 0, 0, 0.2);
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 12px;
+}
+
+
+.modal-card h3 {
+  font-size: 16px;
+
+  font-weight: 800;
+
+  color: #0b192c;
+
+  margin-bottom: 4px;
+}
+
+
+.modal-card > p {
+  font-size: 12px;
+
+  color: #64748b;
+
+  margin-bottom: 8px;
+}
+
+
+.modal-btn {
+  width: 100%;
+
+  border: none;
+
+  padding: 11px 12px;
+
+  border-radius: 9px;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+
+.modal-primary {
+  background: #0b192c;
+
+  color: #ffffff;
+}
+
+
+.modal-primary:hover {
+  background: #152945;
+}
+
+
+.modal-gold {
+  background: #d4af37;
+
+  color: #0f172a;
+}
+
+
+.modal-gold:hover {
+  background: #c49f27;
+}
+
+
+.modal-danger {
+  background: #fee2e2;
+
+  color: #991b1b;
+}
+
+
+.modal-danger:hover {
+  background: #fecaca;
+}
+
+
+.modal-cancel {
+  background: #f1f5f9;
+
+  color: #334155;
+
+  margin-top: 2px;
+}
+
+
+.modal-cancel:hover {
+  background: #e2e8f0;
+}
+
+
+/* =========================================================
    RESPONSIVIDADE
-========================================= */
+========================================================= */
 
 @media (max-width: 520px) {
 
   body {
-    padding: 8px;
+    padding: 10px;
   }
+
 
   .app-header {
     padding: 14px;
+
+    gap: 10px;
   }
+
+
+  .brand-title {
+    font-size: 12px;
+  }
+
+
+  .brand-sub {
+    font-size: 9px;
+  }
+
+
+  .tabs {
+    flex-shrink: 0;
+  }
+
+
+  .tab-btn {
+    padding: 6px 9px;
+  }
+
 
   .section-content {
-    padding: 14px;
+    padding: 16px;
   }
 
-  .form-row {
-    grid-template-columns: 1fr;
-  }
 
+  .form-row,
   .params-box {
     grid-template-columns: 1fr;
   }
+
 
   .total-box {
     flex-direction: column;
 
     align-items: stretch;
-
-    gap: 14px;
   }
+
 
   .btn-action {
     justify-content: center;
   }
 
-  .home-logo {
-    width: 240px;
+
+  .history-card {
+    align-items: center;
   }
 
 }
+"""
+open('/mnt/data/style_fixed.css','w',encoding='utf-8').write(style)
+print(len(style))
+print(style[-300:])
+%timeout
