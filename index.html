@@ -1,24 +1,339 @@
-<!-- CABEÇALHO DO APP -->
-<div class="app-header">
-  <div class="brand-box">
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <button id="btnVoltarInicio" class="btn-back" title="Voltar ao Início">
-      ⬅
-    </button>
+    <title>GVX Engenharia - Orçamentos</title>
 
-    <!-- LOGO DO CABEÇALHO -->
-    <div class="brand-logo-image">
-      <img
-        src="./logo-cabecalho2.png"
-        alt="Gabriel Vasconcelos - Projetos Estruturais"
-      >
+    <link rel="stylesheet" href="./src/style.css">
+  </head>
+
+  <body>
+
+    <!-- =====================================================
+         TELA INICIAL
+         ===================================================== -->
+
+    <div id="telaInicio" class="home-screen">
+
+      <div class="home-brand">
+
+        <img
+          src="./logo-oficial.png"
+          alt="Gabriel Vasconcelos - Projetos Estruturais"
+          class="home-logo"
+        >
+
+      </div>
+
+
+      <div class="home-buttons">
+
+        <button id="btnIrNovo" class="home-card-btn">
+
+          <div class="card-icon">
+            🏛️
+          </div>
+
+          <span>
+            NOVO ORÇAMENTO
+          </span>
+
+        </button>
+
+
+        <button id="btnIrHistorico" class="home-card-btn">
+
+          <div class="card-icon">
+            📋
+          </div>
+
+          <span>
+            HISTÓRICO
+          </span>
+
+        </button>
+
+      </div>
+
     </div>
 
-  </div>
 
-  <!-- ABAS DE NAVEGAÇÃO -->
-  <div class="tabs">
-    <button id="tabNovo" class="tab-btn active">Novo</button>
-    <button id="tabHistorico" class="tab-btn">Histórico</button>
-  </div>
-</div>
+    <!-- =====================================================
+         APLICATIVO PRINCIPAL
+         ===================================================== -->
+
+    <div
+      id="appContainer"
+      class="app-container hidden"
+    >
+
+
+      <!-- ===================================================
+           CABEÇALHO
+           =================================================== -->
+
+      <div class="app-header">
+
+        <div class="brand-box">
+
+          <button
+            id="btnVoltarInicio"
+            class="btn-back"
+            title="Voltar ao Início"
+          >
+            ⬅
+          </button>
+
+
+          <!-- LOGO DO SISTEMA -->
+
+          <div class="brand-logo-image">
+
+            <img
+              src="./logo-cabecalho2.png"
+              alt="Gabriel Vasconcelos - Projetos Estruturais"
+            >
+
+          </div>
+
+        </div>
+
+
+        <!-- ABAS -->
+
+        <div class="tabs">
+
+          <button
+            id="tabNovo"
+            class="tab-btn active"
+          >
+            Novo
+          </button>
+
+          <button
+            id="tabHistorico"
+            class="tab-btn"
+          >
+            Histórico
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           NOVO ORÇAMENTO
+           =================================================== -->
+
+      <div
+        id="secaoNovo"
+        class="section-content"
+      >
+
+        <div class="form-row">
+
+          <div class="form-group">
+
+            <label>
+              Número do Orçamento
+            </label>
+
+            <input
+              type="text"
+              id="numOrcamento"
+              value="001/2026"
+              class="form-input"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Data
+            </label>
+
+            <input
+              type="date"
+              id="dataOrcamento"
+              class="form-input"
+            >
+
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Nome do Cliente
+          </label>
+
+          <input
+            type="text"
+            id="cliente"
+            placeholder="Ex: João da Silva"
+            class="form-input"
+          >
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label>
+            Descrição da Obra
+          </label>
+
+          <input
+            type="text"
+            id="descricaoObra"
+            placeholder="Ex: Residência Unifamiliar - 2 Pavimentos"
+            class="form-input"
+          >
+
+        </div>
+
+
+        <!-- PARÂMETROS -->
+
+        <div class="params-box">
+
+          <div class="form-group">
+
+            <label>
+              Área (m²)
+            </label>
+
+            <input
+              type="number"
+              id="areaConstruida"
+              value="100"
+              class="form-input"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Preço/m² (R$)
+            </label>
+
+            <input
+              type="number"
+              id="precoMetro"
+              value="25"
+              class="form-input"
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label>
+              Nota Fiscal (%)
+            </label>
+
+            <input
+              type="number"
+              id="notaFiscal"
+              value="0"
+              class="form-input"
+            >
+
+          </div>
+
+        </div>
+
+
+        <!-- FATORES -->
+
+        <div>
+
+          <label class="section-label">
+            Fatores de Complexidade
+          </label>
+
+          <div
+            id="listaComplexidades"
+            class="complex-list"
+          ></div>
+
+        </div>
+
+
+        <!-- TOTAL -->
+
+        <div class="total-box">
+
+          <div>
+
+            <span>
+              Valor Total do Projeto
+            </span>
+
+            <h2 id="resPrecoFinal">
+              R$ 0,00
+            </h2>
+
+          </div>
+
+
+          <button
+            id="btnSalvarOrcamento"
+            type="button"
+            class="btn-action"
+          >
+            💾 Salvar Orçamento
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================
+           HISTÓRICO
+           =================================================== -->
+
+      <div
+        id="secaoHistorico"
+        class="section-content hidden"
+      >
+
+        <label class="section-label">
+          Orçamentos Emitidos
+        </label>
+
+        <div
+          id="listaHistorico"
+          class="history-list"
+        ></div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         HTML2CANVAS
+         Usado somente para gerar a Imagem A4
+         ===================================================== -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script
+      type="module"
+      src="./src/main.js"
+    ></script>
+
+  </body>
+</html>
