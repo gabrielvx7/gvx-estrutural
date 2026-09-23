@@ -69,10 +69,7 @@
       class="app-container hidden"
     >
 
-
-      <!-- ===================================================
-           CABEÇALHO
-           =================================================== -->
+      <!-- CABEÇALHO -->
 
       <div class="app-header">
 
@@ -86,8 +83,6 @@
             ⬅
           </button>
 
-
-          <!-- LOGO DO SISTEMA -->
 
           <div class="brand-logo-image">
 
@@ -254,20 +249,40 @@
         </div>
 
 
-        <!-- FATORES -->
+        <!-- =================================================
+             FATORES DE COMPLEXIDADE - RECOLHÍVEL
+             ================================================= -->
 
-        <div>
+        <details class="complexity-panel">
 
-          <label class="section-label">
-            Fatores de Complexidade
-          </label>
+          <summary class="complexity-summary">
+
+            <span class="complexity-summary-title">
+              FATORES DE COMPLEXIDADE
+            </span>
+
+
+            <span class="complexity-summary-action">
+
+              <span class="complexity-open-text">
+                − Ocultar fatores
+              </span>
+
+              <span class="complexity-closed-text">
+                ＋ Adicionar fatores
+              </span>
+
+            </span>
+
+          </summary>
+
 
           <div
             id="listaComplexidades"
             class="complex-list"
           ></div>
 
-        </div>
+        </details>
 
 
         <!-- TOTAL -->
@@ -325,7 +340,6 @@
 
     <!-- =====================================================
          HTML2CANVAS
-         Usado somente para gerar a Imagem A4
          ===================================================== -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
