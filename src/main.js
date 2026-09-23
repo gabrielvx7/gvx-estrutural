@@ -418,7 +418,7 @@ const btnAcaoPrincipal = document.getElementById('btnGerarPdf');
 if (btnAcaoPrincipal) {
     btnAcaoPrincipal.innerText = "Concluir Orçamento";
     
-    // Removemos qualquer evento anterior clonando o elemento para evitar duplicações
+    // Remove qualquer ouvinte anterior para evitar conflitos ou downloads diretos
     const novoBtnAcao = btnAcaoPrincipal.cloneNode(true);
     btnAcaoPrincipal.parentNode.replaceChild(novoBtnAcao, btnAcaoPrincipal);
 
@@ -451,10 +451,10 @@ if (btnAcaoPrincipal) {
             valorTotal: precoFinal
         };
 
-        // 1. Salva no histórico primeiro
+        // 1. SALVA NO HISTÓRICO PRIMEIRO (localStorage)
         salvarNoHistorico(orcamentoSalvo);
 
-        // 2. Cria e exibe o modal perguntando se quer baixar
+        // 2. CRIA O MODAL COM A PERGUNTA E AS OPÇÕES "SIM" / "NÃO"
         const modalDownload = document.createElement('div');
         modalDownload.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;';
         modalDownload.innerHTML = `
@@ -467,14 +467,14 @@ if (btnAcaoPrincipal) {
         `;
         document.body.appendChild(modalDownload);
 
-        // Ação do botão "Sim, Baixar"
+        // Ação se clicar em "Sim, Baixar"
         document.getElementById('btnSimDownload').addEventListener('click', async () => {
             document.body.removeChild(modalDownload);
             await gerarImagemA4Especifica(orcamentoSalvo);
             btnHistorico.click(); // Vai para a aba do histórico
         });
 
-        // Ação do botão "Não, ir para Histórico"
+        // Ação se clicar em "Não, ir para Histórico"
         document.getElementById('btnNaoDownload').addEventListener('click', () => {
             document.body.removeChild(modalDownload);
             btnHistorico.click(); // Vai direto para a aba do histórico
