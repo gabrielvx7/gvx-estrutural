@@ -85,17 +85,15 @@ button {
 
   width: 260px;
 
-  height: 140px;
-
-  max-width: 260px;
+  max-width: 70%;
 
   max-height: 140px;
+
+  height: auto;
 
   object-fit: contain;
 
   object-position: center;
-
-  flex-shrink: 0;
 
   margin-bottom: 8px;
 
@@ -301,11 +299,9 @@ button {
 
   overflow: hidden;
 
-  flex-shrink: 0;
+  flex-shrink: 1;
 
-  min-width: 205px;
-
-  max-width: 205px;
+  min-width: 0;
 }
 
 
@@ -1129,6 +1125,14 @@ button {
   }
 
 
+  .brand-logo-image {
+
+    width: 170px;
+
+    height: 48px;
+  }
+
+
   .tabs {
 
     flex-shrink: 0;
@@ -1183,6 +1187,14 @@ button {
 
 
 @media (max-width: 380px) {
+
+  .brand-logo-image {
+
+    width: 145px;
+
+    height: 44px;
+  }
+
 
   .complexity-summary {
 
